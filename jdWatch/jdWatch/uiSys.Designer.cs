@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBoxUiSysCurrentUser = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxUiSysCurrenPwd = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxUiSysLoginType = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxUiSysCurrentUser = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxUiSysCurrenPwd = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxUiSysNewPwd = new System.Windows.Forms.TextBox();
+            this.buttonUiSysModifyPwd = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonUiSysModifyPwd = new System.Windows.Forms.Button();
+            this.textBoxUiSysNewPwd = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.buttonUiSysSelect = new System.Windows.Forms.Button();
+            this.buttonUiSysDel = new System.Windows.Forms.Button();
+            this.buttonUiSysSaveToSql = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.buttonUiSysSaveToSql = new System.Windows.Forms.Button();
-            this.buttonUiSysDel = new System.Windows.Forms.Button();
-            this.buttonUiSysSelect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,13 +70,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "当前用户信息";
             // 
-            // textBoxUiSysCurrentUser
+            // label3
             // 
-            this.textBoxUiSysCurrentUser.Location = new System.Drawing.Point(48, 20);
-            this.textBoxUiSysCurrentUser.Name = "textBoxUiSysCurrentUser";
-            this.textBoxUiSysCurrentUser.ReadOnly = true;
-            this.textBoxUiSysCurrentUser.Size = new System.Drawing.Size(84, 21);
-            this.textBoxUiSysCurrentUser.TabIndex = 0;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "权鉴";
+            // 
+            // textBoxUiSysLoginType
+            // 
+            this.textBoxUiSysLoginType.Location = new System.Drawing.Point(48, 65);
+            this.textBoxUiSysLoginType.Name = "textBoxUiSysLoginType";
+            this.textBoxUiSysLoginType.ReadOnly = true;
+            this.textBoxUiSysLoginType.Size = new System.Drawing.Size(84, 21);
+            this.textBoxUiSysLoginType.TabIndex = 4;
             // 
             // label1
             // 
@@ -86,6 +95,14 @@
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "用户";
+            // 
+            // textBoxUiSysCurrentUser
+            // 
+            this.textBoxUiSysCurrentUser.Location = new System.Drawing.Point(48, 20);
+            this.textBoxUiSysCurrentUser.Name = "textBoxUiSysCurrentUser";
+            this.textBoxUiSysCurrentUser.ReadOnly = true;
+            this.textBoxUiSysCurrentUser.Size = new System.Drawing.Size(84, 21);
+            this.textBoxUiSysCurrentUser.TabIndex = 0;
             // 
             // label2
             // 
@@ -104,23 +121,6 @@
             this.textBoxUiSysCurrenPwd.TabIndex = 2;
             this.textBoxUiSysCurrenPwd.UseSystemPasswordChar = true;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "权鉴";
-            // 
-            // textBoxUiSysLoginType
-            // 
-            this.textBoxUiSysLoginType.Location = new System.Drawing.Point(48, 65);
-            this.textBoxUiSysLoginType.Name = "textBoxUiSysLoginType";
-            this.textBoxUiSysLoginType.ReadOnly = true;
-            this.textBoxUiSysLoginType.Size = new System.Drawing.Size(84, 21);
-            this.textBoxUiSysLoginType.TabIndex = 4;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.buttonUiSysModifyPwd);
@@ -137,22 +137,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "密码修改";
             // 
-            // label4
+            // buttonUiSysModifyPwd
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 47);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "新密码";
-            // 
-            // textBoxUiSysNewPwd
-            // 
-            this.textBoxUiSysNewPwd.Location = new System.Drawing.Point(80, 42);
-            this.textBoxUiSysNewPwd.Name = "textBoxUiSysNewPwd";
-            this.textBoxUiSysNewPwd.Size = new System.Drawing.Size(100, 21);
-            this.textBoxUiSysNewPwd.TabIndex = 5;
-            this.textBoxUiSysNewPwd.UseSystemPasswordChar = true;
+            this.buttonUiSysModifyPwd.Location = new System.Drawing.Point(188, 40);
+            this.buttonUiSysModifyPwd.Name = "buttonUiSysModifyPwd";
+            this.buttonUiSysModifyPwd.Size = new System.Drawing.Size(80, 23);
+            this.buttonUiSysModifyPwd.TabIndex = 9;
+            this.buttonUiSysModifyPwd.Text = "修改";
+            this.buttonUiSysModifyPwd.UseVisualStyleBackColor = true;
             // 
             // textBox1
             // 
@@ -171,14 +163,22 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "确认新密码";
             // 
-            // buttonUiSysModifyPwd
+            // textBoxUiSysNewPwd
             // 
-            this.buttonUiSysModifyPwd.Location = new System.Drawing.Point(188, 40);
-            this.buttonUiSysModifyPwd.Name = "buttonUiSysModifyPwd";
-            this.buttonUiSysModifyPwd.Size = new System.Drawing.Size(80, 23);
-            this.buttonUiSysModifyPwd.TabIndex = 9;
-            this.buttonUiSysModifyPwd.Text = "修改";
-            this.buttonUiSysModifyPwd.UseVisualStyleBackColor = true;
+            this.textBoxUiSysNewPwd.Location = new System.Drawing.Point(80, 42);
+            this.textBoxUiSysNewPwd.Name = "textBoxUiSysNewPwd";
+            this.textBoxUiSysNewPwd.Size = new System.Drawing.Size(100, 21);
+            this.textBoxUiSysNewPwd.TabIndex = 5;
+            this.textBoxUiSysNewPwd.UseSystemPasswordChar = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 47);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "新密码";
             // 
             // groupBox3
             // 
@@ -193,6 +193,33 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "员工用户管理";
             // 
+            // buttonUiSysSelect
+            // 
+            this.buttonUiSysSelect.Location = new System.Drawing.Point(43, 190);
+            this.buttonUiSysSelect.Name = "buttonUiSysSelect";
+            this.buttonUiSysSelect.Size = new System.Drawing.Size(67, 23);
+            this.buttonUiSysSelect.TabIndex = 3;
+            this.buttonUiSysSelect.Text = "全选";
+            this.buttonUiSysSelect.UseVisualStyleBackColor = true;
+            // 
+            // buttonUiSysDel
+            // 
+            this.buttonUiSysDel.Location = new System.Drawing.Point(284, 190);
+            this.buttonUiSysDel.Name = "buttonUiSysDel";
+            this.buttonUiSysDel.Size = new System.Drawing.Size(67, 23);
+            this.buttonUiSysDel.TabIndex = 2;
+            this.buttonUiSysDel.Text = "删除";
+            this.buttonUiSysDel.UseVisualStyleBackColor = true;
+            // 
+            // buttonUiSysSaveToSql
+            // 
+            this.buttonUiSysSaveToSql.Location = new System.Drawing.Point(163, 190);
+            this.buttonUiSysSaveToSql.Name = "buttonUiSysSaveToSql";
+            this.buttonUiSysSaveToSql.Size = new System.Drawing.Size(67, 23);
+            this.buttonUiSysSaveToSql.TabIndex = 1;
+            this.buttonUiSysSaveToSql.Text = "保存";
+            this.buttonUiSysSaveToSql.UseVisualStyleBackColor = true;
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToOrderColumns = true;
@@ -205,9 +232,11 @@
             this.Column4});
             this.dataGridView1.Location = new System.Drawing.Point(5, 17);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(458, 167);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridView1_RowStateChanged);
             // 
             // Column5
             // 
@@ -240,33 +269,6 @@
             this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Column4.Width = 80;
-            // 
-            // buttonUiSysSaveToSql
-            // 
-            this.buttonUiSysSaveToSql.Location = new System.Drawing.Point(163, 190);
-            this.buttonUiSysSaveToSql.Name = "buttonUiSysSaveToSql";
-            this.buttonUiSysSaveToSql.Size = new System.Drawing.Size(67, 23);
-            this.buttonUiSysSaveToSql.TabIndex = 1;
-            this.buttonUiSysSaveToSql.Text = "保存";
-            this.buttonUiSysSaveToSql.UseVisualStyleBackColor = true;
-            // 
-            // buttonUiSysDel
-            // 
-            this.buttonUiSysDel.Location = new System.Drawing.Point(284, 190);
-            this.buttonUiSysDel.Name = "buttonUiSysDel";
-            this.buttonUiSysDel.Size = new System.Drawing.Size(67, 23);
-            this.buttonUiSysDel.TabIndex = 2;
-            this.buttonUiSysDel.Text = "删除";
-            this.buttonUiSysDel.UseVisualStyleBackColor = true;
-            // 
-            // buttonUiSysSelect
-            // 
-            this.buttonUiSysSelect.Location = new System.Drawing.Point(43, 190);
-            this.buttonUiSysSelect.Name = "buttonUiSysSelect";
-            this.buttonUiSysSelect.Size = new System.Drawing.Size(67, 23);
-            this.buttonUiSysSelect.TabIndex = 3;
-            this.buttonUiSysSelect.Text = "全选";
-            this.buttonUiSysSelect.UseVisualStyleBackColor = true;
             // 
             // uiSys
             // 

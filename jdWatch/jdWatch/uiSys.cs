@@ -16,5 +16,10 @@ namespace jdWatch
         {
             InitializeComponent();
         }
+
+        private void dataGridView1_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
+        }
     }
 }

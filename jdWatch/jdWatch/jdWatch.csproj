@@ -59,6 +59,7 @@
     <Compile Include="uiInput.Designer.cs">
       <DependentUpon>uiInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="UiInputDataStruct.cs" />
     <Compile Include="uiLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,11 +74,23 @@
     <Compile Include="uiMain.Designer.cs">
       <DependentUpon>uiMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="uiModifyPrice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="uiModifyPrice.Designer.cs">
+      <DependentUpon>uiModifyPrice.cs</DependentUpon>
+    </Compile>
     <Compile Include="uiSys.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="uiSys.Designer.cs">
       <DependentUpon>uiSys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uiWatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="uiWatch.Designer.cs">
+      <DependentUpon>uiWatch.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="uiHistory.resx">
       <DependentUpon>uiHistory.cs</DependentUpon>
@@ -100,8 +113,14 @@
     <EmbeddedResource Include="uiMain.resx">
       <DependentUpon>uiMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="uiModifyPrice.resx">
+      <DependentUpon>uiModifyPrice.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="uiSys.resx">
       <DependentUpon>uiSys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uiWatch.resx">
+      <DependentUpon>uiWatch.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -12,8 +12,8 @@ namespace jdWatch
 {
     public partial class uiMain : Form
     {
-        public uiLogin uiLoginW;
-     //   public uiWatch uiWatchW;
+        public uiLogin    uiLoginW;
+        public uiWatch    uiWatchW;
         public uiInput     uiIputW;
         public uiHistory   uiHistoryW;
         public uiSys       uiSysW;
@@ -21,7 +21,8 @@ namespace jdWatch
         public uiMain()
         {
             InitializeComponent();
-            uiLoginW = new uiLogin();
+            uiLoginW    = new uiLogin();
+            uiWatchW    = new uiWatch();
             uiIputW     = new uiInput();
             uiHistoryW  = new uiHistory();
             uiSysW      = new uiSys();
@@ -45,6 +46,26 @@ namespace jdWatch
         private void buttonUiMainSys_Click(object sender, EventArgs e)
         {
             uiSysW.ShowDialog();
+        }
+
+        private void buttonUiMainWatch_Click(object sender, EventArgs e)
+        {
+            uiWatchW.ShowDialog();
+        }
+
+        private void dataGridViewUiMainWatch_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
+        }
+
+        private void dataGridViewUiMainWarn_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
+        }
+
+        private void dataGridViewUiMainMyWarn_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
         }
     }
 }

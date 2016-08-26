@@ -33,21 +33,22 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chartUiHistory = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBoxUiHistoryPSkuid = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxUiHistoryPSeller = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxUiHistoryPVersion = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.comboBoxUiHistoryPColor = new System.Windows.Forms.ComboBox();
             this.comboBoxUiHistoryPSerial = new System.Windows.Forms.ComboBox();
             this.comboBoxUiHistoryPName = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxUiHistoryPVersion = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxUiHistoryPSeller = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBoxUiHistoryPSkuid = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonUiHistoryOutPut = new System.Windows.Forms.Button();
             this.openFileDialogUiHistoryoutPut = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chartUiHistory)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -89,6 +90,57 @@
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "搜索条件";
+            // 
+            // comboBoxUiHistoryPSkuid
+            // 
+            this.comboBoxUiHistoryPSkuid.FormattingEnabled = true;
+            this.comboBoxUiHistoryPSkuid.Location = new System.Drawing.Point(703, 21);
+            this.comboBoxUiHistoryPSkuid.Name = "comboBoxUiHistoryPSkuid";
+            this.comboBoxUiHistoryPSkuid.Size = new System.Drawing.Size(96, 20);
+            this.comboBoxUiHistoryPSkuid.TabIndex = 11;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(649, 24);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "商品编号";
+            // 
+            // comboBoxUiHistoryPSeller
+            // 
+            this.comboBoxUiHistoryPSeller.FormattingEnabled = true;
+            this.comboBoxUiHistoryPSeller.Location = new System.Drawing.Point(551, 21);
+            this.comboBoxUiHistoryPSeller.Name = "comboBoxUiHistoryPSeller";
+            this.comboBoxUiHistoryPSeller.Size = new System.Drawing.Size(97, 20);
+            this.comboBoxUiHistoryPSeller.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(517, 24);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "商家";
+            // 
+            // comboBoxUiHistoryPVersion
+            // 
+            this.comboBoxUiHistoryPVersion.FormattingEnabled = true;
+            this.comboBoxUiHistoryPVersion.Location = new System.Drawing.Point(395, 21);
+            this.comboBoxUiHistoryPVersion.Name = "comboBoxUiHistoryPVersion";
+            this.comboBoxUiHistoryPVersion.Size = new System.Drawing.Size(118, 20);
+            this.comboBoxUiHistoryPVersion.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(361, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "版本";
             // 
             // comboBoxUiHistoryPColor
             // 
@@ -141,59 +193,9 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "品牌";
             // 
-            // comboBoxUiHistoryPVersion
-            // 
-            this.comboBoxUiHistoryPVersion.FormattingEnabled = true;
-            this.comboBoxUiHistoryPVersion.Location = new System.Drawing.Point(395, 21);
-            this.comboBoxUiHistoryPVersion.Name = "comboBoxUiHistoryPVersion";
-            this.comboBoxUiHistoryPVersion.Size = new System.Drawing.Size(118, 20);
-            this.comboBoxUiHistoryPVersion.TabIndex = 7;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(361, 24);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "版本";
-            // 
-            // comboBoxUiHistoryPSeller
-            // 
-            this.comboBoxUiHistoryPSeller.FormattingEnabled = true;
-            this.comboBoxUiHistoryPSeller.Location = new System.Drawing.Point(551, 21);
-            this.comboBoxUiHistoryPSeller.Name = "comboBoxUiHistoryPSeller";
-            this.comboBoxUiHistoryPSeller.Size = new System.Drawing.Size(97, 20);
-            this.comboBoxUiHistoryPSeller.TabIndex = 9;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(517, 24);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 12);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "商家";
-            // 
-            // comboBoxUiHistoryPSkuid
-            // 
-            this.comboBoxUiHistoryPSkuid.FormattingEnabled = true;
-            this.comboBoxUiHistoryPSkuid.Location = new System.Drawing.Point(703, 21);
-            this.comboBoxUiHistoryPSkuid.Name = "comboBoxUiHistoryPSkuid";
-            this.comboBoxUiHistoryPSkuid.Size = new System.Drawing.Size(96, 20);
-            this.comboBoxUiHistoryPSkuid.TabIndex = 11;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(649, 24);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "商品编号";
-            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.buttonUiHistoryOutPut);
             this.groupBox1.Controls.Add(this.chartUiHistory);
             this.groupBox1.Location = new System.Drawing.Point(12, 64);
@@ -205,7 +207,7 @@
             // 
             // buttonUiHistoryOutPut
             // 
-            this.buttonUiHistoryOutPut.Location = new System.Drawing.Point(336, 277);
+            this.buttonUiHistoryOutPut.Location = new System.Drawing.Point(336, 276);
             this.buttonUiHistoryOutPut.Name = "buttonUiHistoryOutPut";
             this.buttonUiHistoryOutPut.Size = new System.Drawing.Size(75, 23);
             this.buttonUiHistoryOutPut.TabIndex = 1;
@@ -216,7 +218,16 @@
             // 
             this.openFileDialogUiHistoryoutPut.FileName = "Skudi";
             // 
-            // history
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(244, 276);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "删除";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // uiHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -224,7 +235,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.MaximizeBox = false;
-            this.Name = "history";
+            this.Name = "uiHistory";
             this.Text = "历史";
             ((System.ComponentModel.ISupportInitialize)(this.chartUiHistory)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -253,5 +264,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button buttonUiHistoryOutPut;
         private System.Windows.Forms.OpenFileDialog openFileDialogUiHistoryoutPut;
+        private System.Windows.Forms.Button button1;
     }
 }
