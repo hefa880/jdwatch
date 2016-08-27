@@ -29,10 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridViewUiIpnut = new System.Windows.Forms.DataGridView();
-            this.buttonUiInputSelect = new System.Windows.Forms.Button();
-            this.buttonUiInputGetWareInfor = new System.Windows.Forms.Button();
-            this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
-            this.buttonUiInputdel = new System.Windows.Forms.Button();
             this.columnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnPName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnSerial = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -44,6 +40,10 @@
             this.ColumnWarnPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWarnPriceDirect = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSaveState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonUiInputSelect = new System.Windows.Forms.Button();
+            this.buttonUiInputGetWareInfor = new System.Windows.Forms.Button();
+            this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
+            this.buttonUiInputdel = new System.Windows.Forms.Button();
             this.buttonUiInputEditSql = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiIpnut)).BeginInit();
             this.SuspendLayout();
@@ -70,47 +70,8 @@
             this.dataGridViewUiIpnut.RowTemplate.Height = 23;
             this.dataGridViewUiIpnut.Size = new System.Drawing.Size(1438, 449);
             this.dataGridViewUiIpnut.TabIndex = 0;
+            this.dataGridViewUiIpnut.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiIpnut_RowsAdded);
             this.dataGridViewUiIpnut.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiIpnut_RowStateChanged);
-            // 
-            // buttonUiInputSelect
-            // 
-            this.buttonUiInputSelect.Location = new System.Drawing.Point(37, 467);
-            this.buttonUiInputSelect.Name = "buttonUiInputSelect";
-            this.buttonUiInputSelect.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputSelect.TabIndex = 1;
-            this.buttonUiInputSelect.Text = "全选";
-            this.buttonUiInputSelect.UseVisualStyleBackColor = true;
-            this.buttonUiInputSelect.Click += new System.EventHandler(this.buttonUiInputSelect_Click);
-            // 
-            // buttonUiInputGetWareInfor
-            // 
-            this.buttonUiInputGetWareInfor.Location = new System.Drawing.Point(182, 468);
-            this.buttonUiInputGetWareInfor.Name = "buttonUiInputGetWareInfor";
-            this.buttonUiInputGetWareInfor.Size = new System.Drawing.Size(95, 23);
-            this.buttonUiInputGetWareInfor.TabIndex = 2;
-            this.buttonUiInputGetWareInfor.Text = "获取商品信息";
-            this.buttonUiInputGetWareInfor.UseVisualStyleBackColor = true;
-            this.buttonUiInputGetWareInfor.Click += new System.EventHandler(this.buttonUiInputGetWareInfor_Click);
-            // 
-            // buttonUiInputSaveToSql
-            // 
-            this.buttonUiInputSaveToSql.Location = new System.Drawing.Point(334, 467);
-            this.buttonUiInputSaveToSql.Name = "buttonUiInputSaveToSql";
-            this.buttonUiInputSaveToSql.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputSaveToSql.TabIndex = 3;
-            this.buttonUiInputSaveToSql.Text = "保存";
-            this.buttonUiInputSaveToSql.UseVisualStyleBackColor = true;
-            this.buttonUiInputSaveToSql.Click += new System.EventHandler(this.buttonUiInputSaveToSql_Click);
-            // 
-            // buttonUiInputdel
-            // 
-            this.buttonUiInputdel.Location = new System.Drawing.Point(465, 468);
-            this.buttonUiInputdel.Name = "buttonUiInputdel";
-            this.buttonUiInputdel.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputdel.TabIndex = 4;
-            this.buttonUiInputdel.Text = "删除";
-            this.buttonUiInputdel.UseVisualStyleBackColor = true;
-            this.buttonUiInputdel.Click += new System.EventHandler(this.buttonUiInputdel_Click);
             // 
             // columnSelect
             // 
@@ -121,14 +82,17 @@
             // 
             // ColumnPName
             // 
+            this.ColumnPName.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.ColumnPName.HeaderText = "品牌";
             this.ColumnPName.Name = "ColumnPName";
             this.ColumnPName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnPName.Sorted = true;
             this.ColumnPName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.ColumnPName.Width = 120;
             // 
             // ColumnSerial
             // 
+            this.ColumnSerial.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.ColumnSerial.HeaderText = "系列";
             this.ColumnSerial.Name = "ColumnSerial";
             this.ColumnSerial.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -137,6 +101,7 @@
             // 
             // ColumnColor
             // 
+            this.ColumnColor.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.ColumnColor.HeaderText = "颜色";
             this.ColumnColor.Name = "ColumnColor";
             this.ColumnColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -145,6 +110,7 @@
             // 
             // ColumnVersion
             // 
+            this.ColumnVersion.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.ColumnVersion.HeaderText = "版本";
             this.ColumnVersion.Name = "ColumnVersion";
             this.ColumnVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -186,6 +152,46 @@
             this.ColumnSaveState.HeaderText = "状态";
             this.ColumnSaveState.Name = "ColumnSaveState";
             // 
+            // buttonUiInputSelect
+            // 
+            this.buttonUiInputSelect.Location = new System.Drawing.Point(37, 467);
+            this.buttonUiInputSelect.Name = "buttonUiInputSelect";
+            this.buttonUiInputSelect.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputSelect.TabIndex = 1;
+            this.buttonUiInputSelect.Text = "全选";
+            this.buttonUiInputSelect.UseVisualStyleBackColor = true;
+            this.buttonUiInputSelect.Click += new System.EventHandler(this.buttonUiInputSelect_Click);
+            // 
+            // buttonUiInputGetWareInfor
+            // 
+            this.buttonUiInputGetWareInfor.Location = new System.Drawing.Point(182, 468);
+            this.buttonUiInputGetWareInfor.Name = "buttonUiInputGetWareInfor";
+            this.buttonUiInputGetWareInfor.Size = new System.Drawing.Size(95, 23);
+            this.buttonUiInputGetWareInfor.TabIndex = 2;
+            this.buttonUiInputGetWareInfor.Text = "获取商品信息";
+            this.buttonUiInputGetWareInfor.UseVisualStyleBackColor = true;
+            this.buttonUiInputGetWareInfor.Click += new System.EventHandler(this.buttonUiInputGetWareInfor_Click);
+            // 
+            // buttonUiInputSaveToSql
+            // 
+            this.buttonUiInputSaveToSql.Location = new System.Drawing.Point(334, 467);
+            this.buttonUiInputSaveToSql.Name = "buttonUiInputSaveToSql";
+            this.buttonUiInputSaveToSql.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputSaveToSql.TabIndex = 3;
+            this.buttonUiInputSaveToSql.Text = "保存";
+            this.buttonUiInputSaveToSql.UseVisualStyleBackColor = true;
+            this.buttonUiInputSaveToSql.Click += new System.EventHandler(this.buttonUiInputSaveToSql_Click);
+            // 
+            // buttonUiInputdel
+            // 
+            this.buttonUiInputdel.Location = new System.Drawing.Point(465, 468);
+            this.buttonUiInputdel.Name = "buttonUiInputdel";
+            this.buttonUiInputdel.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputdel.TabIndex = 4;
+            this.buttonUiInputdel.Text = "删除";
+            this.buttonUiInputdel.UseVisualStyleBackColor = true;
+            this.buttonUiInputdel.Click += new System.EventHandler(this.buttonUiInputdel_Click);
+            // 
             // buttonUiInputEditSql
             // 
             this.buttonUiInputEditSql.Location = new System.Drawing.Point(616, 466);
@@ -221,6 +227,7 @@
         private System.Windows.Forms.Button buttonUiInputGetWareInfor;
         private System.Windows.Forms.Button buttonUiInputSaveToSql;
         private System.Windows.Forms.Button buttonUiInputdel;
+        private System.Windows.Forms.Button buttonUiInputEditSql;
         private System.Windows.Forms.DataGridViewCheckBoxColumn columnSelect;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnPName;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnSerial;
@@ -232,6 +239,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPriceDirect;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSaveState;
-        private System.Windows.Forms.Button buttonUiInputEditSql;
     }
 }

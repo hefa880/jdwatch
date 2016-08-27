@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SqlCommit.cs" />
+    <Compile Include="SqlConnect.cs" />
     <Compile Include="uiHistory.cs">
       <SubType>Form</SubType>
     </Compile>
