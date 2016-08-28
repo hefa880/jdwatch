@@ -140,7 +140,6 @@ namespace Fatq.ConncetSql.Mode
             if (count > 0)
             {
                 // MessageBox.Show("数据已经存在！！！");
-
             }
             //select a, b, c from x,y,z where e = 1 and f = 2 and g = 3 
             return count > 0 ? true : false;
@@ -161,7 +160,6 @@ namespace Fatq.ConncetSql.Mode
             if (count > 0)
             {
                 // MessageBox.Show("数据已经存在！！！");
-
             }
             
             return count > 0 ? true : false;

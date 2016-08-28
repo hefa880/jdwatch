@@ -28,7 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewUiIpnut = new System.Windows.Forms.DataGridView();
+            this.buttonUiInputSelect = new System.Windows.Forms.Button();
+            this.buttonUiInputGetWareInfor = new System.Windows.Forms.Button();
+            this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
+            this.buttonUiInputdel = new System.Windows.Forms.Button();
+            this.buttonUiInputEditSql = new System.Windows.Forms.Button();
+            this.textBoxUiInputCount = new System.Windows.Forms.TextBox();
             this.columnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnPName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnSerial = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -40,18 +47,20 @@
             this.ColumnWarnPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWarnPriceDirect = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSaveState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonUiInputSelect = new System.Windows.Forms.Button();
-            this.buttonUiInputGetWareInfor = new System.Windows.Forms.Button();
-            this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
-            this.buttonUiInputdel = new System.Windows.Forms.Button();
-            this.buttonUiInputEditSql = new System.Windows.Forms.Button();
-            this.textBoxUiInputCount = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiIpnut)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewUiIpnut
             // 
             this.dataGridViewUiIpnut.AllowUserToOrderColumns = true;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewUiIpnut.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewUiIpnut.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewUiIpnut.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnSelect,
@@ -65,7 +74,9 @@
             this.ColumnWarnPrice,
             this.ColumnWarnPriceDirect,
             this.ColumnSaveState});
+            this.dataGridViewUiIpnut.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridViewUiIpnut.Location = new System.Drawing.Point(9, 12);
+            this.dataGridViewUiIpnut.MultiSelect = false;
             this.dataGridViewUiIpnut.Name = "dataGridViewUiIpnut";
             this.dataGridViewUiIpnut.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dataGridViewUiIpnut.RowTemplate.Height = 23;
@@ -73,85 +84,6 @@
             this.dataGridViewUiIpnut.TabIndex = 0;
             this.dataGridViewUiIpnut.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiIpnut_RowsAdded);
             this.dataGridViewUiIpnut.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiIpnut_RowStateChanged);
-            // 
-            // columnSelect
-            // 
-            this.columnSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.columnSelect.HeaderText = "选择";
-            this.columnSelect.Name = "columnSelect";
-            this.columnSelect.Width = 35;
-            // 
-            // ColumnPName
-            // 
-            this.ColumnPName.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.ColumnPName.HeaderText = "品牌";
-            this.ColumnPName.Name = "ColumnPName";
-            this.ColumnPName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnPName.Sorted = true;
-            this.ColumnPName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.ColumnPName.Width = 120;
-            // 
-            // ColumnSerial
-            // 
-            this.ColumnSerial.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.ColumnSerial.HeaderText = "系列";
-            this.ColumnSerial.Name = "ColumnSerial";
-            this.ColumnSerial.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnSerial.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.ColumnSerial.Width = 120;
-            // 
-            // ColumnColor
-            // 
-            this.ColumnColor.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.ColumnColor.HeaderText = "颜色";
-            this.ColumnColor.Name = "ColumnColor";
-            this.ColumnColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.ColumnColor.Width = 120;
-            // 
-            // ColumnVersion
-            // 
-            this.ColumnVersion.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.ColumnVersion.HeaderText = "版本";
-            this.ColumnVersion.Name = "ColumnVersion";
-            this.ColumnVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnVersion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.ColumnVersion.Width = 180;
-            // 
-            // ColumnPBaseInfor
-            // 
-            this.ColumnPBaseInfor.HeaderText = "商品描述";
-            this.ColumnPBaseInfor.Name = "ColumnPBaseInfor";
-            this.ColumnPBaseInfor.Width = 300;
-            // 
-            // ColumnSkuid
-            // 
-            this.ColumnSkuid.HeaderText = "商品编号";
-            this.ColumnSkuid.Name = "ColumnSkuid";
-            // 
-            // ColumnSeller
-            // 
-            this.ColumnSeller.HeaderText = "商家";
-            this.ColumnSeller.Name = "ColumnSeller";
-            this.ColumnSeller.Width = 180;
-            // 
-            // ColumnWarnPrice
-            // 
-            this.ColumnWarnPrice.HeaderText = "控价";
-            this.ColumnWarnPrice.Name = "ColumnWarnPrice";
-            this.ColumnWarnPrice.Width = 70;
-            // 
-            // ColumnWarnPriceDirect
-            // 
-            this.ColumnWarnPriceDirect.HeaderText = "控价方向";
-            this.ColumnWarnPriceDirect.Name = "ColumnWarnPriceDirect";
-            this.ColumnWarnPriceDirect.ReadOnly = true;
-            this.ColumnWarnPriceDirect.Width = 80;
-            // 
-            // ColumnSaveState
-            // 
-            this.ColumnSaveState.HeaderText = "状态";
-            this.ColumnSaveState.Name = "ColumnSaveState";
             // 
             // buttonUiInputSelect
             // 
@@ -211,6 +143,88 @@
             this.textBoxUiInputCount.Size = new System.Drawing.Size(142, 21);
             this.textBoxUiInputCount.TabIndex = 6;
             // 
+            // columnSelect
+            // 
+            this.columnSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnSelect.HeaderText = "选择";
+            this.columnSelect.Name = "columnSelect";
+            this.columnSelect.Width = 35;
+            // 
+            // ColumnPName
+            // 
+            this.ColumnPName.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.ColumnPName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ColumnPName.HeaderText = "品牌";
+            this.ColumnPName.Name = "ColumnPName";
+            this.ColumnPName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnPName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ColumnPName.Width = 120;
+            // 
+            // ColumnSerial
+            // 
+            this.ColumnSerial.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.ColumnSerial.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ColumnSerial.HeaderText = "系列";
+            this.ColumnSerial.Name = "ColumnSerial";
+            this.ColumnSerial.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnSerial.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ColumnSerial.Width = 120;
+            // 
+            // ColumnColor
+            // 
+            this.ColumnColor.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.ColumnColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ColumnColor.HeaderText = "颜色";
+            this.ColumnColor.Name = "ColumnColor";
+            this.ColumnColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ColumnColor.Width = 120;
+            // 
+            // ColumnVersion
+            // 
+            this.ColumnVersion.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.ColumnVersion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ColumnVersion.HeaderText = "版本";
+            this.ColumnVersion.Name = "ColumnVersion";
+            this.ColumnVersion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnVersion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ColumnVersion.Width = 180;
+            // 
+            // ColumnPBaseInfor
+            // 
+            this.ColumnPBaseInfor.HeaderText = "商品描述";
+            this.ColumnPBaseInfor.Name = "ColumnPBaseInfor";
+            this.ColumnPBaseInfor.Width = 300;
+            // 
+            // ColumnSkuid
+            // 
+            this.ColumnSkuid.HeaderText = "商品编号";
+            this.ColumnSkuid.Name = "ColumnSkuid";
+            // 
+            // ColumnSeller
+            // 
+            this.ColumnSeller.HeaderText = "商家";
+            this.ColumnSeller.Name = "ColumnSeller";
+            this.ColumnSeller.Width = 180;
+            // 
+            // ColumnWarnPrice
+            // 
+            this.ColumnWarnPrice.HeaderText = "控价";
+            this.ColumnWarnPrice.Name = "ColumnWarnPrice";
+            this.ColumnWarnPrice.Width = 70;
+            // 
+            // ColumnWarnPriceDirect
+            // 
+            this.ColumnWarnPriceDirect.HeaderText = "控价方向";
+            this.ColumnWarnPriceDirect.Name = "ColumnWarnPriceDirect";
+            this.ColumnWarnPriceDirect.ReadOnly = true;
+            this.ColumnWarnPriceDirect.Width = 80;
+            // 
+            // ColumnSaveState
+            // 
+            this.ColumnSaveState.HeaderText = "状态";
+            this.ColumnSaveState.Name = "ColumnSaveState";
+            // 
             // uiInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -239,6 +253,7 @@
         private System.Windows.Forms.Button buttonUiInputSaveToSql;
         private System.Windows.Forms.Button buttonUiInputdel;
         private System.Windows.Forms.Button buttonUiInputEditSql;
+        private System.Windows.Forms.TextBox textBoxUiInputCount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn columnSelect;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnPName;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnSerial;
@@ -250,6 +265,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPriceDirect;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSaveState;
-        private System.Windows.Forms.TextBox textBoxUiInputCount;
     }
 }

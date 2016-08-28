@@ -7,6 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Fatq.SqlCommit.Mode;
+using System.Threading;
+using WareDealer;
+using WareDealer.Mode;
+using WareDealer.Helper;
+using Hank.ComLib;
+using Hank.UiCtlLib;
+
+
 
 namespace jdWatch
 {
@@ -15,7 +24,64 @@ namespace jdWatch
         public uiWatch()
         {
             InitializeComponent();
+            dataGridViewUiWatch.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
             //读取数据库，并将基本信息表反馈到当前的uiWatch的dataGridViewUiWatch
+
+            SqlCommit sqlcomm = new SqlCommit();
+            DataTable dt;
+            DataSet ds;
+            //拉取所有的数据
+            ds = sqlcomm.Sqlcommit_Select("select * from product_infor");
+
+            dt = ds.Tables[0];//填充
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("当前数据库无数据，请录入后再进行监测！！！");
+                return;
+            }
+
+            dataGridVewClear();
+            comboxClear(1);
+            comboxClear(2);
+            comboxClear(3);
+
+            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+                row.Cells.Add(checkboxcell);
+
+                for (j = 0; j < 7; j++)
+                {
+                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
+                    row.Cells.Add(textboxcell);
+                    if (0 == j)
+                    {
+                        if (comboBoxUiWatchPName.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchPName.Items.Add(textboxcell.Value);
+                        }
+                    }
+
+                    if (1 == j)
+                    {
+                        if (comboBoxUiWatchSerial.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchSerial.Items.Add(textboxcell.Value);
+                        }
+                    }
+
+                    if (2 == j)
+                    {
+                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+                dataGridViewUiWatch.Rows.Add(row);
+            }
         }
 
         /// <summary>
@@ -33,6 +99,65 @@ namespace jdWatch
                return;
            }
 
+            SqlCommit sqlcomm = new SqlCommit();
+            DataTable dt;
+            DataSet ds;
+   
+            string strQl = "select * from product_infor where product_skuid = '" + str + "'";
+            ds = sqlcomm.Sqlcommit_Select(strQl);
+
+            dt = ds.Tables[0];//填充
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("拉取失败");
+                return;
+            }
+ 
+            dataGridVewClear();
+            comboxClear(1);
+            comboxClear(2);
+            comboxClear(3);
+
+            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+                row.Cells.Add(checkboxcell);
+
+                for (j = 0; j < 7; j++)
+                {
+                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
+                    row.Cells.Add(textboxcell);
+                    if (0 == j)
+                    {
+                        if (comboBoxUiWatchPName.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchPName.Items.Add(textboxcell.Value);
+                            comboBoxUiWatchPName.SelectedItem = textboxcell.Value;
+                        }
+                    }
+
+                    if (1 == j)
+                    {
+                        if (comboBoxUiWatchSerial.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchSerial.Items.Add(textboxcell.Value);
+                            comboBoxUiWatchSerial.SelectedItem = textboxcell.Value;
+                        }
+                    }
+
+                    if (2 == j)
+                    {
+                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
+                            comboBoxUiWatchColor.SelectedItem = textboxcell.Value;
+                        }
+                    }
+                }
+                dataGridViewUiWatch.Rows.Add(row);
+            }
         }
 
         /// <summary>
@@ -76,6 +201,7 @@ namespace jdWatch
         private void buttonUiWatchAddToWatch_Click(object sender, EventArgs e)
         {
 
+            this.Close();
         }
 
         /// <summary>
@@ -119,17 +245,73 @@ namespace jdWatch
         /// <param name="e"></param>
         private void comboBoxUiWatchPName_SelectedIndexChanged(object sender, EventArgs e)
         {
-      
-          //  string str ="选中了"+ comboBoxUiWatchPName.SelectedItem.ToString();
-           // MessageBox.Show(str);
+            SqlCommit sqlcomm = new SqlCommit();
+            DataTable dt;
+            DataSet ds;
+            string strP = comboBoxUiWatchPName.SelectedItem.ToString();
 
-            if( "所有" == comboBoxUiWatchPName.SelectedItem.ToString())
+            if ( "所有" == strP)
             {
                 //拉取所有的数据
+                ds = sqlcomm.Sqlcommit_Select("select * from product_infor");      
             }
             else
             {
+                string str = "select * from product_infor where product_name = '" + comboBoxUiWatchPName.SelectedItem.ToString() + "'";
+                ds = sqlcomm.Sqlcommit_Select(str);
+            }
 
+            dt = ds.Tables[0];//填充
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("拉取失败");
+                return;
+            }
+            else
+            {
+                // string str = "成功拉取:" + dt.Rows.Count.ToString();
+                // MessageBox.Show(str);
+            }
+            dataGridVewClear();
+            comboxClear(2);
+            comboxClear(3);
+
+            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+                row.Cells.Add(checkboxcell);
+
+                for (j = 0; j < 7; j++)
+                {
+                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
+                    row.Cells.Add(textboxcell);
+                    if (0 == j)
+                    {
+                        if (comboBoxUiWatchPName.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchPName.Items.Add(textboxcell.Value);
+                        }
+                    }
+
+                    if (1 == j)
+                    {
+                        if (comboBoxUiWatchSerial.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchSerial.Items.Add(textboxcell.Value);
+                        }
+                    }
+
+                    if (2== j)
+                    {
+                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+                dataGridViewUiWatch.Rows.Add(row);
             }
         }
 
@@ -149,8 +331,54 @@ namespace jdWatch
 
             string str = comboBoxUiWatchPName.SelectedItem.ToString();
             string strSerial = comboBoxUiWatchSerial.SelectedItem.ToString();
-          //  MessageBox.Show("条件为："+str + strSerial);
+            if( "所有" == str || "所有" == strSerial)
+            {
+                return;
+            }
+            //  MessageBox.Show("条件为："+str + strSerial);
             //向SQL查询些字段的信息，并将信息反馈到dataGridViewUiWatch
+            SqlCommit sqlcomm = new SqlCommit();
+            DataTable dt;
+            DataSet ds;
+
+            string strSql = "select * from product_infor where product_name = '" + comboBoxUiWatchPName.SelectedItem.ToString() + "'" + " and product_serial = '" + strSerial + "'";
+            ds = sqlcomm.Sqlcommit_Select(strSql);
+            dt = ds.Tables[0];//填充
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("拉取失败");
+                return;
+            }
+            else
+            {
+                // string str = "成功拉取:" + dt.Rows.Count.ToString();
+                // MessageBox.Show(str);
+            }
+            dataGridVewClear();
+            comboxClear(3);
+
+            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+                row.Cells.Add(checkboxcell);
+
+                for (j = 0; j < 7; j++)
+                {
+                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
+                    row.Cells.Add(textboxcell);
+
+                    if (2 == j)
+                    {
+                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+                dataGridViewUiWatch.Rows.Add(row);
+            }
 
         }
 
@@ -172,14 +400,98 @@ namespace jdWatch
             string strSerial = comboBoxUiWatchSerial.SelectedItem.ToString();
             string strColor = comboBoxUiWatchColor.SelectedItem.ToString();
 
-          //  MessageBox.Show("条件为：" + strPName + strSerial + strColor);
+            if ("所有" == strPName || "所有" == strSerial ||  "所有"== strColor)
+            {
+                return;
+            }
+            //  MessageBox.Show("条件为：" + strPName + strSerial + strColor);
             //向SQL查询些字段的信息，并将信息反馈到dataGridViewUiWatch
+
+            SqlCommit sqlcomm = new SqlCommit();
+            DataTable dt;
+            DataSet ds;
+
+            string strSql = "select * from product_infor where product_name = '" + comboBoxUiWatchPName.SelectedItem.ToString() + "'" + " and product_serial = '" + strSerial + "'"+ " and product_color = '"+ strColor+"'";
+            ds = sqlcomm.Sqlcommit_Select(strSql);
+            dt = ds.Tables[0];//填充
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("拉取失败");
+                return;
+            }
+            else
+            {
+                // string str = "成功拉取:" + dt.Rows.Count.ToString();
+                // MessageBox.Show(str);
+            }
+            dataGridVewClear();
+
+            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+                row.Cells.Add(checkboxcell);
+
+                for (j = 0; j < 7; j++)
+                {
+                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
+                    row.Cells.Add(textboxcell);
+                }
+                dataGridViewUiWatch.Rows.Add(row);
+            }
 
         }
 
         private void dataGridViewUiWatch_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
+        }
+
+        private void dataGridViewUiWatch_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if (dataGridViewUiWatch.Rows.Count % 2 == 0)
+            {
+                dataGridViewUiWatch.Rows[dataGridViewUiWatch.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                dataGridViewUiWatch.Rows[dataGridViewUiWatch.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Lavender;
+            }
+        }
+
+        private void dataGridVewClear()
+        {
+            if (dataGridViewUiWatch.Rows.Count > 1)
+            {
+                for (int count = 0; count < dataGridViewUiWatch.Rows.Count - 1; count++)
+                {
+                    dataGridViewUiWatch.Rows.RemoveAt(count);
+                    count--;
+                }
+            }
+        }
+
+        private void comboxClear( int i)
+        { 
+            if(1 == i )
+            {
+                comboBoxUiWatchPName.Items.Clear();
+                comboBoxUiWatchPName.Items.Add("所有");
+            }
+
+            if(2 == i)
+            {
+                comboBoxUiWatchSerial.Items.Clear();
+                comboBoxUiWatchSerial.Items.Add("所有");
+            }
+            if(3 == i)
+            {
+                comboBoxUiWatchColor.Items.Clear();
+                comboBoxUiWatchColor.Items.Add("所有");
+            }
+            
+           
         }
     }
 }

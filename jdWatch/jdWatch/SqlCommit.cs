@@ -116,6 +116,15 @@ namespace Fatq.SqlCommit.Mode
             }
             return bRet;
         }
+        public bool Sqlcommit_Update(string  toValues)
+        {
+            bool bRet = false;
+            FatqConnection sqlconn = new FatqConnection();
+
+            bRet = sqlconn.ConnSqQuery(toValues);
+
+            return bRet;
+        }
          public int Sqlcommit_Qurey(string toTabl, string toValues)
          {
              int iret = -1;

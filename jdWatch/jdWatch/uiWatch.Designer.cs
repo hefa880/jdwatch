@@ -40,18 +40,18 @@
             this.buttonUiWatchSeachSkuid = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dataGridViewUiWatch = new System.Windows.Forms.DataGridView();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxUiWatchFrq = new System.Windows.Forms.TextBox();
             this.buttonUiWatchAddToWatch = new System.Windows.Forms.Button();
             this.buttonUiWatchSele = new System.Windows.Forms.Button();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -99,7 +99,7 @@
             this.groupBox2.Size = new System.Drawing.Size(468, 55);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "搜索方式1";
+            this.groupBox2.Text = "搜索方式";
             // 
             // label3
             // 
@@ -138,6 +138,7 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "搜索方式2";
+            this.groupBox1.Visible = false;
             // 
             // textBoxUiWatchSeleSkuid
             // 
@@ -145,6 +146,7 @@
             this.textBoxUiWatchSeleSkuid.Name = "textBoxUiWatchSeleSkuid";
             this.textBoxUiWatchSeleSkuid.Size = new System.Drawing.Size(91, 21);
             this.textBoxUiWatchSeleSkuid.TabIndex = 1;
+            this.textBoxUiWatchSeleSkuid.Visible = false;
             // 
             // buttonUiWatchSeachSkuid
             // 
@@ -154,6 +156,7 @@
             this.buttonUiWatchSeachSkuid.TabIndex = 0;
             this.buttonUiWatchSeachSkuid.Text = "搜索商品编号";
             this.buttonUiWatchSeachSkuid.UseVisualStyleBackColor = true;
+            this.buttonUiWatchSeachSkuid.Visible = false;
             this.buttonUiWatchSeachSkuid.Click += new System.EventHandler(this.buttonUiWatchSeachSkuid_Click);
             // 
             // groupBox3
@@ -165,7 +168,7 @@
             this.groupBox3.Controls.Add(this.buttonUiWatchSele);
             this.groupBox3.Location = new System.Drawing.Point(12, 74);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(790, 317);
+            this.groupBox3.Size = new System.Drawing.Size(822, 317);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "基本信息表";
@@ -176,39 +179,64 @@
             this.dataGridViewUiWatch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewUiWatch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewCheckBoxColumn1,
-            this.Column11,
-            this.Column12,
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
+            this.Column12,
+            this.Column11,
             this.dataGridViewTextBoxColumn5});
             this.dataGridViewUiWatch.Location = new System.Drawing.Point(6, 15);
             this.dataGridViewUiWatch.Name = "dataGridViewUiWatch";
             this.dataGridViewUiWatch.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dataGridViewUiWatch.RowTemplate.Height = 23;
-            this.dataGridViewUiWatch.Size = new System.Drawing.Size(770, 270);
+            this.dataGridViewUiWatch.Size = new System.Drawing.Size(802, 270);
             this.dataGridViewUiWatch.TabIndex = 12;
+            this.dataGridViewUiWatch.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiWatch_RowsAdded);
             this.dataGridViewUiWatch.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiWatch_RowStateChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(240, 293);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 12);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "监控频率（分钟）";
+            // 
+            // textBoxUiWatchFrq
+            // 
+            this.textBoxUiWatchFrq.Location = new System.Drawing.Point(341, 289);
+            this.textBoxUiWatchFrq.Name = "textBoxUiWatchFrq";
+            this.textBoxUiWatchFrq.Size = new System.Drawing.Size(68, 21);
+            this.textBoxUiWatchFrq.TabIndex = 3;
+            this.textBoxUiWatchFrq.Text = "30";
+            // 
+            // buttonUiWatchAddToWatch
+            // 
+            this.buttonUiWatchAddToWatch.Location = new System.Drawing.Point(142, 288);
+            this.buttonUiWatchAddToWatch.Name = "buttonUiWatchAddToWatch";
+            this.buttonUiWatchAddToWatch.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiWatchAddToWatch.TabIndex = 2;
+            this.buttonUiWatchAddToWatch.Text = "加入监控";
+            this.buttonUiWatchAddToWatch.UseVisualStyleBackColor = true;
+            this.buttonUiWatchAddToWatch.Click += new System.EventHandler(this.buttonUiWatchAddToWatch_Click);
+            // 
+            // buttonUiWatchSele
+            // 
+            this.buttonUiWatchSele.Location = new System.Drawing.Point(40, 288);
+            this.buttonUiWatchSele.Name = "buttonUiWatchSele";
+            this.buttonUiWatchSele.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiWatchSele.TabIndex = 1;
+            this.buttonUiWatchSele.Text = "全选";
+            this.buttonUiWatchSele.UseVisualStyleBackColor = true;
+            this.buttonUiWatchSele.Click += new System.EventHandler(this.buttonUiWatchSele_Click);
             // 
             // dataGridViewCheckBoxColumn1
             // 
             this.dataGridViewCheckBoxColumn1.HeaderText = "选择";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             this.dataGridViewCheckBoxColumn1.Width = 50;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "商家";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "商品编号";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Width = 80;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -235,53 +263,29 @@
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Width = 120;
             // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "商品编号";
+            this.Column12.Name = "Column12";
+            this.Column12.Width = 80;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "商家";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            // 
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.HeaderText = "控价";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.Width = 80;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(240, 293);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(101, 12);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "监控频率（分钟）";
-            // 
-            // textBoxUiWatchFrq
-            // 
-            this.textBoxUiWatchFrq.Location = new System.Drawing.Point(337, 288);
-            this.textBoxUiWatchFrq.Name = "textBoxUiWatchFrq";
-            this.textBoxUiWatchFrq.Size = new System.Drawing.Size(68, 21);
-            this.textBoxUiWatchFrq.TabIndex = 3;
-            // 
-            // buttonUiWatchAddToWatch
-            // 
-            this.buttonUiWatchAddToWatch.Location = new System.Drawing.Point(142, 288);
-            this.buttonUiWatchAddToWatch.Name = "buttonUiWatchAddToWatch";
-            this.buttonUiWatchAddToWatch.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiWatchAddToWatch.TabIndex = 2;
-            this.buttonUiWatchAddToWatch.Text = "加入监控";
-            this.buttonUiWatchAddToWatch.UseVisualStyleBackColor = true;
-            this.buttonUiWatchAddToWatch.Click += new System.EventHandler(this.buttonUiWatchAddToWatch_Click);
-            // 
-            // buttonUiWatchSele
-            // 
-            this.buttonUiWatchSele.Location = new System.Drawing.Point(40, 288);
-            this.buttonUiWatchSele.Name = "buttonUiWatchSele";
-            this.buttonUiWatchSele.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiWatchSele.TabIndex = 1;
-            this.buttonUiWatchSele.Text = "全选";
-            this.buttonUiWatchSele.UseVisualStyleBackColor = true;
-            this.buttonUiWatchSele.Click += new System.EventHandler(this.buttonUiWatchSele_Click);
-            // 
             // uiWatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 403);
+            this.ClientSize = new System.Drawing.Size(846, 403);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
@@ -317,13 +321,12 @@
         private System.Windows.Forms.TextBox textBoxUiWatchFrq;
         private System.Windows.Forms.DataGridView dataGridViewUiWatch;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-
     }
 }

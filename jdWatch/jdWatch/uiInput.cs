@@ -9,16 +9,134 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UiInputDataStruct.Mode;
 using Fatq.SqlCommit.Mode;
+using System.Threading;
+using WareDealer;
+using WareDealer.Mode;
+using WareDealer.Helper;
+using Hank.ComLib;
+using Hank.UiCtlLib;
 
 namespace jdWatch
 {
     public partial class uiInput : Form
     {
         IList<InputDataStruct> uiInput_list = new List<InputDataStruct>();
+        IList<InputDataStruct> uiInput_listShow = new List<InputDataStruct>();
 
+        //定义一个委托  
+        public delegate void MyInvoke();
         public uiInput()
         {
             InitializeComponent();
+            dataGridViewUiIpnut.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+        }
+
+        private void uiIput_ThreadBuild()
+        {
+            Thread demoThread = null;
+
+            for(int i = 0; i< uiInput_list.Count;i++ )
+            {
+                demoThread = new Thread(new ParameterizedThreadStart(uiIput_ThreadGetdataGridViewWareInfor));
+                demoThread.IsBackground = true;
+                demoThread.Start(uiInput_list[i]);
+            }
+            
+        }
+
+        public void uiIput_ThreadGetdataGridViewWareInfor(object data)
+        {
+            InputDataStruct ListNode = data as InputDataStruct;
+            ProductInfo wareInfor;
+
+            //获取WEB数据
+            SysParams.GatherModel = GatherType.Single;
+            wareInfor = WareDealer.WareService.GetInstance().GetWareInfoByID(ListNode.data.ProductSkuid);
+
+            if (null != wareInfor)
+            {
+                ListNode.data.ProductDescribe = wareInfor.ProductName.ToString().Trim();
+                ListNode.data.ProductSeller = wareInfor.ProductBrand;
+            }
+            else
+            {
+                ListNode.data.ProductState = "无效SKUID";
+            }
+            uiInput_listShow.Add(ListNode);
+
+            if (uiInput_list.Count == uiInput_listShow.Count )
+            {
+                uiInpu_taskGetWareInfor();
+            }
+        }
+
+        /// <summary>
+        /// 自动获商品信息的取任务，调用更新到 DataGridView
+        /// </summary>
+        public void uiInpu_taskGetWareInfor()
+        {
+            if (dataGridViewUiIpnut.InvokeRequired)
+            {
+                //委托对象  
+                MyInvoke mi = new MyInvoke(uiIput_ShowDataToGridView);
+                //异步调用委托  
+                this.BeginInvoke(mi);
+            }
+            // listWareInforNode.Clear();
+        }
+        /// <summary>
+        /// 将数据更新到DataGridView
+        /// </summary>
+        /// <param name="datGridView"></param>
+        public void uiIput_ShowDataToGridView()
+        {
+            for(int i = 0; i < uiInput_listShow.Count;i++ )
+            {
+                
+                for (int c = 1; c< 5;c++)
+                {
+                    DataGridViewComboBoxCell comboxcell = dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[c] as DataGridViewComboBoxCell;
+                    string str = uiInput_listShow[i].data.ProductDescribe;
+                    string strItem = "";
+                    int index = 0;
+                    int cell = 0;
+                    for (;;)
+                    {
+                        index = str.IndexOf(" ");
+                        if (index > 0 )
+                        {
+                            strItem = str.Substring(0, index);
+                        }
+
+                        if( 1 == c )
+                        {
+                            
+                           if( strItem.IndexOf("荣耀") >= 0)
+                            {
+                                comboxcell.Items.Add("华为");
+                            }
+                        }
+
+                        comboxcell.Items.Add(strItem.Trim());
+                        if(cell == 0)
+                        {
+                            comboxcell.Value = strItem;
+                            cell = 1;
+                        }
+                        
+                        if (index <=  0 )
+                        {
+                            break;
+                        }
+                        strItem = str.Substring(index, str.Length - index);
+                        str = strItem.Trim();
+                    }
+                }
+              
+                dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[5].Value = uiInput_listShow[i].data.ProductDescribe;
+                dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[7].Value = uiInput_listShow[i].data.ProductSeller.ToString().Trim();
+            }
+            uiInput_listShow.Clear();
         }
 
         /// <summary>
@@ -27,10 +145,10 @@ namespace jdWatch
         private void uiInput_GetDataGridViewData()
         {
             uiInput_list.Clear();
-            
-
+            int i = -1;
             foreach (DataGridViewRow dr in dataGridViewUiIpnut.Rows)
             {
+                i++;
                 if (null == dr.Cells[0].FormattedValue)
                 {
                     continue;
@@ -59,6 +177,7 @@ namespace jdWatch
                         inputData.data.ProductWarnDriect = dr.Cells[9].Value.ToString().Trim();
                     if (null != dr.Cells[10].Value)
                         inputData.data.ProductState      = dr.Cells[10].Value.ToString().Trim();
+                    inputData.data.index = i;
 
                     uiInput_list.Add(inputData);
                 }
@@ -105,7 +224,17 @@ namespace jdWatch
         /// <param name="e"></param>
         private void buttonUiInputGetWareInfor_Click(object sender, EventArgs e)
         {
-            //此部分可能用到定时器完成
+            //此部分可能用到多线程完成
+
+            //获取SKUID
+            uiInput_GetDataGridViewData();
+            if( uiInput_list.Count <= 0 )
+            {
+                MessageBox.Show("请选择要获取的项目！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                return;
+            }
+            //调用多线程获取WEB数据
+            uiIput_ThreadBuild();
         }
 
         /// <summary>
@@ -227,7 +356,7 @@ namespace jdWatch
             }
             MessageBox.Show("成功删除了:" + countErr + "条数据");
 
-            textBoxUiInputCount.Text = "当前数据：" + (dataGridViewUiIpnut.Rows.Count - 1);
+            uiInputShowCountData();
         }
 
         private void buttonUiInputSelect_Click(object sender, EventArgs e)
@@ -289,10 +418,9 @@ namespace jdWatch
                     }
                 }
                 buttonUiInputGetWareInfor.Enabled = true;
-                //dataGridViewUiIpnut.Rows.Add();
+                uiInputShowCountData();
                 return;
             }
-  
 
             dRet = MessageBox.Show("编辑数据库时会覆盖当前表中的内容，如果当前表中有数据，请点击保存后再进行编辑！！！\n是，直接编辑数据库\n否，放弃编辑数据库", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dRet == DialogResult.No)
@@ -323,9 +451,8 @@ namespace jdWatch
             }
             else
             {
-                string str = "成功拉取:" + dt.Rows.Count.ToString();
-
-                MessageBox.Show(str);
+               // string str = "成功拉取:" + dt.Rows.Count.ToString();
+               // MessageBox.Show(str);
             }
 
             for (int i = 0,j=0; i < dt.Rows.Count;i++ )
@@ -364,25 +491,25 @@ namespace jdWatch
                 dataGridViewUiIpnut.Rows.Add(row);
             }
 
-            //if (dataGridViewUiIpnut.Rows.Count > dt.Rows.Count )
-            //{
-            //    dataGridViewUiIpnut.Rows[dt.Rows.Count].Visible = false;
-            //}
+            uiInputShowCountData();
+        }
 
-            // dataGridViewUiIpnut.DataSource = dt;
+        private void uiInputShowCountData()
+        {
+            dataGridViewUiIpnut.Refresh();
             textBoxUiInputCount.Text = "当前数据：" + (dataGridViewUiIpnut.Rows.Count - 1);
 
         }
-
         private void dataGridViewUiIpnut_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            //DataGridViewComboBoxCell cellTmpt;
-            //for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; ++i)
-            //{
-            //    cellTmpt       = dataGridViewUiIpnut.Rows[i].Cells[1] as DataGridViewComboBoxCell;
-            //  //  cellTmpt.Value = dataGridViewUiIpnut.Rows[i].Cells[1].Value.ToString();
-            //    dataGridViewUiIpnut.UpdateCellValue(cellTmpt.ColumnIndex, cellTmpt.RowIndex);
-            //}
+            if (dataGridViewUiIpnut.Rows.Count % 2 == 0 )
+            {
+                dataGridViewUiIpnut.Rows[dataGridViewUiIpnut.Rows.Count-1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                dataGridViewUiIpnut.Rows[dataGridViewUiIpnut.Rows.Count-1].DefaultCellStyle.BackColor = Color.Lavender;
+            }
         }
 
     }
