@@ -65,6 +65,28 @@ namespace jdWatch
             }
         }
 
+        private void uiIput_ShowSaveStatus()
+        {
+            for(int i = 0,j=0;i< dataGridViewUiIpnut.Rows.Count -1 && j < uiInput_list.Count; i++)
+            {
+                if(dataGridViewUiIpnut.Rows[i].Cells[6].Value.ToString().Trim() == uiInput_list[j].data.ProductSkuid )
+                {
+                    if (uiInput_list[j].data.ProductState == "新增")
+                    {
+                        dataGridViewUiIpnut.Rows.RemoveAt(i);
+                        uiInput_list.Remove(uiInput_list[j]);
+                        i--;
+                    }
+                    else
+                    {
+                        dataGridViewUiIpnut.Rows[i].Cells[10].Value = uiInput_list[j].data.ProductState;
+                        j++;
+                    }
+                }
+            }
+          //  uiInput_list.Clear();
+        }
+
        /// <summary>
        /// 自动添加行号
        /// </summary>
@@ -73,6 +95,7 @@ namespace jdWatch
         private void dataGridViewUiIpnut_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
+            textBoxUiInputCount.Text = "当前数据：" + (dataGridViewUiIpnut.Rows.Count - 1);
         }
 
         /// <summary>
@@ -92,14 +115,63 @@ namespace jdWatch
         /// <param name="e"></param>
         private void buttonUiInputSaveToSql_Click(object sender, EventArgs e)
         {
+            bool bRet = false;
+            int countSuccessed = 0;
+            int countFailed= 0;
             SqlCommit sqlconn = new SqlCommit();
 
             uiInput_GetDataGridViewData();
+            if( 0 == uiInput_list.Count  )
+            {
+                return;
+            }
             // 保存到数据库
             for(int i = 0; i < uiInput_list.Count; i++ )
-                sqlconn.Sqlcommit_Insert(uiInput_list[i].data); 
-            //检查链表数据，如果提交成功则从dataGridViewUiIpnut中删除，否则保留，并在状态列显示原因
+            {
+                bRet = sqlconn.Sqlcommit_Insert(uiInput_list[i].data);
+                if(true == bRet )
+                {
+                    uiInput_list[i].data.ProductState = "新增";
+                    countSuccessed++;
+                }
+                else
+                {
+                    uiInput_list[i].data.ProductState = "已有";
+                    countFailed++;
+                }
+            }
 
+            //检查链表数据，如果提交成功则从dataGridViewUiIpnut中删除，否则保留，并在状态列显示原因
+            uiIput_ShowSaveStatus();
+            if(uiInput_list.Count > 0 ) /// && this.Text != "编辑数据库")
+            {
+                DialogResult dRet = DialogResult.No;
+
+                dRet = MessageBox.Show("有重复的数据，是否要覆盖？\n是，覆盖\n否，抛弃这些重复数据", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dRet == DialogResult.Yes)
+                {
+                    for (int i = 0; i < uiInput_list.Count; i++)
+                    {
+                        bRet = sqlconn.Sqlcommit_Update(uiInput_list[i].data); 
+                    }
+                }
+                
+                for (int i = 0; i < dataGridViewUiIpnut.Rows.Count - 1; i++)
+                {
+                     if (null == dataGridViewUiIpnut.Rows[i].Cells[0].Value)
+                     {
+                          continue;
+                      }
+
+                     if (dataGridViewUiIpnut.Rows[i].Cells[0].Value.ToString() == true.ToString())
+                     {
+                          dataGridViewUiIpnut.Rows.RemoveAt(i);
+                          i--; //关键在这里
+                     }
+                 }
+                uiInput_list.Clear();
+            }
+            
         }
 
         /// <summary>
@@ -154,6 +226,8 @@ namespace jdWatch
                 }
             }
             MessageBox.Show("成功删除了:" + countErr + "条数据");
+
+            textBoxUiInputCount.Text = "当前数据：" + (dataGridViewUiIpnut.Rows.Count - 1);
         }
 
         private void buttonUiInputSelect_Click(object sender, EventArgs e)
@@ -290,12 +364,13 @@ namespace jdWatch
                 dataGridViewUiIpnut.Rows.Add(row);
             }
 
-             //if (dataGridViewUiIpnut.Rows.Count > dt.Rows.Count )
-             //{
-             //    dataGridViewUiIpnut.Rows[dt.Rows.Count].Visible = false;
-             //}
+            //if (dataGridViewUiIpnut.Rows.Count > dt.Rows.Count )
+            //{
+            //    dataGridViewUiIpnut.Rows[dt.Rows.Count].Visible = false;
+            //}
 
-           // dataGridViewUiIpnut.DataSource = dt;
+            // dataGridViewUiIpnut.DataSource = dt;
+            textBoxUiInputCount.Text = "当前数据：" + (dataGridViewUiIpnut.Rows.Count - 1);
 
         }
 

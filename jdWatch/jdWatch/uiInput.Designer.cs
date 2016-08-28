@@ -45,6 +45,7 @@
             this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
             this.buttonUiInputdel = new System.Windows.Forms.Button();
             this.buttonUiInputEditSql = new System.Windows.Forms.Button();
+            this.textBoxUiInputCount = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiIpnut)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,11 +203,20 @@
             this.buttonUiInputEditSql.UseVisualStyleBackColor = true;
             this.buttonUiInputEditSql.Click += new System.EventHandler(this.buttonUiInputEditSql_Click);
             // 
+            // textBoxUiInputCount
+            // 
+            this.textBoxUiInputCount.Location = new System.Drawing.Point(793, 467);
+            this.textBoxUiInputCount.Name = "textBoxUiInputCount";
+            this.textBoxUiInputCount.ReadOnly = true;
+            this.textBoxUiInputCount.Size = new System.Drawing.Size(142, 21);
+            this.textBoxUiInputCount.TabIndex = 6;
+            // 
             // uiInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1451, 494);
+            this.Controls.Add(this.textBoxUiInputCount);
             this.Controls.Add(this.buttonUiInputEditSql);
             this.Controls.Add(this.buttonUiInputdel);
             this.Controls.Add(this.buttonUiInputSaveToSql);
@@ -217,6 +227,7 @@
             this.Text = "录入";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiIpnut)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -239,5 +250,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPriceDirect;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSaveState;
+        private System.Windows.Forms.TextBox textBoxUiInputCount;
     }
 }

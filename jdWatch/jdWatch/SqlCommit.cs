@@ -48,7 +48,8 @@ namespace Fatq.SqlCommit.Mode
             bRet = sqlconn.ConnSqQuery("product_infor", "product_skuid", toValues.ProductSkuid);
             if( true == bRet )
             {
-              //  MessageBox.Show("数据重复！！！");
+                //  MessageBox.Show("数据重复！！！");
+                bRet = false;
             }
             else 
             {
@@ -104,10 +105,10 @@ namespace Fatq.SqlCommit.Mode
             {
                 //  MessageBox.Show("有数据存在！！");
                 string sqlData = "product_name = '" + toValues.ProductName + "', product_serial = '" + toValues.ProductSerial +
-                                "', product_color = '" + toValues.ProductColor + "', produt_version = '" + toValues.ProductVersion +
+                                "', product_color = '" + toValues.ProductColor + "', product_version = '" + toValues.ProductVersion +
                                 "', product_skuid = '" + toValues.ProductSkuid + "', product_seller = '" + toValues.ProductSeller +
                                 "', product_warn_price = '" + toValues.ProductWarnPrice + "', produect_warn_drict = '"+toValues.ProductWarnDriect+"'";
-                bRet = sqlconn.ConnSqlInsert(sqlData);
+                bRet = sqlconn.ConnSqlUpdate("product_infor", sqlData, "product_skuid = '" + toValues.ProductSkuid + "'");
             }
             else
             {
