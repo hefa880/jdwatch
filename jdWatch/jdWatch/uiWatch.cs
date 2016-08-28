@@ -200,6 +200,11 @@ namespace jdWatch
         /// <param name="e"></param>
         private void buttonUiWatchAddToWatch_Click(object sender, EventArgs e)
         {
+            UInt32 timeMs = Convert.ToUInt32(textBoxUiWatchFrq.Text) * 1000 * 60;
+            if (timeMs < (5 * 1000 * 60))
+            {
+                timeMs = 5 * 1000 * 60;
+            }
 
             this.Close();
         }
@@ -490,8 +495,6 @@ namespace jdWatch
                 comboBoxUiWatchColor.Items.Clear();
                 comboBoxUiWatchColor.Items.Add("所有");
             }
-            
-           
         }
     }
 }

@@ -35,9 +35,9 @@
             this.buttonUiMainSys = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxUiMainPColor = new System.Windows.Forms.ComboBox();
+            this.comboBoxUiMainPSerial = new System.Windows.Forms.ComboBox();
+            this.comboBoxUiMainPName = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -96,6 +96,8 @@
             this.dataGridViewTextBoxColumn30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewLinkColumn2 = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxUiMainWatchFrq = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxShow.SuspendLayout();
@@ -178,9 +180,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.comboBox3);
-            this.groupBox2.Controls.Add(this.comboBox2);
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.comboBoxUiMainPColor);
+            this.groupBox2.Controls.Add(this.comboBoxUiMainPSerial);
+            this.groupBox2.Controls.Add(this.comboBoxUiMainPName);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
@@ -191,29 +193,33 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "搜索条件";
             // 
-            // comboBox3
+            // comboBoxUiMainPColor
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(404, 21);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(112, 20);
-            this.comboBox3.TabIndex = 5;
+            this.comboBoxUiMainPColor.FormattingEnabled = true;
+            this.comboBoxUiMainPColor.Location = new System.Drawing.Point(404, 21);
+            this.comboBoxUiMainPColor.Name = "comboBoxUiMainPColor";
+            this.comboBoxUiMainPColor.Size = new System.Drawing.Size(112, 20);
+            this.comboBoxUiMainPColor.TabIndex = 5;
+            this.comboBoxUiMainPColor.SelectedIndexChanged += new System.EventHandler(this.comboBoxUiMainPColor_SelectedIndexChanged);
             // 
-            // comboBox2
+            // comboBoxUiMainPSerial
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(227, 21);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 20);
-            this.comboBox2.TabIndex = 4;
+            this.comboBoxUiMainPSerial.FormattingEnabled = true;
+            this.comboBoxUiMainPSerial.Location = new System.Drawing.Point(227, 21);
+            this.comboBoxUiMainPSerial.Name = "comboBoxUiMainPSerial";
+            this.comboBoxUiMainPSerial.Size = new System.Drawing.Size(121, 20);
+            this.comboBoxUiMainPSerial.TabIndex = 4;
+            this.comboBoxUiMainPSerial.SelectedIndexChanged += new System.EventHandler(this.comboBoxUiMainPSerial_SelectedIndexChanged);
             // 
-            // comboBox1
+            // comboBoxUiMainPName
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(45, 21);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 20);
-            this.comboBox1.TabIndex = 3;
+            this.comboBoxUiMainPName.FormattingEnabled = true;
+            this.comboBoxUiMainPName.Location = new System.Drawing.Point(45, 21);
+            this.comboBoxUiMainPName.Name = "comboBoxUiMainPName";
+            this.comboBoxUiMainPName.Size = new System.Drawing.Size(121, 20);
+            this.comboBoxUiMainPName.TabIndex = 3;
+            this.comboBoxUiMainPName.DropDown += new System.EventHandler(this.comboBoxUiMainPName_DropDown);
+            this.comboBoxUiMainPName.SelectedIndexChanged += new System.EventHandler(this.comboBoxUiMainPName_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -244,6 +250,8 @@
             // 
             // groupBoxShow
             // 
+            this.groupBoxShow.Controls.Add(this.label4);
+            this.groupBoxShow.Controls.Add(this.textBoxUiMainWatchFrq);
             this.groupBoxShow.Controls.Add(this.buttonUiMainWatchStart);
             this.groupBoxShow.Controls.Add(this.button1);
             this.groupBoxShow.Controls.Add(this.tabControlUiMainWatch);
@@ -256,12 +264,13 @@
             // 
             // buttonUiMainWatchStart
             // 
-            this.buttonUiMainWatchStart.Location = new System.Drawing.Point(161, 399);
+            this.buttonUiMainWatchStart.Location = new System.Drawing.Point(162, 399);
             this.buttonUiMainWatchStart.Name = "buttonUiMainWatchStart";
             this.buttonUiMainWatchStart.Size = new System.Drawing.Size(75, 23);
             this.buttonUiMainWatchStart.TabIndex = 2;
             this.buttonUiMainWatchStart.Text = "开始监控";
             this.buttonUiMainWatchStart.UseVisualStyleBackColor = true;
+            this.buttonUiMainWatchStart.Click += new System.EventHandler(this.buttonUiMainWatchStart_Click);
             // 
             // button1
             // 
@@ -703,6 +712,23 @@
             this.dataGridViewLinkColumn2.Name = "dataGridViewLinkColumn2";
             this.dataGridViewLinkColumn2.Width = 50;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(304, 404);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 12);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "监控频率（分钟）";
+            // 
+            // textBoxUiMainWatchFrq
+            // 
+            this.textBoxUiMainWatchFrq.Location = new System.Drawing.Point(405, 400);
+            this.textBoxUiMainWatchFrq.Name = "textBoxUiMainWatchFrq";
+            this.textBoxUiMainWatchFrq.Size = new System.Drawing.Size(68, 21);
+            this.textBoxUiMainWatchFrq.TabIndex = 5;
+            this.textBoxUiMainWatchFrq.Text = "30";
+            // 
             // uiMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -718,6 +744,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBoxShow.ResumeLayout(false);
+            this.groupBoxShow.PerformLayout();
             this.tabControlUiMainWatch.ResumeLayout(false);
             this.tabPageWatch.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiMainWatch)).EndInit();
@@ -741,9 +768,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxUiMainPColor;
+        private System.Windows.Forms.ComboBox comboBoxUiMainPSerial;
+        private System.Windows.Forms.ComboBox comboBoxUiMainPName;
         private System.Windows.Forms.GroupBox groupBoxShow;
         private System.Windows.Forms.TabControl tabControlUiMainWatch;
         private System.Windows.Forms.TabPage tabPageWatch;
@@ -799,5 +826,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
         private System.Windows.Forms.DataGridViewLinkColumn dataGridViewLinkColumn2;
         private System.Windows.Forms.Button buttonUiMainWatchStart;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxUiMainWatchFrq;
     }
 }

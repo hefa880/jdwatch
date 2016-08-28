@@ -233,8 +233,12 @@ namespace jdWatch
                 MessageBox.Show("请选择要获取的项目！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 return;
             }
+
+            buttonUiInputGetWareInfor.Enabled = false;
+
             //调用多线程获取WEB数据
             uiIput_ThreadBuild();
+            buttonUiInputGetWareInfor.Enabled = true;
         }
 
         /// <summary>
