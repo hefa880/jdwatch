@@ -42,8 +42,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBoxShow = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxUiMainWatchFrq = new System.Windows.Forms.TextBox();
             this.buttonUiMainWatchStart = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonUiMainSelec = new System.Windows.Forms.Button();
             this.tabControlUiMainWatch = new System.Windows.Forms.TabControl();
             this.tabPageWatch = new System.Windows.Forms.TabPage();
             this.dataGridViewUiMainWatch = new System.Windows.Forms.DataGridView();
@@ -96,8 +98,6 @@
             this.dataGridViewTextBoxColumn30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewLinkColumn2 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxUiMainWatchFrq = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxShow.SuspendLayout();
@@ -253,7 +253,7 @@
             this.groupBoxShow.Controls.Add(this.label4);
             this.groupBoxShow.Controls.Add(this.textBoxUiMainWatchFrq);
             this.groupBoxShow.Controls.Add(this.buttonUiMainWatchStart);
-            this.groupBoxShow.Controls.Add(this.button1);
+            this.groupBoxShow.Controls.Add(this.buttonUiMainSelec);
             this.groupBoxShow.Controls.Add(this.tabControlUiMainWatch);
             this.groupBoxShow.Location = new System.Drawing.Point(12, 161);
             this.groupBoxShow.Name = "groupBoxShow";
@@ -261,6 +261,23 @@
             this.groupBoxShow.TabIndex = 10;
             this.groupBoxShow.TabStop = false;
             this.groupBoxShow.Text = "监控";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(304, 404);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 12);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "监控频率（分钟）";
+            // 
+            // textBoxUiMainWatchFrq
+            // 
+            this.textBoxUiMainWatchFrq.Location = new System.Drawing.Point(405, 400);
+            this.textBoxUiMainWatchFrq.Name = "textBoxUiMainWatchFrq";
+            this.textBoxUiMainWatchFrq.Size = new System.Drawing.Size(68, 21);
+            this.textBoxUiMainWatchFrq.TabIndex = 5;
+            this.textBoxUiMainWatchFrq.Text = "30";
             // 
             // buttonUiMainWatchStart
             // 
@@ -272,14 +289,15 @@
             this.buttonUiMainWatchStart.UseVisualStyleBackColor = true;
             this.buttonUiMainWatchStart.Click += new System.EventHandler(this.buttonUiMainWatchStart_Click);
             // 
-            // button1
+            // buttonUiMainSelec
             // 
-            this.button1.Location = new System.Drawing.Point(43, 398);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "全选";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonUiMainSelec.Location = new System.Drawing.Point(43, 398);
+            this.buttonUiMainSelec.Name = "buttonUiMainSelec";
+            this.buttonUiMainSelec.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiMainSelec.TabIndex = 1;
+            this.buttonUiMainSelec.Text = "全选";
+            this.buttonUiMainSelec.UseVisualStyleBackColor = true;
+            this.buttonUiMainSelec.Click += new System.EventHandler(this.buttonUiMainSelec_Click);
             // 
             // tabControlUiMainWatch
             // 
@@ -329,6 +347,7 @@
             this.dataGridViewUiMainWatch.RowTemplate.Height = 23;
             this.dataGridViewUiMainWatch.Size = new System.Drawing.Size(944, 346);
             this.dataGridViewUiMainWatch.TabIndex = 11;
+            this.dataGridViewUiMainWatch.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainWatch_RowsAdded);
             this.dataGridViewUiMainWatch.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainWatch_RowStateChanged);
             // 
             // dataGridViewCheckBoxColumn1
@@ -469,6 +488,7 @@
             this.dataGridViewUiMainWarn.RowTemplate.Height = 23;
             this.dataGridViewUiMainWarn.Size = new System.Drawing.Size(944, 346);
             this.dataGridViewUiMainWarn.TabIndex = 12;
+            this.dataGridViewUiMainWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainWarn_RowsAdded);
             this.dataGridViewUiMainWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainWarn_RowStateChanged);
             // 
             // dataGridViewCheckBoxColumn2
@@ -609,6 +629,7 @@
             this.dataGridViewUiMainMyWarn.RowTemplate.Height = 23;
             this.dataGridViewUiMainMyWarn.Size = new System.Drawing.Size(944, 346);
             this.dataGridViewUiMainMyWarn.TabIndex = 13;
+            this.dataGridViewUiMainMyWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainMyWarn_RowsAdded);
             this.dataGridViewUiMainMyWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainMyWarn_RowStateChanged);
             // 
             // dataGridViewCheckBoxColumn3
@@ -712,23 +733,6 @@
             this.dataGridViewLinkColumn2.Name = "dataGridViewLinkColumn2";
             this.dataGridViewLinkColumn2.Width = 50;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(304, 404);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(101, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "监控频率（分钟）";
-            // 
-            // textBoxUiMainWatchFrq
-            // 
-            this.textBoxUiMainWatchFrq.Location = new System.Drawing.Point(405, 400);
-            this.textBoxUiMainWatchFrq.Name = "textBoxUiMainWatchFrq";
-            this.textBoxUiMainWatchFrq.Size = new System.Drawing.Size(68, 21);
-            this.textBoxUiMainWatchFrq.TabIndex = 5;
-            this.textBoxUiMainWatchFrq.Text = "30";
-            // 
             // uiMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -777,7 +781,7 @@
         private System.Windows.Forms.TabPage tabPageWarn;
         private System.Windows.Forms.DataGridView dataGridViewUiMainWatch;
         private System.Windows.Forms.TabPage tabPageMainMyWarn;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonUiMainSelec;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;

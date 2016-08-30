@@ -25,6 +25,7 @@ namespace jdWatch
         public uiHistory   uiHistoryW;
         public uiSys       uiSysW;
         System.Timers.Timer myTimer = new System.Timers.Timer();
+        Double  myTimerInterval;
         IList<WarePriceNode> uiMain_list = new List<WarePriceNode>();
         IList<WarePriceNode> uiMain_listShow = new List<WarePriceNode>();
         
@@ -38,6 +39,10 @@ namespace jdWatch
             uiSysW      = new uiSys();
             //进入登录界面
             uiLoginW.ShowDialog();
+            dataGridViewUiMainWatch.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+            dataGridViewUiMainWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+            dataGridViewUiMainMyWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+
         }
 
         private void buttonUiMainBaseInput_Click(object sender, EventArgs e)
@@ -77,7 +82,6 @@ namespace jdWatch
 
         private void comboBoxUiMainPName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
             SqlCommit sqlcomm = new SqlCommit();
             DataTable dt;
             DataSet ds;
@@ -188,12 +192,7 @@ namespace jdWatch
                 MessageBox.Show("拉取失败");
                 return;
             }
-            else
-            {
-                // string str = "成功拉取:" + dt.Rows.Count.ToString();
-                // MessageBox.Show(str);
-            }
-
+  
             DataGridView datGridV;
             if (tabControlUiMainWatch.SelectedTab.Text == "监控表")
             {
@@ -231,6 +230,14 @@ namespace jdWatch
                     }
                 }
                 dataGridViewUiMainWatch.Rows.Add(row);
+                if (datGridV.Rows.Count % 2 == 0)
+                {
+                    datGridV.Rows[datGridV.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
+                }
+                else
+                {
+                    datGridV.Rows[datGridV.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Lavender;
+                }
             }
         }
 
@@ -266,7 +273,6 @@ namespace jdWatch
                 MessageBox.Show("拉取失败");
                 return;
             }
-
 
             DataGridView datGridV;
             if (tabControlUiMainWatch.SelectedTab.Text == "监控表")
@@ -369,19 +375,22 @@ namespace jdWatch
             {
                 buttonUiMainWatchStart.Text = "停止";
                 textBoxUiMainWatchFrq.Enabled = false;
-                UInt32 timeMs = Convert.ToUInt32(textBoxUiMainWatchFrq.Text) * 1000 * 60;
-                if (timeMs < (5 * 1000 * 60))
-                {
-                    timeMs = 5 * 1000 * 60;
-                }
+                //UInt32 timeMs = Convert.ToUInt32(textBoxUiMainWatchFrq.Text) * 1000 * 60;
+                //if (timeMs < (5 * 1000 * 60))
+                //{
+                //    timeMs = 5 * 1000 * 60;
+                //}
+            //    timeMs = 1000;
                 uiMain_GetDataGridViewData();
-                InitializeTimer(timeMs);
+                // InitializeTimer(timeMs);
+                InitializeTimer();
 
             }
             else
             {
                 buttonUiMainWatchStart.Text = "开始监控";
                 myTimer.Enabled = false;
+                myTimerInterval = 0;
                 textBoxUiMainWatchFrq.Enabled = true;
             }
            
@@ -396,9 +405,32 @@ namespace jdWatch
             myTimer.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
         }
 
+        public void InitializeTimer()
+        {
+            // 调用本方法开始用计算器          
+            myTimer.Interval = 60000;
+            myTimerInterval += myTimer.Interval;
+            myTimer.Elapsed += new System.Timers.ElapsedEventHandler(timerTask);
+            myTimer.AutoReset = true;//设置是执行一次（false）还是一直执行(true)；
+            myTimer.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
+
+            
+        }
+
         public void timerTask(object source, System.Timers.ElapsedEventArgs e)
         {
-            uiMain_ThreadBuild();
+            UInt32 timeMs = Convert.ToUInt32(textBoxUiMainWatchFrq.Text) * 1000 * 60;
+            if (timeMs < (5 * 1000 * 60))
+            {
+                timeMs = 5 * 1000 * 60;
+            }
+            if (myTimerInterval >= timeMs)
+            {
+                myTimerInterval = 0;
+                uiMain_ThreadBuild();
+                
+            }
+           
         }
 
         private void uiMain_ThreadBuild()
@@ -414,6 +446,10 @@ namespace jdWatch
 
         }
 
+        /// <summary>
+        /// 获取网页价格
+        /// </summary>
+        /// <param name="data"></param>
         public void uiMain_ThreadGetdataGridViewWareInfor(object data)
         {
             WarePriceNode ListNode = data as WarePriceNode;
@@ -446,7 +482,7 @@ namespace jdWatch
 
         private void uiMain_listShowTask()
         {
-
+            MessageBox.Show("还没有完全获取");
         }
 
         private void comboBoxUiMainPName_DropDown(object sender, EventArgs e)
@@ -471,6 +507,78 @@ namespace jdWatch
 
 
                 //将获取到的数据显示在 dataGridViewUiWatch
+            }
+        }
+
+        private void buttonUiMainSelec_Click(object sender, EventArgs e)
+        {
+            bool bFlag = false;
+
+            DataGridView datGridV;
+            if (tabControlUiMainWatch.SelectedTab.Text == "监控表")
+            {
+                datGridV = dataGridViewUiMainWatch;
+            }
+            else if (tabControlUiMainWatch.SelectedTab.Text == "异常表")
+            {
+                datGridV = dataGridViewUiMainWarn;
+            }
+            else
+            {
+                datGridV = dataGridViewUiMainMyWarn;
+            }
+
+            if (buttonUiMainSelec.Text == "全选")
+            {
+                buttonUiMainSelec.Text = "反选";
+                bFlag = true;
+            }
+            else
+            {
+                buttonUiMainSelec.Text = "全选";
+                bFlag = false;
+            }
+
+            foreach (DataGridViewRow dr in datGridV.Rows)
+            {
+                dr.Cells[0].Value = bFlag;
+            }
+
+        }
+
+        private void dataGridViewUiMainWatch_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if (dataGridViewUiMainWatch.Rows.Count % 2 == 0)
+            {
+                dataGridViewUiMainWatch.Rows[dataGridViewUiMainWatch.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                dataGridViewUiMainWatch.Rows[dataGridViewUiMainWatch.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Lavender;
+            }
+        }
+
+        private void dataGridViewUiMainWarn_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if (dataGridViewUiMainWarn.Rows.Count % 2 == 0)
+            {
+                dataGridViewUiMainWarn.Rows[dataGridViewUiMainWarn.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                dataGridViewUiMainWarn.Rows[dataGridViewUiMainWarn.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Lavender;
+            }
+        }
+
+        private void dataGridViewUiMainMyWarn_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            if (dataGridViewUiMainMyWarn.Rows.Count % 2 == 0)
+            {
+                dataGridViewUiMainMyWarn.Rows[dataGridViewUiMainMyWarn.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                dataGridViewUiMainMyWarn.Rows[dataGridViewUiMainMyWarn.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Lavender;
             }
         }
     }
