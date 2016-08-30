@@ -37,13 +37,13 @@
             this.buttonUiInputEditSql = new System.Windows.Forms.Button();
             this.textBoxUiInputCount = new System.Windows.Forms.TextBox();
             this.columnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnSeller = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSkuid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnSerial = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnColor = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnVersion = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnPBaseInfor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSkuid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSeller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWarnPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWarnPriceDirect = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSaveState = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,13 +64,13 @@
             this.dataGridViewUiIpnut.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewUiIpnut.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnSelect,
+            this.ColumnSeller,
+            this.ColumnSkuid,
             this.ColumnPName,
             this.ColumnSerial,
             this.ColumnColor,
             this.ColumnVersion,
             this.ColumnPBaseInfor,
-            this.ColumnSkuid,
-            this.ColumnSeller,
             this.ColumnWarnPrice,
             this.ColumnWarnPriceDirect,
             this.ColumnSaveState});
@@ -97,7 +97,7 @@
             // 
             // buttonUiInputGetWareInfor
             // 
-            this.buttonUiInputGetWareInfor.Location = new System.Drawing.Point(182, 468);
+            this.buttonUiInputGetWareInfor.Location = new System.Drawing.Point(174, 467);
             this.buttonUiInputGetWareInfor.Name = "buttonUiInputGetWareInfor";
             this.buttonUiInputGetWareInfor.Size = new System.Drawing.Size(95, 23);
             this.buttonUiInputGetWareInfor.TabIndex = 2;
@@ -107,7 +107,7 @@
             // 
             // buttonUiInputSaveToSql
             // 
-            this.buttonUiInputSaveToSql.Location = new System.Drawing.Point(334, 467);
+            this.buttonUiInputSaveToSql.Location = new System.Drawing.Point(346, 467);
             this.buttonUiInputSaveToSql.Name = "buttonUiInputSaveToSql";
             this.buttonUiInputSaveToSql.Size = new System.Drawing.Size(75, 23);
             this.buttonUiInputSaveToSql.TabIndex = 3;
@@ -117,7 +117,7 @@
             // 
             // buttonUiInputdel
             // 
-            this.buttonUiInputdel.Location = new System.Drawing.Point(465, 468);
+            this.buttonUiInputdel.Location = new System.Drawing.Point(480, 467);
             this.buttonUiInputdel.Name = "buttonUiInputdel";
             this.buttonUiInputdel.Size = new System.Drawing.Size(75, 23);
             this.buttonUiInputdel.TabIndex = 4;
@@ -127,7 +127,7 @@
             // 
             // buttonUiInputEditSql
             // 
-            this.buttonUiInputEditSql.Location = new System.Drawing.Point(616, 466);
+            this.buttonUiInputEditSql.Location = new System.Drawing.Point(627, 467);
             this.buttonUiInputEditSql.Name = "buttonUiInputEditSql";
             this.buttonUiInputEditSql.Size = new System.Drawing.Size(75, 23);
             this.buttonUiInputEditSql.TabIndex = 5;
@@ -137,7 +137,7 @@
             // 
             // textBoxUiInputCount
             // 
-            this.textBoxUiInputCount.Location = new System.Drawing.Point(793, 467);
+            this.textBoxUiInputCount.Location = new System.Drawing.Point(901, 467);
             this.textBoxUiInputCount.Name = "textBoxUiInputCount";
             this.textBoxUiInputCount.ReadOnly = true;
             this.textBoxUiInputCount.Size = new System.Drawing.Size(142, 21);
@@ -149,6 +149,17 @@
             this.columnSelect.HeaderText = "选择";
             this.columnSelect.Name = "columnSelect";
             this.columnSelect.Width = 35;
+            // 
+            // ColumnSeller
+            // 
+            this.ColumnSeller.HeaderText = "商家";
+            this.ColumnSeller.Name = "ColumnSeller";
+            this.ColumnSeller.Width = 180;
+            // 
+            // ColumnSkuid
+            // 
+            this.ColumnSkuid.HeaderText = "商品编号";
+            this.ColumnSkuid.Name = "ColumnSkuid";
             // 
             // ColumnPName
             // 
@@ -196,17 +207,6 @@
             this.ColumnPBaseInfor.Name = "ColumnPBaseInfor";
             this.ColumnPBaseInfor.Width = 300;
             // 
-            // ColumnSkuid
-            // 
-            this.ColumnSkuid.HeaderText = "商品编号";
-            this.ColumnSkuid.Name = "ColumnSkuid";
-            // 
-            // ColumnSeller
-            // 
-            this.ColumnSeller.HeaderText = "商家";
-            this.ColumnSeller.Name = "ColumnSeller";
-            this.ColumnSeller.Width = 180;
-            // 
             // ColumnWarnPrice
             // 
             this.ColumnWarnPrice.HeaderText = "控价";
@@ -238,6 +238,7 @@
             this.Controls.Add(this.buttonUiInputSelect);
             this.Controls.Add(this.dataGridViewUiIpnut);
             this.Name = "uiInput";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "录入";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiIpnut)).EndInit();
             this.ResumeLayout(false);
@@ -255,13 +256,13 @@
         private System.Windows.Forms.Button buttonUiInputEditSql;
         private System.Windows.Forms.TextBox textBoxUiInputCount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn columnSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSeller;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSkuid;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnPName;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnSerial;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnColor;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPBaseInfor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSkuid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSeller;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPriceDirect;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSaveState;

@@ -18,10 +18,12 @@ using Hank.UiCtlLib;
 
 namespace jdWatch
 {
+    
     public partial class uiInput : Form
     {
         IList<InputDataStruct> uiInput_list = new List<InputDataStruct>();
         IList<InputDataStruct> uiInput_listShow = new List<InputDataStruct>();
+        
 
         //定义一个委托  
         public delegate void MyInvoke();
@@ -92,14 +94,17 @@ namespace jdWatch
         {
             for(int i = 0; i < uiInput_listShow.Count;i++ )
             {
-                
-                for (int c = 1; c< 5;c++)
+                for (int c = 3; c< 7;c++)
                 {
                     DataGridViewComboBoxCell comboxcell = dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[c] as DataGridViewComboBoxCell;
                     string str = uiInput_listShow[i].data.ProductDescribe;
                     string strItem = "";
                     int index = 0;
                     int cell = 0;
+                    if(null == str || "无效SKUID" == uiInput_listShow[i].data.ProductState)
+                    {
+                        continue;
+                    }
                     for (;;)
                     {
                         index = str.IndexOf(" ");
@@ -108,7 +113,7 @@ namespace jdWatch
                             strItem = str.Substring(0, index);
                         }
 
-                        if( 1 == c )
+                        if( 3 == c )
                         {
                             
                            if( strItem.IndexOf("荣耀") >= 0)
@@ -133,8 +138,8 @@ namespace jdWatch
                     }
                 }
               
-                dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[5].Value = uiInput_listShow[i].data.ProductDescribe;
-                dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[7].Value = uiInput_listShow[i].data.ProductSeller.ToString().Trim();
+                dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[7].Value = uiInput_listShow[i].data.ProductDescribe.ToString().Trim();
+                dataGridViewUiIpnut.Rows[uiInput_listShow[i].data.index].Cells[1].Value = uiInput_listShow[i].data.ProductSeller.ToString().Trim();
             }
             uiInput_listShow.Clear();
         }
@@ -154,23 +159,25 @@ namespace jdWatch
                     continue;
                 }
 
-                if (dr.Cells[0].FormattedValue.ToString() == true.ToString() && null != dr.Cells[6].Value )
+                if (dr.Cells[0].FormattedValue.ToString() == true.ToString() && null != dr.Cells[2].Value )
                 {
                     InputDataStruct inputData = new InputDataStruct();
 
                     inputData.data = new CUiInputDataStruct();
-                    if( null != dr.Cells[1].Value )
-                        inputData.data.ProductName       = dr.Cells[1].Value.ToString().Trim();
+                    if (null != dr.Cells[1].Value)
+                        inputData.data.ProductSeller      = dr.Cells[1].Value.ToString().Trim();
                     if (null != dr.Cells[2].Value)
-                        inputData.data.ProductSerial     = dr.Cells[2].Value.ToString().Trim();
-                    if (null != dr.Cells[3].Value)
-                        inputData.data.ProductColor      = dr.Cells[3].Value.ToString().Trim();
+                        inputData.data.ProductSkuid    = dr.Cells[2].Value.ToString().Trim();
+
+                    if( null != dr.Cells[3].Value )
+                        inputData.data.ProductName       = dr.Cells[3].Value.ToString().Trim();
                     if (null != dr.Cells[4].Value)
-                        inputData.data.ProductVersion    = dr.Cells[4].Value.ToString().Trim();
+                        inputData.data.ProductSerial     = dr.Cells[4].Value.ToString().Trim();
+                    if (null != dr.Cells[5].Value)
+                        inputData.data.ProductColor      = dr.Cells[5].Value.ToString().Trim();
                     if (null != dr.Cells[6].Value)
-                        inputData.data.ProductSkuid      = dr.Cells[6].Value.ToString().Trim();
-                    if (null != dr.Cells[7].Value)
-                        inputData.data.ProductSeller     = dr.Cells[7].Value.ToString().Trim();
+                        inputData.data.ProductVersion    = dr.Cells[6].Value.ToString().Trim();
+                  
                     if (null != dr.Cells[8].Value)
                         inputData.data.ProductWarnPrice  = Convert.ToDouble(dr.Cells[8].Value.ToString().Trim());
                     if (null != dr.Cells[9].Value)
@@ -464,34 +471,30 @@ namespace jdWatch
                 DataGridViewRow row = new DataGridViewRow();
                 DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
                 row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 4;j++ )
-                {
-                   // DataGridViewComboBoxCell comboxcell= new DataGridViewComboBoxCell();
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                     textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    
-                    //comboxcell.Items.Add(dt.Rows[i].ItemArray.GetValue(j).ToString().Trim());
-                    //comboxcell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                    //comboxcell.ReadOnly = false;
-
-                    row.Cells.Add(textboxcell);
-                }
-
-                // n=dataGridViewUiIpnut.Rows.Add();
-               // dataGridViewUiIpnut.Rows[n].Cells[1].Value = dt.Rows[i].ItemArray.GetValue(0).ToString();
-
-                for (j = 3; j < 9; j++)
+                int c;
+                for (j = 0, c = 0; j < 10;j++ )
                 {
                     DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    if( j> 3 && j< 8 )
+                    if (j == 6 || j> 8)
                     {
-                        textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
+                        textboxcell.Value = "";
                     }
-                    
+                    else if( j< 8)
+                    {
+
+                        textboxcell.Value = dt.Rows[i].ItemArray.GetValue(c++).ToString().Trim();
+                    }
+                        
                     row.Cells.Add(textboxcell);
                 }
-
+                if (dataGridViewUiIpnut.Rows.Count % 2 == 0)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightSteelBlue;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.Lavender;
+                }
                 dataGridViewUiIpnut.Rows.Add(row);
             }
 

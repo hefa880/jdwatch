@@ -110,6 +110,7 @@
             this.Controls.Add(this.textBoxUiLoginUserName);
             this.MaximizeBox = false;
             this.Name = "uiLogin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录";
             this.ResumeLayout(false);
             this.PerformLayout();

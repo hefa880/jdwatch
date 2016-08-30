@@ -228,16 +228,16 @@ namespace WareDealer.Mode
     {
         public string ProductSkuid;
         public double ProductWarnPrice;//控价  8;
-        public double ProductPCPrice;//控价  8;
-        public double ProductAppPrice;//控价  8;
-        public double ProductQQPrice;// 控价  8;
-        public double ProductWeiXinPrice;//控价  8;
+        public double ProductPCPrice;//  8;
+        public double ProductAppPrice;// 8;
+        public double ProductQQPrice;//  8;
+        public double ProductWeiXinPrice;//  8;
         
         public string ProductStock;//库存
-        public DateTime GetTime;
+        public DateTime ProductGetTime;
         public string Warndirect; //  高于，低于，等于， 
 
-        public int index;
+        public int index;   /// 记录行号，下次更新时直接使用选号做对应的更新
     }
 
     public class WarePriceNode

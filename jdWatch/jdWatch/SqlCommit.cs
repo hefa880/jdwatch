@@ -7,6 +7,7 @@ using UiInputDataStruct.Mode;
 using Fatq.ConncetSql.Mode;
 using System.Windows.Forms;
 using System.Data;
+using WareDealer.Mode;
 
 ////////所有SQL操作填写都在这里完成，最后调用SqlConnect.cs的函数完成
 ////////
@@ -56,6 +57,31 @@ namespace Fatq.SqlCommit.Mode
                 bRet = sqlconn.ConnSqlInsert(sqlData);
             }
  
+            return bRet;
+        }
+
+        public bool Sqlcommit_Insert(WarePrice toValues)
+        {
+            bool bRet = false;
+            FatqConnection sqlconn = new FatqConnection();
+
+            string sqlData = "insert into product_price(  product_skuid,product_warning_price,product_jd_price,product_app_price,product_weixin_price,product_qq_price,product_time_get,product_status) values ('" +
+                toValues.ProductSkuid + "', '" + toValues.ProductWarnPrice + "', '" + toValues.ProductPCPrice + "', '" +
+                toValues.ProductAppPrice + "','" + toValues.ProductWeiXinPrice + "','" + toValues.ProductQQPrice + "' ,'" + toValues.ProductGetTime + "','" + toValues.ProductStock + "')";
+
+            bRet = sqlconn.ConnSqQuery("product_infor", "product_skuid", toValues.ProductSkuid);
+            if (true == bRet)
+            {
+                
+                bRet = sqlconn.ConnSqlInsert(sqlData);
+               
+            }
+            else
+            {
+                //  MessageBox.Show("无此基本数据！");
+                bRet = false;
+            }
+
             return bRet;
         }
        /// <summary>

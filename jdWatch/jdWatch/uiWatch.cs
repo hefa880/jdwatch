@@ -14,13 +14,16 @@ using WareDealer.Mode;
 using WareDealer.Helper;
 using Hank.ComLib;
 using Hank.UiCtlLib;
+using UiInputDataStruct.Mode;
 
 
 
 namespace jdWatch
 {
+    public delegate void uiWatch_SndWarnList(IList<InputDataStruct> uiInputList);
     public partial class uiWatch : Form
     {
+        IList<InputDataStruct> uiInputList = new List<InputDataStruct>();
         public uiWatch()
         {
             InitializeComponent();
@@ -56,7 +59,7 @@ namespace jdWatch
                     DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
                     textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
                     row.Cells.Add(textboxcell);
-                    if (0 == j)
+                    if (2 == j)
                     {
                         if (comboBoxUiWatchPName.Items.IndexOf(textboxcell.Value) < 0)
                         {
@@ -64,7 +67,7 @@ namespace jdWatch
                         }
                     }
 
-                    if (1 == j)
+                    if (3 == j)
                     {
                         if (comboBoxUiWatchSerial.Items.IndexOf(textboxcell.Value) < 0)
                         {
@@ -72,7 +75,7 @@ namespace jdWatch
                         }
                     }
 
-                    if (2 == j)
+                    if (4 == j)
                     {
                         if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
                         {
@@ -192,6 +195,56 @@ namespace jdWatch
         }
 
         /// <summary>
+        /// 从个表中获取数据，并添加到链表
+        /// </summary>
+        private void uiWatch_GetDataGridViewData()
+        {
+            uiInputList.Clear();
+
+          //  int i = -1;
+            foreach (DataGridViewRow dr in dataGridViewUiWatch.Rows)
+            {
+             //   i++;
+                if (null == dr.Cells[0].FormattedValue)
+                {
+                    continue;
+                }
+
+                if (dr.Cells[0].FormattedValue.ToString() == true.ToString() && null != dr.Cells[2].Value)
+                {
+                    InputDataStruct inputData = new InputDataStruct();
+
+                    inputData.data = new CUiInputDataStruct();
+                    if (null != dr.Cells[1].Value)
+                        inputData.data.ProductSeller = dr.Cells[1].Value.ToString().Trim();
+
+                    if (null != dr.Cells[2].Value)
+                        inputData.data.ProductSkuid  = dr.Cells[2].Value.ToString().Trim();
+
+                    if (null != dr.Cells[3].Value)
+                        inputData.data.ProductName = dr.Cells[3].Value.ToString().Trim();
+
+                    if (null != dr.Cells[4].Value)
+                        inputData.data.ProductSerial = dr.Cells[4].Value.ToString().Trim();
+
+                    if (null != dr.Cells[5].Value)
+                        inputData.data.ProductColor = dr.Cells[5].Value.ToString().Trim();
+
+                    if (null != dr.Cells[6].Value)
+                        inputData.data.ProductVersion = dr.Cells[6].Value.ToString().Trim();
+
+                    if (null != dr.Cells[7].Value)
+                        inputData.data.ProductWarnPrice = Convert.ToDouble(dr.Cells[7].Value.ToString().Trim());
+
+                    inputData.data.index = 0;
+
+                    uiInputList.Add(inputData);
+                }
+            }
+        }
+
+        public event uiWatch_SndWarnList  sndWarnListToUiMain;
+        /// <summary>
         /// 将选中的行信息添加到uiMaim的 dataGridViewUiMainWatch表中去
         /// 添加完成后，提示添加成功多少条，如果有重复的，提示是否覆盖
         /// 完成添加后，提示用户是否开启监控，如果开启则通知uiMain的 buttonUiMainWatchStart
@@ -200,12 +253,14 @@ namespace jdWatch
         /// <param name="e"></param>
         private void buttonUiWatchAddToWatch_Click(object sender, EventArgs e)
         {
-            UInt32 timeMs = Convert.ToUInt32(textBoxUiWatchFrq.Text) * 1000 * 60;
-            if (timeMs < (5 * 1000 * 60))
-            {
-                timeMs = 5 * 1000 * 60;
-            }
+            //UInt32 timeMs = Convert.ToUInt32(textBoxUiWatchFrq.Text) * 1000 * 60;
+            //if (timeMs < (5 * 1000 * 60))
+            //{
+            //    timeMs = 5 * 1000 * 60;
+            //}
 
+            uiWatch_GetDataGridViewData();
+            sndWarnListToUiMain(uiInputList);
             this.Close();
         }
 
@@ -281,42 +336,9 @@ namespace jdWatch
             comboxClear(2);
             comboxClear(3);
 
-            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
-                row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 7; j++)
-                {
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    row.Cells.Add(textboxcell);
-                    if (0 == j)
-                    {
-                        if (comboBoxUiWatchPName.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiWatchPName.Items.Add(textboxcell.Value);
-                        }
-                    }
-
-                    if (1 == j)
-                    {
-                        if (comboBoxUiWatchSerial.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiWatchSerial.Items.Add(textboxcell.Value);
-                        }
-                    }
-
-                    if (2== j)
-                    {
-                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
-                        }
-                    }
-                }
-                dataGridViewUiWatch.Rows.Add(row);
+                  dataGridViewAddRow(dt, i, comboBoxUiWatchPName);
             }
         }
 
@@ -362,27 +384,9 @@ namespace jdWatch
             dataGridVewClear();
             comboxClear(3);
 
-            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
-                row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 7; j++)
-                {
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    row.Cells.Add(textboxcell);
-
-                    if (2 == j)
-                    {
-                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
-                        }
-                    }
-                }
-                dataGridViewUiWatch.Rows.Add(row);
+                dataGridViewAddRow(dt, i, comboBoxUiWatchSerial);
             }
 
         }
@@ -431,22 +435,69 @@ namespace jdWatch
             }
             dataGridVewClear();
 
-            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
-                row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 7; j++)
-                {
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    row.Cells.Add(textboxcell);
-                }
-                dataGridViewUiWatch.Rows.Add(row);
+                dataGridViewAddRow(dt, i, comboBoxUiWatchColor);
             }
 
         }
+
+        private void dataGridViewAddRow( DataTable dt, int i, ComboBox comBox)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+            row.Cells.Add(checkboxcell);
+            DataGridView datGridV = dataGridViewUiWatch;
+            // 3,4,5,6,7
+            for (int index = 0; index < 6; index++)
+            {
+                DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                textboxcell.Value = dt.Rows[i].ItemArray.GetValue(index).ToString().Trim();
+                row.Cells.Add(textboxcell);
+                if (comboBoxUiWatchPName == comBox)
+                {
+                    if (2 == index)
+                    {
+                        if (comboBoxUiWatchPName.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchPName.Items.Add(textboxcell.Value);
+                        }
+                    }
+
+                    if (3 == index)
+                    {
+                        if (comboBoxUiWatchSerial.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchSerial.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+
+                if (comboBoxUiWatchSerial == comBox || comboBoxUiWatchPName == comBox)
+                {
+                    if (4 == index)
+                    {
+                        if (comboBoxUiWatchColor.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiWatchColor.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+
+            }
+
+            if (datGridV.Rows.Count % 2 == 0)
+            {
+                row.DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                row.DefaultCellStyle.BackColor = Color.Lavender;
+            }
+            datGridV.Rows.Add(row);
+        }
+
+
 
         private void dataGridViewUiWatch_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {

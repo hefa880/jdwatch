@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UiInputDataStruct.Mode;
 using Fatq.SqlCommit.Mode;
 using System.Threading;
 using WareDealer;
@@ -26,8 +27,9 @@ namespace jdWatch
         public uiSys       uiSysW;
         System.Timers.Timer myTimer = new System.Timers.Timer();
         Double  myTimerInterval;
-        IList<WarePriceNode> uiMain_list = new List<WarePriceNode>();
-        IList<WarePriceNode> uiMain_listShow = new List<WarePriceNode>();
+        IList<WarePriceNode> uiMain_list = new List<WarePriceNode>();   //从表从获取到链表中
+        IList<WarePriceNode> uiMain_listShow = new List<WarePriceNode>();  //用于显示的链表
+       // IList<InputDataStruct> uiInput_list = new List<InputDataStruct>();
         
         public uiMain()
         {
@@ -62,7 +64,53 @@ namespace jdWatch
 
         private void buttonUiMainWatch_Click(object sender, EventArgs e)
         {
-           // uiWatchW.ShowDialog();
+            uiWatchW.sndWarnListToUiMain += uiWatchW_sndWarnListToUiMain;
+            uiWatchW.ShowDialog();
+            
+        }
+
+        void uiWatchW_sndWarnListToUiMain(IList<InputDataStruct> uiInputList)
+        {
+          //  throw new NotImplementedException();
+           // MessageBox.Show("收到");
+
+            for (int index = 0; index < uiInputList.Count; index++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+                row.Cells.Add(checkboxcell);
+
+                DataGridViewTextBoxCell textboxcell_1 = new DataGridViewTextBoxCell();
+                textboxcell_1.Value = uiInputList[index].data.ProductSeller; //商家
+                row.Cells.Add(textboxcell_1);
+
+                DataGridViewTextBoxCell textboxcell_2 = new DataGridViewTextBoxCell();
+                textboxcell_2.Value = uiInputList[index].data.ProductSkuid; //
+                row.Cells.Add(textboxcell_2);
+
+                DataGridViewTextBoxCell textboxcell_3 = new DataGridViewTextBoxCell();
+                textboxcell_3.Value = uiInputList[index].data.ProductName; //
+                row.Cells.Add(textboxcell_3);
+
+                DataGridViewTextBoxCell textboxcell_4 = new DataGridViewTextBoxCell();
+                textboxcell_4.Value = uiInputList[index].data.ProductSerial; //
+                row.Cells.Add(textboxcell_4);
+
+                DataGridViewTextBoxCell textboxcell_5 = new DataGridViewTextBoxCell();
+                textboxcell_5.Value = uiInputList[index].data.ProductColor; //
+                row.Cells.Add(textboxcell_5);
+
+                DataGridViewTextBoxCell textboxcell_6 = new DataGridViewTextBoxCell();
+                textboxcell_6.Value = uiInputList[index].data.ProductVersion; //
+                row.Cells.Add(textboxcell_6);
+
+                DataGridViewTextBoxCell textboxcell_7 = new DataGridViewTextBoxCell();
+                textboxcell_7.Value =  Convert.ToDouble( uiInputList[index].data.ProductWarnPrice); //
+                row.Cells.Add(textboxcell_7);
+
+                this.dataGridViewUiMainWatch.Rows.Add(row);
+            }
+           
         }
 
         private void dataGridViewUiMainWatch_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -110,7 +158,7 @@ namespace jdWatch
             {
                 datGridV = dataGridViewUiMainWatch;
             }
-            else if(tabControlUiMainWatch.SelectedTab.Text == "异常表")
+            else if (tabControlUiMainWatch.SelectedTab.Text == "异常表")
             {
                 datGridV = dataGridViewUiMainWarn;
             }
@@ -121,43 +169,10 @@ namespace jdWatch
             dataGridVewClear(datGridV);
             comboxClear(2);
             comboxClear(3);
-
-            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
-                row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 7; j++)
-                {
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    row.Cells.Add(textboxcell);
-                    if (0 == j)
-                    {
-                        if (comboBoxUiMainPName.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiMainPName.Items.Add(textboxcell.Value);
-                        }
-                    }
-
-                    if (1 == j)
-                    {
-                        if (comboBoxUiMainPSerial.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiMainPSerial.Items.Add(textboxcell.Value);
-                        }
-                    }
-
-                    if (2 == j)
-                    {
-                        if (comboBoxUiMainPColor.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiMainPColor.Items.Add(textboxcell.Value);
-                        }
-                    }
-                }
-                dataGridViewUiMainWatch.Rows.Add(row);
+                dataGridViewAddRow(datGridV, dt, i, comboBoxUiMainPName);
             }
         }
 
@@ -209,35 +224,9 @@ namespace jdWatch
             dataGridVewClear(datGridV);
             comboxClear(3);
 
-            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
-                row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 7; j++)
-                {
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    row.Cells.Add(textboxcell);
-
-                    if (2 == j)
-                    {
-                        if (comboBoxUiMainPColor.Items.IndexOf(textboxcell.Value) < 0)
-                        {
-                            comboBoxUiMainPColor.Items.Add(textboxcell.Value);
-                        }
-                    }
-                }
-                dataGridViewUiMainWatch.Rows.Add(row);
-                if (datGridV.Rows.Count % 2 == 0)
-                {
-                    datGridV.Rows[datGridV.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightSteelBlue;
-                }
-                else
-                {
-                    datGridV.Rows[datGridV.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Lavender;
-                }
+                dataGridViewAddRow(datGridV, dt, i, comboBoxUiMainPSerial);
             }
         }
 
@@ -290,22 +279,82 @@ namespace jdWatch
 
             dataGridVewClear(datGridV);
 
-            for (int i = 0, j = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
-                row.Cells.Add(checkboxcell);
-
-                for (j = 0; j < 7; j++)
-                {
-                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                    textboxcell.Value = dt.Rows[i].ItemArray.GetValue(j).ToString().Trim();
-                    row.Cells.Add(textboxcell);
-                }
-                dataGridViewUiMainWatch.Rows.Add(row);
+                dataGridViewAddRow(datGridV,dt,i,null);
             }
         }
 
+        private void dataGridViewAddRow(DataGridView datGridV, DataTable dt, int i, ComboBox comBox )
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+            row.Cells.Add(checkboxcell);
+          
+            // 3,4,5,6,7
+            for (int index = 0; index < 6; index++)
+            {
+                DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                textboxcell.Value = dt.Rows[i].ItemArray.GetValue(index).ToString().Trim();
+                row.Cells.Add(textboxcell);
+                if ( comboBoxUiMainPName == comBox )
+                {
+                    if (2 == index)
+                    {
+                        if (comboBoxUiMainPName.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiMainPName.Items.Add(textboxcell.Value);
+                        }
+                    }
+
+                    if (3 == index)
+                    {
+                        if (comboBoxUiMainPSerial.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiMainPSerial.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+
+                if (comboBoxUiMainPSerial == comBox || comboBoxUiMainPName == comBox)
+                {
+                    if (4 == index)
+                    {
+                        if (comboBoxUiMainPColor.Items.IndexOf(textboxcell.Value) < 0)
+                        {
+                            comboBoxUiMainPColor.Items.Add(textboxcell.Value);
+                        }
+                    }
+                }
+                
+            }
+
+            DataGridViewTextBoxCell textb = new DataGridViewTextBoxCell();
+            textb.Value = dt.Rows[i].ItemArray.GetValue(6).ToString().Trim();
+            row.Cells.Add(textb);
+
+            // 8,9,10,11,12,13,14
+            for (int index = 0; index < 6; index++)
+            {
+                DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                textboxcell.Value = "";
+                row.Cells.Add(textboxcell);
+            }
+            DataGridViewLinkCell linkcell = new DataGridViewLinkCell();
+            linkcell.Value = "查看";
+            linkcell.TrackVisitedState = true;
+            row.Cells.Add(linkcell);
+
+            if (datGridV.Rows.Count % 2 == 0)
+            {
+                row.DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                row.DefaultCellStyle.BackColor = Color.Lavender;
+            }
+            datGridV.Rows.Add(row);
+        }
         private void dataGridVewClear(DataGridView datGridV)
         {
             if (datGridV.Rows.Count > 1)
@@ -362,8 +411,13 @@ namespace jdWatch
                     if (null != dr.Cells[2].Value)
                     {
                         inputData.warePriceN.ProductSkuid = dr.Cells[2].Value.ToString().Trim();
-                        inputData.warePriceN.index += 1;
+                        if (null != dr.Cells[7].Value)
+                        {
+                            inputData.warePriceN.ProductWarnPrice = Convert.ToDouble( dr.Cells[7].Value.ToString().Trim());
+                        }
+                        inputData.warePriceN.index += i;
                     }
+                    
                     uiMain_list.Add(inputData);
                 }
             }
@@ -375,16 +429,14 @@ namespace jdWatch
             {
                 buttonUiMainWatchStart.Text = "停止";
                 textBoxUiMainWatchFrq.Enabled = false;
-                //UInt32 timeMs = Convert.ToUInt32(textBoxUiMainWatchFrq.Text) * 1000 * 60;
-                //if (timeMs < (5 * 1000 * 60))
-                //{
-                //    timeMs = 5 * 1000 * 60;
-                //}
-            //    timeMs = 1000;
+                myTimerInterval = 0;
                 uiMain_GetDataGridViewData();
-                // InitializeTimer(timeMs);
+                if (uiMain_list.Count <= 0)
+                {
+                    MessageBox.Show("请选择要获取的项目！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    return;
+                }
                 InitializeTimer();
-
             }
             else
             {
@@ -393,7 +445,6 @@ namespace jdWatch
                 myTimerInterval = 0;
                 textBoxUiMainWatchFrq.Enabled = true;
             }
-           
         }
 
         public void InitializeTimer(UInt32 timeMs)
@@ -408,8 +459,8 @@ namespace jdWatch
         public void InitializeTimer()
         {
             // 调用本方法开始用计算器          
-            myTimer.Interval = 60000;
-            myTimerInterval += myTimer.Interval;
+            myTimer.Interval = 1000;
+            myTimerInterval = 0;
             myTimer.Elapsed += new System.Timers.ElapsedEventHandler(timerTask);
             myTimer.AutoReset = true;//设置是执行一次（false）还是一直执行(true)；
             myTimer.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
@@ -424,12 +475,23 @@ namespace jdWatch
             {
                 timeMs = 5 * 1000 * 60;
             }
-            if (myTimerInterval >= timeMs)
+            if( myTimerInterval == 0 )
             {
-                myTimerInterval = 0;
-                uiMain_ThreadBuild();
-                
+                 myTimer.Enabled = false;
+                 myTimer.Interval = 60000;
+                 myTimer.Enabled = true;
+                 myTimerInterval += myTimer.Interval;
+                 uiMain_ThreadBuild();
             }
+            else
+            {
+                myTimerInterval += myTimer.Interval;
+                if (myTimerInterval >= timeMs )
+                {
+                     uiMain_ThreadBuild();
+                }
+            }
+           
            
         }
 
@@ -453,24 +515,49 @@ namespace jdWatch
         public void uiMain_ThreadGetdataGridViewWareInfor(object data)
         {
             WarePriceNode ListNode = data as WarePriceNode;
+            WarePriceNode wareNoe;
             ProductInfo wareInfor;
 
             //获取WEB数据
             SysParams.GatherModel = GatherType.Single;
            wareInfor = WareDealer.WareService.GetInstance().GetWareInfoByID(ListNode.warePriceN.ProductSkuid);
-
+           wareNoe = WareDealer.WareService.GetInstance().FatQGetBatchPrice(ListNode.warePriceN.ProductSkuid);
             if (null != wareInfor)
             {
-                //  ListNode.warePriceN.ProductPCPrice = 
-                //    ListNode.warePriceN.ProductAppPrice  =
-                //  ListNode.warePriceN.ProductWeiniPrice. =
-              //  ListNode.warePriceN.ProductStock
+                ListNode.warePriceN.ProductPCPrice      = wareNoe.warePriceN.ProductPCPrice;
+                ListNode.warePriceN.ProductAppPrice     = wareNoe.warePriceN.ProductAppPrice;
+                ListNode.warePriceN.ProductQQPrice      = wareNoe.warePriceN.ProductQQPrice;
+                ListNode.warePriceN.ProductWeiXinPrice  = wareNoe.warePriceN.ProductWeiXinPrice;
+
+                ListNode.warePriceN.ProductGetTime = wareInfor.CreateTime;
+
+                switch (wareInfor.ProductIsSaled)
+               {
+                   case -10:
+                       ListNode.warePriceN.ProductStock = "无效SKUID";
+                       break;
+                   case -1: ListNode.warePriceN.ProductStock = "下架";
+                       break;
+                   case 0: ListNode.warePriceN.ProductStock = "无货";
+                       break;
+                   case 1: ListNode.warePriceN.ProductStock = "有货";
+                       break;
+                   case 2: ListNode.warePriceN.ProductStock = "配货";
+                       break;
+                   case 3: ListNode.warePriceN.ProductStock = "预订";
+                       break;
+
+                   default:
+                       ListNode.warePriceN.ProductStock = "无库存信息";
+                       break;
+               }
 
             }
             else
             {
                 ListNode.warePriceN.ProductStock = "无效SKUID";
             }
+
             uiMain_listShow.Add(ListNode);
 
             if (uiMain_list.Count == uiMain_listShow.Count)
@@ -482,9 +569,101 @@ namespace jdWatch
 
         private void uiMain_listShowTask()
         {
-            MessageBox.Show("还没有完全获取");
+            bool bWarn = false;
+            bool bRet = false;
+         //   int countSuccessed = 0;
+         //   int countFailed = 0;
+            SqlCommit sqlconn = new SqlCommit();
+
+          //  MessageBox.Show("还没有完全获取");
+            for (int i = 0; i < uiMain_listShow.Count;i++ )
+            {
+                // 存在SQL
+                bRet = sqlconn.Sqlcommit_Insert(uiMain_listShow[i].warePriceN);
+                if(false == bRet )
+                {
+                    // MessageBox.Show("无此件数据的基本信息，请在录入后再操作！");
+                }
+                //检查报警
+                bWarn = uiMainWatchWarnCheck(uiMain_listShow[i].warePriceN);
+                // 8, PC
+                dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[8].Value = uiMain_listShow[i].warePriceN.ProductPCPrice.ToString();
+                // 9, APP价
+                dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[9].Value = uiMain_listShow[i].warePriceN.ProductAppPrice.ToString();
+                //10 , Q价
+                dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[10].Value = uiMain_listShow[i].warePriceN.ProductQQPrice.ToString();
+                // 11 ,WeiXin价
+                dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[11].Value = uiMain_listShow[i].warePriceN.ProductWeiXinPrice.ToString();
+                // 12,库存
+                dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[12].Value = uiMain_listShow[i].warePriceN.ProductStock.ToString();
+                //13，时间
+                dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[13].Value = uiMain_listShow[i].warePriceN.ProductGetTime.ToString();
+                //14,查看
+
+                //将指定商家无库存的归类到我的异常表
+                if (dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[1].Value.ToString().IndexOf("新松联") >=0 && 
+                    "无货" == uiMain_listShow[i].warePriceN.ProductStock.ToString())
+                {
+                    uiMainWatchDisplayDiffTable(dataGridViewUiMainMyWarn, dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index]);
+                }
+
+                //将报警的归类一个表
+                if (true == bWarn)
+                {
+                    uiMainWatchDisplayDiffTable(dataGridViewUiMainWarn, dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index]);
+                    //对报警的行字体显示红色
+                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[8].Style.ForeColor = Color.Red;
+                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[9].Style.ForeColor = Color.Red;
+                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[10].Style.ForeColor = Color.Red;
+                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[11].Style.ForeColor = Color.Red;
+                }
+            }
         }
 
+        private bool uiMainWatchWarnCheck(WarePrice wPrice)
+        {
+            bool bRet = false;
+
+            if (wPrice.ProductPCPrice < wPrice.ProductWarnPrice || wPrice.ProductAppPrice  < wPrice.ProductWarnPrice ||
+                wPrice.ProductQQPrice < wPrice.ProductWarnPrice || wPrice.ProductWeiXinPrice < wPrice.ProductWarnPrice)
+            {
+                bRet = true;
+            }
+
+            return bRet;
+        }
+
+        private void uiMainWatchDisplayDiffTable(DataGridView datGridV,DataGridViewRow row )
+        {
+            DataGridViewRow rowNew = new DataGridViewRow();
+            DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+            rowNew.Cells.Add(checkboxcell);
+
+            for (int i = 1; i < row.Cells.Count - 1; i++)
+            {
+                DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                textboxcell.Value = row.Cells[i].Value;
+                rowNew.Cells.Add(textboxcell);
+            }
+
+           DataGridViewLinkCell linkcell = new DataGridViewLinkCell();
+           linkcell.Value = "查看";
+           linkcell.TrackVisitedState = true;
+           rowNew.Cells.Add(linkcell);
+
+           if (datGridV.Rows.Count % 2 == 0)
+           {
+               rowNew.DefaultCellStyle.BackColor = Color.LightSteelBlue;
+           }
+           else
+           {
+               rowNew.DefaultCellStyle.BackColor = Color.Lavender;
+           }
+
+           datGridV.Rows.Add(rowNew);
+
+           
+        }
         private void comboBoxUiMainPName_DropDown(object sender, EventArgs e)
         {
             if (0 == comboBoxUiMainPName.Items.Count)

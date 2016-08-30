@@ -43,8 +43,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonUiModifyStart = new System.Windows.Forms.Button();
             this.webBrowserUiModify = new System.Windows.Forms.WebBrowser();
+            this.buttonUiModifyStart = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -178,15 +178,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "页面信息";
             // 
-            // buttonUiModifyStart
-            // 
-            this.buttonUiModifyStart.Location = new System.Drawing.Point(669, 85);
-            this.buttonUiModifyStart.Name = "buttonUiModifyStart";
-            this.buttonUiModifyStart.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiModifyStart.TabIndex = 15;
-            this.buttonUiModifyStart.Text = "开始";
-            this.buttonUiModifyStart.UseVisualStyleBackColor = true;
-            // 
             // webBrowserUiModify
             // 
             this.webBrowserUiModify.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -195,6 +186,15 @@
             this.webBrowserUiModify.Name = "webBrowserUiModify";
             this.webBrowserUiModify.Size = new System.Drawing.Size(849, 271);
             this.webBrowserUiModify.TabIndex = 0;
+            // 
+            // buttonUiModifyStart
+            // 
+            this.buttonUiModifyStart.Location = new System.Drawing.Point(669, 85);
+            this.buttonUiModifyStart.Name = "buttonUiModifyStart";
+            this.buttonUiModifyStart.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiModifyStart.TabIndex = 15;
+            this.buttonUiModifyStart.Text = "开始";
+            this.buttonUiModifyStart.UseVisualStyleBackColor = true;
             // 
             // textBox7
             // 
@@ -236,6 +236,7 @@
             this.Controls.Add(this.buttonUiModifyGoToWeb);
             this.Controls.Add(this.textBoxUiModifyWebAddr);
             this.Name = "uiModifyPrice";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "uiModifyPrice";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

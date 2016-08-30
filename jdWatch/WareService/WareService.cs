@@ -31,7 +31,7 @@ namespace WareDealer
         /// <returns></returns>
         public static WareService GetInstance()
         {
-            //return _wareService ?? (_wareService = new WareService());
+          //  return _wareService ?? (_wareService = new WareService());
             return ( new WareService());
         }
 
@@ -694,6 +694,44 @@ namespace WareDealer
         }
 
         /// <summary>
+        /// By FatQ 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private double BatchParse(string url)
+        {
+            double dRet = 0.0;
+            try
+            {
+                string price = HttpHelper.GetResponseGBK(url, "get", string.Empty);
+                if (string.IsNullOrEmpty(price) || price.IndexOf("error") >= 0)
+                {
+                    //获取价格失败则退出
+                    return 0.0;
+                }
+
+                //网页价格
+                List<JdWarePrice> jdPrices = JsonConvert.DeserializeObject<List<JdWarePrice>>(price);
+                if (jdPrices != null)
+                {
+                    foreach (var item in jdPrices)
+                    {
+                        string pid = item.id.IndexOf('J') >= 0 ? item.id.Replace("J_", "") : item.id;
+                        dRet =double.Parse(item.p);
+                        //strRet = item.p;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                OtCom.XLogErr(ex.Message);
+            }
+
+            return dRet;
+
+        }
+
+        /// <summary>
         /// 批量价格获取
         /// </summary>
         /// <param name="pids">商品编号集合</param>
@@ -756,6 +794,32 @@ namespace WareDealer
                     OtCom.XLogErr(ex.Message);
                 }
             }
+        }
+
+        public WarePriceNode FatQGetBatchPrice(string skuids )
+        {
+            WarePriceNode warePriceN = new WarePriceNode();
+            warePriceN.warePriceN = new WarePrice();
+
+            //网站价格获取
+            //string url = string.Format("https://p.3.cn/prices/mgets?type=1&skuIds=J_{0}", skuids);
+            string url = string.Format("http://pm.3.cn/prices/pcpmgets?skuids={0}&origin=2&source=1&area=1_2800_4134_0&_={1}", skuids, GetTimeStamp());
+            warePriceN.warePriceN.ProductPCPrice  = BatchParse(url);
+
+            //手机平台价格获取
+            url = string.Format("https://pm.3.cn/prices/mgets?origin=2&skuids={0}", skuids);
+            warePriceN.warePriceN.ProductAppPrice = BatchParse(url);
+
+            //QQ平台价格获取
+            url = string.Format("https://pe.3.cn/prices/mgets?origin=4&skuids={0}", skuids);
+            warePriceN.warePriceN.ProductQQPrice = BatchParse(url);
+
+            //微信平台价格获取
+            url = string.Format("https://pe.3.cn/prices/mgets?origin=5&skuids={0}", skuids);
+            warePriceN.warePriceN.ProductWeiXinPrice = BatchParse(url);
+
+            return warePriceN;
+
         }
 
         /// <summary>

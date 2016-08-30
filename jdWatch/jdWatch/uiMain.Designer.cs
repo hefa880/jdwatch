@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonUiMainWatch = new System.Windows.Forms.Button();
             this.buttonUiMainBaseInput = new System.Windows.Forms.Button();
             this.buttonUiMainModifyPrice = new System.Windows.Forms.Button();
@@ -49,6 +50,10 @@
             this.tabControlUiMainWatch = new System.Windows.Forms.TabControl();
             this.tabPageWatch = new System.Windows.Forms.TabPage();
             this.dataGridViewUiMainWatch = new System.Windows.Forms.DataGridView();
+            this.tabPageWarn = new System.Windows.Forms.TabPage();
+            this.dataGridViewUiMainWarn = new System.Windows.Forms.DataGridView();
+            this.tabPageMainMyWarn = new System.Windows.Forms.TabPage();
+            this.dataGridViewUiMainMyWarn = new System.Windows.Forms.DataGridView();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,8 +69,6 @@
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.tabPageWarn = new System.Windows.Forms.TabPage();
-            this.dataGridViewUiMainWarn = new System.Windows.Forms.DataGridView();
             this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -81,8 +84,6 @@
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewLinkColumn1 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.tabPageMainMyWarn = new System.Windows.Forms.TabPage();
-            this.dataGridViewUiMainMyWarn = new System.Windows.Forms.DataGridView();
             this.dataGridViewCheckBoxColumn3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -98,6 +99,11 @@
             this.dataGridViewTextBoxColumn30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewLinkColumn2 = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.notifyIconUiMainWatch = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripUiMainWatch = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxShow.SuspendLayout();
@@ -108,6 +114,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiMainWarn)).BeginInit();
             this.tabPageMainMyWarn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiMainMyWarn)).BeginInit();
+            this.contextMenuStripUiMainWatch.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonUiMainWatch
@@ -173,7 +180,7 @@
             this.groupBox1.Controls.Add(this.buttonUiMainHistory);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(966, 81);
+            this.groupBox1.Size = new System.Drawing.Size(917, 81);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "功能菜单";
@@ -257,7 +264,7 @@
             this.groupBoxShow.Controls.Add(this.tabControlUiMainWatch);
             this.groupBoxShow.Location = new System.Drawing.Point(12, 161);
             this.groupBoxShow.Name = "groupBoxShow";
-            this.groupBoxShow.Size = new System.Drawing.Size(966, 423);
+            this.groupBoxShow.Size = new System.Drawing.Size(1353, 423);
             this.groupBoxShow.TabIndex = 10;
             this.groupBoxShow.TabStop = false;
             this.groupBoxShow.Text = "监控";
@@ -307,7 +314,7 @@
             this.tabControlUiMainWatch.Location = new System.Drawing.Point(6, 20);
             this.tabControlUiMainWatch.Name = "tabControlUiMainWatch";
             this.tabControlUiMainWatch.SelectedIndex = 0;
-            this.tabControlUiMainWatch.Size = new System.Drawing.Size(950, 372);
+            this.tabControlUiMainWatch.Size = new System.Drawing.Size(1341, 372);
             this.tabControlUiMainWatch.TabIndex = 0;
             // 
             // tabPageWatch
@@ -316,7 +323,7 @@
             this.tabPageWatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageWatch.Name = "tabPageWatch";
             this.tabPageWatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWatch.Size = new System.Drawing.Size(942, 346);
+            this.tabPageWatch.Size = new System.Drawing.Size(1333, 346);
             this.tabPageWatch.TabIndex = 0;
             this.tabPageWatch.Text = "监控表";
             this.tabPageWatch.UseVisualStyleBackColor = true;
@@ -345,10 +352,90 @@
             this.dataGridViewUiMainWatch.Name = "dataGridViewUiMainWatch";
             this.dataGridViewUiMainWatch.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dataGridViewUiMainWatch.RowTemplate.Height = 23;
-            this.dataGridViewUiMainWatch.Size = new System.Drawing.Size(944, 346);
+            this.dataGridViewUiMainWatch.Size = new System.Drawing.Size(1333, 346);
             this.dataGridViewUiMainWatch.TabIndex = 11;
             this.dataGridViewUiMainWatch.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainWatch_RowsAdded);
             this.dataGridViewUiMainWatch.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainWatch_RowStateChanged);
+            // 
+            // tabPageWarn
+            // 
+            this.tabPageWarn.Controls.Add(this.dataGridViewUiMainWarn);
+            this.tabPageWarn.Location = new System.Drawing.Point(4, 22);
+            this.tabPageWarn.Name = "tabPageWarn";
+            this.tabPageWarn.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageWarn.Size = new System.Drawing.Size(1333, 346);
+            this.tabPageWarn.TabIndex = 1;
+            this.tabPageWarn.Text = "异常表";
+            this.tabPageWarn.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewUiMainWarn
+            // 
+            this.dataGridViewUiMainWarn.AllowUserToOrderColumns = true;
+            this.dataGridViewUiMainWarn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewUiMainWarn.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewCheckBoxColumn2,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9,
+            this.dataGridViewTextBoxColumn10,
+            this.dataGridViewTextBoxColumn11,
+            this.dataGridViewTextBoxColumn12,
+            this.dataGridViewTextBoxColumn13,
+            this.dataGridViewTextBoxColumn14,
+            this.dataGridViewTextBoxColumn15,
+            this.dataGridViewTextBoxColumn16,
+            this.dataGridViewTextBoxColumn17,
+            this.dataGridViewTextBoxColumn18,
+            this.dataGridViewLinkColumn1});
+            this.dataGridViewUiMainWarn.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewUiMainWarn.Name = "dataGridViewUiMainWarn";
+            this.dataGridViewUiMainWarn.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.dataGridViewUiMainWarn.RowTemplate.Height = 23;
+            this.dataGridViewUiMainWarn.Size = new System.Drawing.Size(1333, 346);
+            this.dataGridViewUiMainWarn.TabIndex = 12;
+            this.dataGridViewUiMainWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainWarn_RowsAdded);
+            this.dataGridViewUiMainWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainWarn_RowStateChanged);
+            // 
+            // tabPageMainMyWarn
+            // 
+            this.tabPageMainMyWarn.Controls.Add(this.dataGridViewUiMainMyWarn);
+            this.tabPageMainMyWarn.Location = new System.Drawing.Point(4, 22);
+            this.tabPageMainMyWarn.Name = "tabPageMainMyWarn";
+            this.tabPageMainMyWarn.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMainMyWarn.Size = new System.Drawing.Size(1333, 346);
+            this.tabPageMainMyWarn.TabIndex = 2;
+            this.tabPageMainMyWarn.Text = "我的异常表";
+            this.tabPageMainMyWarn.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewUiMainMyWarn
+            // 
+            this.dataGridViewUiMainMyWarn.AllowUserToOrderColumns = true;
+            this.dataGridViewUiMainMyWarn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewUiMainMyWarn.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewCheckBoxColumn3,
+            this.dataGridViewTextBoxColumn19,
+            this.dataGridViewTextBoxColumn20,
+            this.dataGridViewTextBoxColumn21,
+            this.dataGridViewTextBoxColumn22,
+            this.dataGridViewTextBoxColumn23,
+            this.dataGridViewTextBoxColumn24,
+            this.dataGridViewTextBoxColumn25,
+            this.dataGridViewTextBoxColumn26,
+            this.dataGridViewTextBoxColumn27,
+            this.dataGridViewTextBoxColumn28,
+            this.dataGridViewTextBoxColumn29,
+            this.dataGridViewTextBoxColumn30,
+            this.dataGridViewTextBoxColumn31,
+            this.dataGridViewLinkColumn2});
+            this.dataGridViewUiMainMyWarn.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewUiMainMyWarn.Name = "dataGridViewUiMainMyWarn";
+            this.dataGridViewUiMainMyWarn.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.dataGridViewUiMainMyWarn.RowTemplate.Height = 23;
+            this.dataGridViewUiMainMyWarn.Size = new System.Drawing.Size(1333, 346);
+            this.dataGridViewUiMainMyWarn.TabIndex = 13;
+            this.dataGridViewUiMainMyWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainMyWarn_RowsAdded);
+            this.dataGridViewUiMainMyWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainMyWarn_RowStateChanged);
             // 
             // dataGridViewCheckBoxColumn1
             // 
@@ -449,47 +536,10 @@
             // 
             this.Column1.HeaderText = "查看";
             this.Column1.Name = "Column1";
+            this.Column1.Text = "查看";
+            this.Column1.ToolTipText = "查看相应的网址";
+            this.Column1.UseColumnTextForLinkValue = true;
             this.Column1.Width = 50;
-            // 
-            // tabPageWarn
-            // 
-            this.tabPageWarn.Controls.Add(this.dataGridViewUiMainWarn);
-            this.tabPageWarn.Location = new System.Drawing.Point(4, 22);
-            this.tabPageWarn.Name = "tabPageWarn";
-            this.tabPageWarn.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWarn.Size = new System.Drawing.Size(942, 346);
-            this.tabPageWarn.TabIndex = 1;
-            this.tabPageWarn.Text = "异常表";
-            this.tabPageWarn.UseVisualStyleBackColor = true;
-            // 
-            // dataGridViewUiMainWarn
-            // 
-            this.dataGridViewUiMainWarn.AllowUserToOrderColumns = true;
-            this.dataGridViewUiMainWarn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewUiMainWarn.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewCheckBoxColumn2,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn12,
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14,
-            this.dataGridViewTextBoxColumn15,
-            this.dataGridViewTextBoxColumn16,
-            this.dataGridViewTextBoxColumn17,
-            this.dataGridViewTextBoxColumn18,
-            this.dataGridViewLinkColumn1});
-            this.dataGridViewUiMainWarn.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewUiMainWarn.Name = "dataGridViewUiMainWarn";
-            this.dataGridViewUiMainWarn.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            this.dataGridViewUiMainWarn.RowTemplate.Height = 23;
-            this.dataGridViewUiMainWarn.Size = new System.Drawing.Size(944, 346);
-            this.dataGridViewUiMainWarn.TabIndex = 12;
-            this.dataGridViewUiMainWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainWarn_RowsAdded);
-            this.dataGridViewUiMainWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainWarn_RowStateChanged);
             // 
             // dataGridViewCheckBoxColumn2
             // 
@@ -590,47 +640,10 @@
             // 
             this.dataGridViewLinkColumn1.HeaderText = "查看";
             this.dataGridViewLinkColumn1.Name = "dataGridViewLinkColumn1";
+            this.dataGridViewLinkColumn1.Text = "查看";
+            this.dataGridViewLinkColumn1.ToolTipText = "查看";
+            this.dataGridViewLinkColumn1.UseColumnTextForLinkValue = true;
             this.dataGridViewLinkColumn1.Width = 50;
-            // 
-            // tabPageMainMyWarn
-            // 
-            this.tabPageMainMyWarn.Controls.Add(this.dataGridViewUiMainMyWarn);
-            this.tabPageMainMyWarn.Location = new System.Drawing.Point(4, 22);
-            this.tabPageMainMyWarn.Name = "tabPageMainMyWarn";
-            this.tabPageMainMyWarn.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMainMyWarn.Size = new System.Drawing.Size(942, 346);
-            this.tabPageMainMyWarn.TabIndex = 2;
-            this.tabPageMainMyWarn.Text = "我的异常表";
-            this.tabPageMainMyWarn.UseVisualStyleBackColor = true;
-            // 
-            // dataGridViewUiMainMyWarn
-            // 
-            this.dataGridViewUiMainMyWarn.AllowUserToOrderColumns = true;
-            this.dataGridViewUiMainMyWarn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewUiMainMyWarn.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewCheckBoxColumn3,
-            this.dataGridViewTextBoxColumn19,
-            this.dataGridViewTextBoxColumn20,
-            this.dataGridViewTextBoxColumn21,
-            this.dataGridViewTextBoxColumn22,
-            this.dataGridViewTextBoxColumn23,
-            this.dataGridViewTextBoxColumn24,
-            this.dataGridViewTextBoxColumn25,
-            this.dataGridViewTextBoxColumn26,
-            this.dataGridViewTextBoxColumn27,
-            this.dataGridViewTextBoxColumn28,
-            this.dataGridViewTextBoxColumn29,
-            this.dataGridViewTextBoxColumn30,
-            this.dataGridViewTextBoxColumn31,
-            this.dataGridViewLinkColumn2});
-            this.dataGridViewUiMainMyWarn.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewUiMainMyWarn.Name = "dataGridViewUiMainMyWarn";
-            this.dataGridViewUiMainMyWarn.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            this.dataGridViewUiMainMyWarn.RowTemplate.Height = 23;
-            this.dataGridViewUiMainMyWarn.Size = new System.Drawing.Size(944, 346);
-            this.dataGridViewUiMainMyWarn.TabIndex = 13;
-            this.dataGridViewUiMainMyWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainMyWarn_RowsAdded);
-            this.dataGridViewUiMainMyWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainMyWarn_RowStateChanged);
             // 
             // dataGridViewCheckBoxColumn3
             // 
@@ -731,18 +744,55 @@
             // 
             this.dataGridViewLinkColumn2.HeaderText = "查看";
             this.dataGridViewLinkColumn2.Name = "dataGridViewLinkColumn2";
+            this.dataGridViewLinkColumn2.Text = "查看";
+            this.dataGridViewLinkColumn2.ToolTipText = "查看";
+            this.dataGridViewLinkColumn2.UseColumnTextForLinkValue = true;
             this.dataGridViewLinkColumn2.Width = 50;
+            // 
+            // notifyIconUiMainWatch
+            // 
+            this.notifyIconUiMainWatch.ContextMenuStrip = this.contextMenuStripUiMainWatch;
+            this.notifyIconUiMainWatch.Text = "notifyIconUiMainWatch";
+            this.notifyIconUiMainWatch.Visible = true;
+            // 
+            // contextMenuStripUiMainWatch
+            // 
+            this.contextMenuStripUiMainWatch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitMenuItem,
+            this.hideMenuItem,
+            this.showMenuItem});
+            this.contextMenuStripUiMainWatch.Name = "contextMenuStripUiMainWatch";
+            this.contextMenuStripUiMainWatch.Size = new System.Drawing.Size(101, 70);
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.exitMenuItem.Text = "退出";
+            // 
+            // hideMenuItem
+            // 
+            this.hideMenuItem.Name = "hideMenuItem";
+            this.hideMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.hideMenuItem.Text = "隐藏";
+            // 
+            // showMenuItem
+            // 
+            this.showMenuItem.Name = "showMenuItem";
+            this.showMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.showMenuItem.Text = "显示";
             // 
             // uiMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(986, 587);
+            this.ClientSize = new System.Drawing.Size(1371, 587);
             this.Controls.Add(this.groupBoxShow);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.Name = "uiMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "uiMain";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -756,6 +806,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiMainWarn)).EndInit();
             this.tabPageMainMyWarn.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiMainMyWarn)).EndInit();
+            this.contextMenuStripUiMainWatch.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -782,6 +833,11 @@
         private System.Windows.Forms.DataGridView dataGridViewUiMainWatch;
         private System.Windows.Forms.TabPage tabPageMainMyWarn;
         private System.Windows.Forms.Button buttonUiMainSelec;
+        private System.Windows.Forms.DataGridView dataGridViewUiMainWarn;
+        private System.Windows.Forms.DataGridView dataGridViewUiMainMyWarn;
+        private System.Windows.Forms.Button buttonUiMainWatchStart;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxUiMainWatchFrq;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
@@ -797,7 +853,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewLinkColumn Column1;
-        private System.Windows.Forms.DataGridView dataGridViewUiMainWarn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
@@ -813,7 +868,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
         private System.Windows.Forms.DataGridViewLinkColumn dataGridViewLinkColumn1;
-        private System.Windows.Forms.DataGridView dataGridViewUiMainMyWarn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
@@ -829,8 +883,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn30;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
         private System.Windows.Forms.DataGridViewLinkColumn dataGridViewLinkColumn2;
-        private System.Windows.Forms.Button buttonUiMainWatchStart;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxUiMainWatchFrq;
+        private System.Windows.Forms.NotifyIcon notifyIconUiMainWatch;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripUiMainWatch;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showMenuItem;
     }
 }

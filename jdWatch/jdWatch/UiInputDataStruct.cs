@@ -26,6 +26,5 @@ namespace UiInputDataStruct.Mode
     public class InputDataStruct
     {
         public CUiInputDataStruct data;
-        
     }
 }
