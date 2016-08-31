@@ -44,7 +44,7 @@ namespace Fatq.SqlCommit.Mode
             FatqConnection sqlconn = new FatqConnection();
             string sqlData = "insert into product_infor( product_name,  product_serial,  product_color,product_version,  product_skuid, product_seller,product_warn_price,produect_warn_drict) values ('" +
                 toValues.ProductName + "', '" + toValues.ProductSerial + "', '" + toValues.ProductColor + "', '" + 
-                toValues.ProductVersion + "','" + toValues.ProductSkuid + "','" + toValues.ProductSeller + "' ,'" + toValues.ProductWarnPrice + "'," + toValues.ProductWarnDriect+"')";
+                toValues.ProductVersion + "','" + toValues.ProductSkuid + "','" + toValues.ProductSeller + "' ,'" + toValues.ProductWarnPrice + "','" + toValues.ProductWarnDriect+"')";
 
             bRet = sqlconn.ConnSqQuery("product_infor", "product_skuid", toValues.ProductSkuid);
             if( true == bRet )

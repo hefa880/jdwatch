@@ -25,6 +25,7 @@ namespace jdWatch
         public uiInput     uiIputW;
         public uiHistory   uiHistoryW;
         public uiSys       uiSysW;
+        int opsShowList;      //指示下次执行到的脚标
         System.Timers.Timer myTimer = new System.Timers.Timer();
         Double  myTimerInterval;
         IList<WarePriceNode> uiMain_list = new List<WarePriceNode>();   //从表从获取到链表中
@@ -34,16 +35,23 @@ namespace jdWatch
         public uiMain()
         {
             InitializeComponent();
-            uiLoginW    = new uiLogin();
-            uiWatchW    = new uiWatch();
-            uiIputW     = new uiInput();
-            uiHistoryW  = new uiHistory();
-            uiSysW      = new uiSys();
-            //进入登录界面
-            uiLoginW.ShowDialog();
-            dataGridViewUiMainWatch.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
-            dataGridViewUiMainWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
-            dataGridViewUiMainMyWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+            try
+            {
+                uiLoginW = new uiLogin();
+                uiWatchW = new uiWatch();
+                uiIputW = new uiInput();
+                uiHistoryW = new uiHistory();
+                uiSysW = new uiSys();
+                //进入登录界面
+                uiLoginW.ShowDialog();
+                dataGridViewUiMainWatch.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+                dataGridViewUiMainWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+                dataGridViewUiMainMyWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("程序启动异常，请检查！");
+            }
 
         }
 
@@ -430,6 +438,7 @@ namespace jdWatch
                 buttonUiMainWatchStart.Text = "停止";
                 textBoxUiMainWatchFrq.Enabled = false;
                 myTimerInterval = 0;
+                opsShowList = 0;
                 uiMain_GetDataGridViewData();
                 if (uiMain_list.Count <= 0)
                 {
@@ -459,7 +468,7 @@ namespace jdWatch
         public void InitializeTimer()
         {
             // 调用本方法开始用计算器          
-            myTimer.Interval = 1000;
+            myTimer.Interval = 5000;
             myTimerInterval = 0;
             myTimer.Elapsed += new System.Timers.ElapsedEventHandler(timerTask);
             myTimer.AutoReset = true;//设置是执行一次（false）还是一直执行(true)；
@@ -476,11 +485,9 @@ namespace jdWatch
                 timeMs = 5 * 1000 * 60;
                 textBoxUiMainWatchFrq.Text = "5";
             }
+
             if ( myTimerInterval == 0 )
             {
-               //  myTimer.Enabled = false;
-                 myTimer.Interval = 10000;
-             //    myTimer.Enabled = true;
                  myTimerInterval += myTimer.Interval;
                  uiMain_ThreadBuild();
             }
@@ -492,19 +499,35 @@ namespace jdWatch
                      uiMain_ThreadBuild();
                 }
             }
-           
-           
         }
 
         private void uiMain_ThreadBuild()
         {
             Thread demoThread = null;
 
-            for (int i = 0; i < uiMain_list.Count; i++)
+            int maxRun = 0;
+            if (uiMain_list.Count < 50  )
+            {
+                maxRun = uiMain_list.Count;
+            }
+            else 
+            {
+                maxRun = 50;
+            }
+
+          //  int i =uiMain_list[0].opsShowList; 
+            for (; opsShowList < uiMain_list.Count; opsShowList++)
             {
                 demoThread = new Thread(new ParameterizedThreadStart(uiMain_ThreadGetdataGridViewWareInfor));
                 demoThread.IsBackground = true;
-                demoThread.Start(uiMain_list[i]);
+                uiMain_list[opsShowList].maxRun = maxRun;
+                demoThread.Start(uiMain_list[opsShowList]);
+
+                if (opsShowList % 50 == 0 && opsShowList > 0)
+                {
+                    myTimer.Enabled = false;
+                    break;
+                }
             }
 
         }
@@ -561,7 +584,7 @@ namespace jdWatch
 
             uiMain_listShow.Add(ListNode);
 
-            if (uiMain_list.Count == uiMain_listShow.Count)
+            if (ListNode.maxRun == uiMain_listShow.Count)
             {
                 uiMain_listShowTask();
             }
@@ -620,6 +643,8 @@ namespace jdWatch
                 }
             }
             uiMain_listShow.Clear();
+            myTimerInterval = 0;
+            InitializeTimer();
         }
 
         private bool uiMainWatchWarnCheck(WarePrice wPrice)
@@ -637,21 +662,48 @@ namespace jdWatch
 
         private void uiMainWatchDisplayDiffTable(DataGridView datGridV,DataGridViewRow row )
         {
+            bool bUpdateFlag = false;
+            int  index = 0;
             DataGridViewRow rowNew = new DataGridViewRow();
             DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
             rowNew.Cells.Add(checkboxcell);
+            ///找下有没有相同的数据，如果有，只更新，不添加
 
-            for (int i = 1; i < row.Cells.Count - 1; i++)
+            foreach (DataGridViewRow dr in datGridV.Rows)
             {
-                DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
-                textboxcell.Value = row.Cells[i].Value;
-                rowNew.Cells.Add(textboxcell);
+                index++;
+                if (null == dr.Cells[2].Value )
+                {
+                    bUpdateFlag = false;
+                    break;
+                }
+                if( dr.Cells[2].Value.ToString().Trim() == row.Cells[2].Value.ToString().Trim() )
+                {
+                    bUpdateFlag = true;
+                    break;
+                }
             }
 
-           DataGridViewLinkCell linkcell = new DataGridViewLinkCell();
-           linkcell.Value = "查看";
-           linkcell.TrackVisitedState = true;
-           rowNew.Cells.Add(linkcell);
+            if( false == bUpdateFlag )
+            {
+                for (int i = 1; i < row.Cells.Count - 1; i++)
+                {
+                    DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+                    textboxcell.Value = row.Cells[i].Value;
+                    rowNew.Cells.Add(textboxcell);
+                }
+
+                DataGridViewLinkCell linkcell = new DataGridViewLinkCell();
+                linkcell.Value = "查看";
+                linkcell.TrackVisitedState = true;
+                rowNew.Cells.Add(linkcell);
+            }
+            else
+            {
+                for (int i = 8; i < 14; i++  )
+                    datGridV.Rows[index].Cells[i].Value = row.Cells[i].Value;
+            }
+           
 
            if (datGridV.Rows.Count % 2 == 0)
            {

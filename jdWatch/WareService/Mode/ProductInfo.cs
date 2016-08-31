@@ -243,6 +243,8 @@ namespace WareDealer.Mode
     public class WarePriceNode
     {
         public WarePrice warePriceN;
+        public int maxRun; //一次最大可以运行的结点
+        public int opsShowList;      //指示下次执行到的脚标
     }
 
 }

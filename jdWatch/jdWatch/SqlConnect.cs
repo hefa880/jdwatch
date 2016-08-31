@@ -7,17 +7,18 @@ using System.Threading;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Data;
+using System.Configuration;
 
 namespace Fatq.ConncetSql.Mode
 {
     public class FatqConnection
     {
-        private static string connectionString =
-            "Server = localhost;" +
-            "Database = jdWatch;" +
-            "User ID = sa;" +
-            "Password = 123456;";
-
+        //private static string connectionString =
+        //    @"Server = .\XSL;" +
+        //    "Database = jdWatch;" +
+        //    "User ID = sa;" +
+        //    "Password = 123456;";
+        private static string connectionString = ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
         /// <summary>
         /// 连接数据库
         /// </summary>
