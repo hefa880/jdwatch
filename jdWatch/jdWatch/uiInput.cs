@@ -410,15 +410,14 @@ namespace jdWatch
 
             if (buttonUiInputEditSql.Text != "编辑数据库")
             {
-                this.Text = "录入";
-                buttonUiInputEditSql.Text = "编辑数据库";
-
                 dRet = MessageBox.Show("录入数据时会覆盖当前表中的内容，如果当前表中有数据，请点击保存后再进行编辑！！！\n是，进入录入模式\n否，放弃录入模式", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dRet == DialogResult.No)
                 {
                     return;
                     //MessageBox.Show("放弃编辑数据!");
                 }
+                this.Text = "录入";
+                buttonUiInputEditSql.Text = "编辑数据库";
 
                 if (dataGridViewUiIpnut.Rows.Count > 1)
                 {
@@ -517,6 +516,50 @@ namespace jdWatch
             {
                 dataGridViewUiIpnut.Rows[dataGridViewUiIpnut.Rows.Count-1].DefaultCellStyle.BackColor = Color.Lavender;
             }
+        }
+
+        private void buttonUiInputCreatebaseInfor_Click(object sender, EventArgs e)
+        {
+            DialogResult dRet = DialogResult.No;
+
+            dRet = MessageBox.Show("建模时会覆盖当前表中的内容，如果当前表中有数据，请点击保存后再进行编辑！！！\n是，进入建模模式\n否，放弃建模模式", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dRet == DialogResult.No)
+            {
+                return;
+                //MessageBox.Show("放弃编辑数据!");
+            }
+            this.Text = "建模";
+            buttonUiInputEditSql.Text = "编辑数据库";
+
+            if (dataGridViewUiIpnut.Rows.Count > 1)
+            {
+                for (int count = 0; count < dataGridViewUiIpnut.Rows.Count - 1; count++)
+                {
+                    dataGridViewUiIpnut.Rows.RemoveAt(count);
+                    count--;
+                }
+            }
+
+            DataGridViewRow row = new DataGridViewRow();
+            DataGridViewCheckBoxCell checkboxcell = new DataGridViewCheckBoxCell();
+            row.Cells.Add(checkboxcell);
+            int c;
+            for (int j = 0; j < 10; j++)
+            {
+                DataGridViewTextBoxCell textboxcell = new DataGridViewTextBoxCell();
+               
+                row.Cells.Add(textboxcell);
+            }
+
+            if (dataGridViewUiIpnut.Rows.Count % 2 == 0)
+            {
+                row.DefaultCellStyle.BackColor = Color.LightSteelBlue;
+            }
+            else
+            {
+                row.DefaultCellStyle.BackColor = Color.Lavender;
+            }
+            dataGridViewUiIpnut.Rows.Add(row);
         }
 
     }

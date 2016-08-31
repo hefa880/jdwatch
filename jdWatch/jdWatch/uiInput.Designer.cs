@@ -30,12 +30,6 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewUiIpnut = new System.Windows.Forms.DataGridView();
-            this.buttonUiInputSelect = new System.Windows.Forms.Button();
-            this.buttonUiInputGetWareInfor = new System.Windows.Forms.Button();
-            this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
-            this.buttonUiInputdel = new System.Windows.Forms.Button();
-            this.buttonUiInputEditSql = new System.Windows.Forms.Button();
-            this.textBoxUiInputCount = new System.Windows.Forms.TextBox();
             this.columnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnSeller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSkuid = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,6 +41,13 @@
             this.ColumnWarnPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWarnPriceDirect = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSaveState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonUiInputSelect = new System.Windows.Forms.Button();
+            this.buttonUiInputGetWareInfor = new System.Windows.Forms.Button();
+            this.buttonUiInputSaveToSql = new System.Windows.Forms.Button();
+            this.buttonUiInputdel = new System.Windows.Forms.Button();
+            this.buttonUiInputEditSql = new System.Windows.Forms.Button();
+            this.textBoxUiInputCount = new System.Windows.Forms.TextBox();
+            this.buttonUiInputCreatebaseInfor = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUiIpnut)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,64 +85,6 @@
             this.dataGridViewUiIpnut.TabIndex = 0;
             this.dataGridViewUiIpnut.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiIpnut_RowsAdded);
             this.dataGridViewUiIpnut.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiIpnut_RowStateChanged);
-            // 
-            // buttonUiInputSelect
-            // 
-            this.buttonUiInputSelect.Location = new System.Drawing.Point(37, 467);
-            this.buttonUiInputSelect.Name = "buttonUiInputSelect";
-            this.buttonUiInputSelect.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputSelect.TabIndex = 1;
-            this.buttonUiInputSelect.Text = "全选";
-            this.buttonUiInputSelect.UseVisualStyleBackColor = true;
-            this.buttonUiInputSelect.Click += new System.EventHandler(this.buttonUiInputSelect_Click);
-            // 
-            // buttonUiInputGetWareInfor
-            // 
-            this.buttonUiInputGetWareInfor.Location = new System.Drawing.Point(174, 467);
-            this.buttonUiInputGetWareInfor.Name = "buttonUiInputGetWareInfor";
-            this.buttonUiInputGetWareInfor.Size = new System.Drawing.Size(95, 23);
-            this.buttonUiInputGetWareInfor.TabIndex = 2;
-            this.buttonUiInputGetWareInfor.Text = "获取商品信息";
-            this.buttonUiInputGetWareInfor.UseVisualStyleBackColor = true;
-            this.buttonUiInputGetWareInfor.Click += new System.EventHandler(this.buttonUiInputGetWareInfor_Click);
-            // 
-            // buttonUiInputSaveToSql
-            // 
-            this.buttonUiInputSaveToSql.Location = new System.Drawing.Point(346, 467);
-            this.buttonUiInputSaveToSql.Name = "buttonUiInputSaveToSql";
-            this.buttonUiInputSaveToSql.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputSaveToSql.TabIndex = 3;
-            this.buttonUiInputSaveToSql.Text = "保存";
-            this.buttonUiInputSaveToSql.UseVisualStyleBackColor = true;
-            this.buttonUiInputSaveToSql.Click += new System.EventHandler(this.buttonUiInputSaveToSql_Click);
-            // 
-            // buttonUiInputdel
-            // 
-            this.buttonUiInputdel.Location = new System.Drawing.Point(480, 467);
-            this.buttonUiInputdel.Name = "buttonUiInputdel";
-            this.buttonUiInputdel.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputdel.TabIndex = 4;
-            this.buttonUiInputdel.Text = "删除";
-            this.buttonUiInputdel.UseVisualStyleBackColor = true;
-            this.buttonUiInputdel.Click += new System.EventHandler(this.buttonUiInputdel_Click);
-            // 
-            // buttonUiInputEditSql
-            // 
-            this.buttonUiInputEditSql.Location = new System.Drawing.Point(627, 467);
-            this.buttonUiInputEditSql.Name = "buttonUiInputEditSql";
-            this.buttonUiInputEditSql.Size = new System.Drawing.Size(75, 23);
-            this.buttonUiInputEditSql.TabIndex = 5;
-            this.buttonUiInputEditSql.Text = "编辑数据库";
-            this.buttonUiInputEditSql.UseVisualStyleBackColor = true;
-            this.buttonUiInputEditSql.Click += new System.EventHandler(this.buttonUiInputEditSql_Click);
-            // 
-            // textBoxUiInputCount
-            // 
-            this.textBoxUiInputCount.Location = new System.Drawing.Point(901, 467);
-            this.textBoxUiInputCount.Name = "textBoxUiInputCount";
-            this.textBoxUiInputCount.ReadOnly = true;
-            this.textBoxUiInputCount.Size = new System.Drawing.Size(142, 21);
-            this.textBoxUiInputCount.TabIndex = 6;
             // 
             // columnSelect
             // 
@@ -225,11 +168,80 @@
             this.ColumnSaveState.HeaderText = "状态";
             this.ColumnSaveState.Name = "ColumnSaveState";
             // 
+            // buttonUiInputSelect
+            // 
+            this.buttonUiInputSelect.Location = new System.Drawing.Point(37, 467);
+            this.buttonUiInputSelect.Name = "buttonUiInputSelect";
+            this.buttonUiInputSelect.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputSelect.TabIndex = 1;
+            this.buttonUiInputSelect.Text = "全选";
+            this.buttonUiInputSelect.UseVisualStyleBackColor = true;
+            this.buttonUiInputSelect.Click += new System.EventHandler(this.buttonUiInputSelect_Click);
+            // 
+            // buttonUiInputGetWareInfor
+            // 
+            this.buttonUiInputGetWareInfor.Location = new System.Drawing.Point(174, 467);
+            this.buttonUiInputGetWareInfor.Name = "buttonUiInputGetWareInfor";
+            this.buttonUiInputGetWareInfor.Size = new System.Drawing.Size(95, 23);
+            this.buttonUiInputGetWareInfor.TabIndex = 2;
+            this.buttonUiInputGetWareInfor.Text = "获取商品信息";
+            this.buttonUiInputGetWareInfor.UseVisualStyleBackColor = true;
+            this.buttonUiInputGetWareInfor.Click += new System.EventHandler(this.buttonUiInputGetWareInfor_Click);
+            // 
+            // buttonUiInputSaveToSql
+            // 
+            this.buttonUiInputSaveToSql.Location = new System.Drawing.Point(346, 467);
+            this.buttonUiInputSaveToSql.Name = "buttonUiInputSaveToSql";
+            this.buttonUiInputSaveToSql.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputSaveToSql.TabIndex = 3;
+            this.buttonUiInputSaveToSql.Text = "保存";
+            this.buttonUiInputSaveToSql.UseVisualStyleBackColor = true;
+            this.buttonUiInputSaveToSql.Click += new System.EventHandler(this.buttonUiInputSaveToSql_Click);
+            // 
+            // buttonUiInputdel
+            // 
+            this.buttonUiInputdel.Location = new System.Drawing.Point(480, 467);
+            this.buttonUiInputdel.Name = "buttonUiInputdel";
+            this.buttonUiInputdel.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputdel.TabIndex = 4;
+            this.buttonUiInputdel.Text = "删除";
+            this.buttonUiInputdel.UseVisualStyleBackColor = true;
+            this.buttonUiInputdel.Click += new System.EventHandler(this.buttonUiInputdel_Click);
+            // 
+            // buttonUiInputEditSql
+            // 
+            this.buttonUiInputEditSql.Location = new System.Drawing.Point(627, 467);
+            this.buttonUiInputEditSql.Name = "buttonUiInputEditSql";
+            this.buttonUiInputEditSql.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputEditSql.TabIndex = 5;
+            this.buttonUiInputEditSql.Text = "编辑数据库";
+            this.buttonUiInputEditSql.UseVisualStyleBackColor = true;
+            this.buttonUiInputEditSql.Click += new System.EventHandler(this.buttonUiInputEditSql_Click);
+            // 
+            // textBoxUiInputCount
+            // 
+            this.textBoxUiInputCount.Location = new System.Drawing.Point(901, 467);
+            this.textBoxUiInputCount.Name = "textBoxUiInputCount";
+            this.textBoxUiInputCount.ReadOnly = true;
+            this.textBoxUiInputCount.Size = new System.Drawing.Size(142, 21);
+            this.textBoxUiInputCount.TabIndex = 6;
+            // 
+            // buttonUiInputCreatebaseInfor
+            // 
+            this.buttonUiInputCreatebaseInfor.Location = new System.Drawing.Point(759, 464);
+            this.buttonUiInputCreatebaseInfor.Name = "buttonUiInputCreatebaseInfor";
+            this.buttonUiInputCreatebaseInfor.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiInputCreatebaseInfor.TabIndex = 7;
+            this.buttonUiInputCreatebaseInfor.Text = "基本信息建模";
+            this.buttonUiInputCreatebaseInfor.UseVisualStyleBackColor = true;
+            this.buttonUiInputCreatebaseInfor.Click += new System.EventHandler(this.buttonUiInputCreatebaseInfor_Click);
+            // 
             // uiInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1451, 494);
+            this.Controls.Add(this.buttonUiInputCreatebaseInfor);
             this.Controls.Add(this.textBoxUiInputCount);
             this.Controls.Add(this.buttonUiInputEditSql);
             this.Controls.Add(this.buttonUiInputdel);
@@ -266,5 +278,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWarnPriceDirect;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSaveState;
+        private System.Windows.Forms.Button buttonUiInputCreatebaseInfor;
     }
 }
