@@ -474,12 +474,13 @@ namespace jdWatch
             if (timeMs < (5 * 1000 * 60))
             {
                 timeMs = 5 * 1000 * 60;
+                textBoxUiMainWatchFrq.Text = "5";
             }
-            if( myTimerInterval == 0 )
+            if ( myTimerInterval == 0 )
             {
-                 myTimer.Enabled = false;
-                 myTimer.Interval = 60000;
-                 myTimer.Enabled = true;
+               //  myTimer.Enabled = false;
+                 myTimer.Interval = 10000;
+             //    myTimer.Enabled = true;
                  myTimerInterval += myTimer.Interval;
                  uiMain_ThreadBuild();
             }
@@ -618,6 +619,7 @@ namespace jdWatch
                     dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[11].Style.ForeColor = Color.Red;
                 }
             }
+            uiMain_listShow.Clear();
         }
 
         private bool uiMainWatchWarnCheck(WarePrice wPrice)

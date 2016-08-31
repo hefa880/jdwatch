@@ -83,6 +83,14 @@ namespace jdWatch
                         }
                     }
                 }
+                if (dataGridViewUiWatch.Rows.Count % 2 == 0)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightSteelBlue;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.Lavender;
+                }
                 dataGridViewUiWatch.Rows.Add(row);
             }
         }
