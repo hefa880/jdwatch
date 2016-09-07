@@ -67,17 +67,20 @@ namespace Fatq.ConncetSql.Mode
             {
                 sqlBulkCopy.DestinationTableName = DestinationTableName;
                 sqlBulkCopy.BatchSize = dt.Rows.Count;
-                //SqlConnection sqlConnection = new SqlConnection(connectionString);
-                //sqlConnection.Open();
+                sqlBulkCopy.ColumnMappings.Add("id", "id");
+                sqlBulkCopy.ColumnMappings.Add("test", "test");
+                sqlBulkCopy.ColumnMappings.Add("test2", "test2");
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
                 if (dt != null && dt.Rows.Count != 0)
                 {
                     sqlBulkCopy.WriteToServer(dt);
                 }
                 sqlBulkCopy.Close();
-              //  sqlConnection.Close();
+                sqlConnection.Close();
             }
-         //   catch
+           // catch
             {
                 return false;
             }

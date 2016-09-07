@@ -64,8 +64,8 @@ namespace jdWatch
 
         private void buttonUiMainWatch_Click(object sender, EventArgs e)
         {
-            uiWatchW.sndWarnListToUiMain += uiWatchW_sndWarnListToUiMain;
-            uiWatchW.ShowDialog();
+            //uiWatchW.sndWarnListToUiMain += uiWatchW_sndWarnListToUiMain;
+            //uiWatchW.ShowDialog();
             
         }
 
@@ -468,9 +468,12 @@ namespace jdWatch
 
             
         }
-
+        Thread demoThread = null;
         private void uiMain_watchTask()
         {
+            SqlCommit sqlconn = new SqlCommit();
+            uiMain_list.Clear();
+            uiMain_listShow.Clear();
             //获取数据监控数据表
             for(int j = 0;j<5;j++)
             {
@@ -481,8 +484,6 @@ namespace jdWatch
             }
             
             //开启线程
-            Thread demoThread = null;
-
             for (int i = 0; i < uiMain_list.Count; i++)
             {
                 demoThread = new Thread(new ParameterizedThreadStart(uiMain_ThreadGetWareInfor));
@@ -576,16 +577,18 @@ namespace jdWatch
                 dt.Columns.Add("product_get_time", Type.GetType("System.DateTime"));
                 dt.Columns.Add("product_url", Type.GetType("System.String"));
 
-                dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
-                dt_state.Columns.Add("SKU", Type.GetType("System.String"));
-                dt_state.Columns.Add("Status", Type.GetType("System.Byte"));
+              ////  dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
+              //  dt_state.Columns.Add("SKU", Type.GetType("System.String"));
+              //  dt_state.Columns.Add("Status", Type.GetType("System.String"));
+                dt_state.Columns.Add("id", Type.GetType("System.Guid"));
+               dt_state.Columns.Add("test", Type.GetType("System.String"));
+               dt_state.Columns.Add("test2", Type.GetType("System.Byte"));
                 
 
                 ///将数据写入SQL
                 for (int i =0;i < uiMain_list.Count;i++)
                 {
-                    DataRow newRow;
-                    newRow = dt.NewRow();
+                    DataRow newRow = dt.NewRow();
                     newRow[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
                     newRow[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
                     newRow[2] = uiMain_listShow[i].warePriceN.ProductWarnPrice;
@@ -597,9 +600,11 @@ namespace jdWatch
                     newRow[8] = uiMain_listShow[i].warePriceN.ProductGetTime;
                     dt.Rows.Add(newRow);
 
-                    DataRow newRow_state;
-                    newRow_state = dt_state.NewRow();
+                    DataRow newRow_state = dt_state.NewRow();
+
                     newRow_state[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
+                    //newRow_state[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
+                    //newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
                     newRow_state[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
                     newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
                     dt_state.Rows.Add(newRow_state);
@@ -607,10 +612,15 @@ namespace jdWatch
                 }
                 SqlCommit sqlconn = new SqlCommit();
 
-                sqlconn.Sqlcommit_InsertAll("product_infor", dt);
-                sqlconn.Sqlcommit_InsertAll("product_status", dt);
-
-
+             //   sqlconn.Sqlcommit_InsertAll("product_infor2", dt);
+                sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
+                uiMain_listShow.Clear();
+            }
+            else
+            {
+                //注意处理线程,此处应该结束
+                //demoThread.DisableComObjectEagerCleanup();
+               //demoThread.Abort();
             }
         }
 

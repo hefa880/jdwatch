@@ -54,6 +54,11 @@
             this.dataGridViewUiMainWarn = new System.Windows.Forms.DataGridView();
             this.tabPageMainMyWarn = new System.Windows.Forms.TabPage();
             this.dataGridViewUiMainMyWarn = new System.Windows.Forms.DataGridView();
+            this.notifyIconUiMainWatch = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripUiMainWatch = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -99,11 +104,6 @@
             this.dataGridViewTextBoxColumn30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn31 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewLinkColumn2 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.notifyIconUiMainWatch = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStripUiMainWatch = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxShow.SuspendLayout();
@@ -304,6 +304,7 @@
             this.buttonUiMainSelec.TabIndex = 1;
             this.buttonUiMainSelec.Text = "全选";
             this.buttonUiMainSelec.UseVisualStyleBackColor = true;
+            this.buttonUiMainSelec.Visible = false;
             this.buttonUiMainSelec.Click += new System.EventHandler(this.buttonUiMainSelec_Click);
             // 
             // tabControlUiMainWatch
@@ -437,10 +438,44 @@
             this.dataGridViewUiMainMyWarn.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainMyWarn_RowsAdded);
             this.dataGridViewUiMainMyWarn.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainMyWarn_RowStateChanged);
             // 
+            // notifyIconUiMainWatch
+            // 
+            this.notifyIconUiMainWatch.ContextMenuStrip = this.contextMenuStripUiMainWatch;
+            this.notifyIconUiMainWatch.Text = "notifyIconUiMainWatch";
+            this.notifyIconUiMainWatch.Visible = true;
+            // 
+            // contextMenuStripUiMainWatch
+            // 
+            this.contextMenuStripUiMainWatch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitMenuItem,
+            this.hideMenuItem,
+            this.showMenuItem});
+            this.contextMenuStripUiMainWatch.Name = "contextMenuStripUiMainWatch";
+            this.contextMenuStripUiMainWatch.Size = new System.Drawing.Size(101, 70);
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.exitMenuItem.Text = "退出";
+            // 
+            // hideMenuItem
+            // 
+            this.hideMenuItem.Name = "hideMenuItem";
+            this.hideMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.hideMenuItem.Text = "隐藏";
+            // 
+            // showMenuItem
+            // 
+            this.showMenuItem.Name = "showMenuItem";
+            this.showMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.showMenuItem.Text = "显示";
+            // 
             // dataGridViewCheckBoxColumn1
             // 
             this.dataGridViewCheckBoxColumn1.HeaderText = "选择";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Visible = false;
             this.dataGridViewCheckBoxColumn1.Width = 50;
             // 
             // Column11
@@ -545,6 +580,7 @@
             // 
             this.dataGridViewCheckBoxColumn2.HeaderText = "选择";
             this.dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
+            this.dataGridViewCheckBoxColumn2.Visible = false;
             this.dataGridViewCheckBoxColumn2.Width = 50;
             // 
             // dataGridViewTextBoxColumn6
@@ -649,6 +685,7 @@
             // 
             this.dataGridViewCheckBoxColumn3.HeaderText = "选择";
             this.dataGridViewCheckBoxColumn3.Name = "dataGridViewCheckBoxColumn3";
+            this.dataGridViewCheckBoxColumn3.Visible = false;
             this.dataGridViewCheckBoxColumn3.Width = 50;
             // 
             // dataGridViewTextBoxColumn19
@@ -749,39 +786,6 @@
             this.dataGridViewLinkColumn2.UseColumnTextForLinkValue = true;
             this.dataGridViewLinkColumn2.Width = 50;
             // 
-            // notifyIconUiMainWatch
-            // 
-            this.notifyIconUiMainWatch.ContextMenuStrip = this.contextMenuStripUiMainWatch;
-            this.notifyIconUiMainWatch.Text = "notifyIconUiMainWatch";
-            this.notifyIconUiMainWatch.Visible = true;
-            // 
-            // contextMenuStripUiMainWatch
-            // 
-            this.contextMenuStripUiMainWatch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitMenuItem,
-            this.hideMenuItem,
-            this.showMenuItem});
-            this.contextMenuStripUiMainWatch.Name = "contextMenuStripUiMainWatch";
-            this.contextMenuStripUiMainWatch.Size = new System.Drawing.Size(101, 70);
-            // 
-            // exitMenuItem
-            // 
-            this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.exitMenuItem.Text = "退出";
-            // 
-            // hideMenuItem
-            // 
-            this.hideMenuItem.Name = "hideMenuItem";
-            this.hideMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.hideMenuItem.Text = "隐藏";
-            // 
-            // showMenuItem
-            // 
-            this.showMenuItem.Name = "showMenuItem";
-            this.showMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.showMenuItem.Text = "显示";
-            // 
             // uiMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -838,6 +842,11 @@
         private System.Windows.Forms.Button buttonUiMainWatchStart;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxUiMainWatchFrq;
+        private System.Windows.Forms.NotifyIcon notifyIconUiMainWatch;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripUiMainWatch;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showMenuItem;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
@@ -883,10 +892,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn30;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
         private System.Windows.Forms.DataGridViewLinkColumn dataGridViewLinkColumn2;
-        private System.Windows.Forms.NotifyIcon notifyIconUiMainWatch;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripUiMainWatch;
-        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showMenuItem;
     }
 }
