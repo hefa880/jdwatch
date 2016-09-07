@@ -227,6 +227,7 @@ namespace WareDealer.Mode
     public class WarePrice
     {
         public string ProductSkuid;
+        public string ProductSeller;
         public double ProductWarnPrice;//控价  8;
         public double ProductPCPrice;//  8;
         public double ProductAppPrice;// 8;
@@ -236,6 +237,7 @@ namespace WareDealer.Mode
         public string ProductStock;//库存
         public DateTime ProductGetTime;
         public string Warndirect; //  高于，低于，等于， 
+        public int WarnTablFlag; // 0：正在监控 1：异常数据 2：我的异常数据
 
         public int index;   /// 记录行号，下次更新时直接使用选号做对应的更新
     }

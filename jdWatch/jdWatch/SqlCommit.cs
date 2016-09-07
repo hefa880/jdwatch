@@ -142,6 +142,20 @@ namespace Fatq.SqlCommit.Mode
             }
             return bRet;
         }
+
+        public bool Sqlcommit_InsertAll(string tbl,DataTable dt)
+        {
+            bool bRet = false;
+            //if("product_infor" != tbl )
+            //{
+            //    tbl = "product_status";
+            //}
+
+            FatqConnection sqlconn = new FatqConnection();
+            bRet = sqlconn.ConnSqlInsert(tbl,dt);
+
+            return bRet;
+        }
         public bool Sqlcommit_Update(string  toValues)
         {
             bool bRet = false;

@@ -430,13 +430,14 @@ namespace jdWatch
                 buttonUiMainWatchStart.Text = "停止";
                 textBoxUiMainWatchFrq.Enabled = false;
                 myTimerInterval = 0;
-                uiMain_GetDataGridViewData();
-                if (uiMain_list.Count <= 0)
-                {
-                    MessageBox.Show("请选择要获取的项目！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    return;
-                }
-                InitializeTimer();
+                //uiMain_GetDataGridViewData();
+                //if (uiMain_list.Count <= 0)
+                //{
+                //    MessageBox.Show("请选择要获取的项目！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                //    return;
+                //}
+                //InitializeTimer();
+                uiMain_watchTask();
             }
             else
             {
@@ -466,6 +467,151 @@ namespace jdWatch
             myTimer.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
 
             
+        }
+
+        private void uiMain_watchTask()
+        {
+            //获取数据监控数据表
+            for(int j = 0;j<5;j++)
+            {
+                WarePriceNode inputData = new WarePriceNode();
+                inputData.warePriceN = new WarePrice();
+                inputData.warePriceN.ProductSkuid = "3466744";
+                uiMain_list.Add(inputData);
+            }
+            
+            //开启线程
+            Thread demoThread = null;
+
+            for (int i = 0; i < uiMain_list.Count; i++)
+            {
+                demoThread = new Thread(new ParameterizedThreadStart(uiMain_ThreadGetWareInfor));
+                demoThread.IsBackground = true;
+                demoThread.Start(uiMain_list[i]);
+            }
+        }
+
+        public void uiMain_ThreadGetWareInfor(object data)
+        {
+            WarePriceNode ListNode = data as WarePriceNode;
+            WarePriceNode wareNoe;
+            ProductInfo wareInfor;
+
+            //获取WEB数据
+            SysParams.GatherModel = GatherType.Single;
+            wareInfor = WareDealer.WareService.GetInstance().GetWareInfoByID(ListNode.warePriceN.ProductSkuid);
+            wareNoe = WareDealer.WareService.GetInstance().FatQGetBatchPrice(ListNode.warePriceN.ProductSkuid);
+            if (null != wareInfor)
+            {
+                ListNode.warePriceN.ProductPCPrice = wareNoe.warePriceN.ProductPCPrice;
+                ListNode.warePriceN.ProductAppPrice = wareNoe.warePriceN.ProductAppPrice;
+                ListNode.warePriceN.ProductQQPrice = wareNoe.warePriceN.ProductQQPrice;
+                ListNode.warePriceN.ProductWeiXinPrice = wareNoe.warePriceN.ProductWeiXinPrice;
+                ListNode.warePriceN.ProductSeller = wareInfor.ProductBrand;
+                ListNode.warePriceN.ProductGetTime = wareInfor.CreateTime;
+
+                switch (wareInfor.ProductIsSaled)
+                {
+                    case -10:
+                        ListNode.warePriceN.ProductStock = "无效SKUID";
+                        break;
+                    case -1:
+                        ListNode.warePriceN.ProductStock = "下架";
+                        break;
+                    case 0:
+                        ListNode.warePriceN.ProductStock = "无货";
+                        break;
+                    case 1:
+                        ListNode.warePriceN.ProductStock = "有货";
+                        break;
+                    case 2:
+                        ListNode.warePriceN.ProductStock = "配货";
+                        break;
+                    case 3:
+                        ListNode.warePriceN.ProductStock = "预订";
+                        break;
+
+                    default:
+                        ListNode.warePriceN.ProductStock = "无库存信息";
+                        break;
+                }
+
+                bool bWarn = uiMainWatchWarnCheck(ListNode.warePriceN);
+                //将报警的归类一个表
+                if (true == bWarn)
+                {
+                    ListNode.warePriceN.WarnTablFlag = 1;
+                }
+                else if (ListNode.warePriceN.ProductSeller.ToString().IndexOf("新松联") >= 0 &&
+                    "无货" == ListNode.warePriceN.ProductStock.ToString())
+                {
+                    //将数据打上异常标志
+                    ListNode.warePriceN.WarnTablFlag = 2;
+                }
+                else
+                {
+                    ListNode.warePriceN.WarnTablFlag = 0;
+                }
+            }
+            else
+            {
+                ListNode.warePriceN.ProductStock = "无效SKUID";
+            }
+
+            uiMain_listShow.Add(ListNode);
+
+            if (uiMain_list.Count == uiMain_listShow.Count)
+            {
+                DataTable dt = new DataTable();
+                DataTable dt_state = new DataTable();
+
+                dt.Columns.Add("product_id", Type.GetType("System.Guid"));
+                dt.Columns.Add("product_skuid", Type.GetType("System.String"));
+                dt.Columns.Add("product_warn_price", Type.GetType("System.Decimal"));
+                dt.Columns.Add("product_jd_price", Type.GetType("System.Decimal"));
+                dt.Columns.Add("product_app_price", Type.GetType("System.Decimal"));
+                dt.Columns.Add("product_weixin_price", Type.GetType("System.Decimal"));
+                dt.Columns.Add("product_qq_price", Type.GetType("System.Decimal"));
+                dt.Columns.Add("product_stock", Type.GetType("System.String"));
+                dt.Columns.Add("product_get_time", Type.GetType("System.DateTime"));
+                dt.Columns.Add("product_url", Type.GetType("System.String"));
+
+                dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
+                dt_state.Columns.Add("SKU", Type.GetType("System.String"));
+                dt_state.Columns.Add("Status", Type.GetType("System.Byte"));
+                
+
+                ///将数据写入SQL
+                for (int i =0;i < uiMain_list.Count;i++)
+                {
+                    DataRow newRow;
+                    newRow = dt.NewRow();
+                    newRow[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
+                    newRow[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
+                    newRow[2] = uiMain_listShow[i].warePriceN.ProductWarnPrice;
+                    newRow[3] = uiMain_listShow[i].warePriceN.ProductPCPrice;
+                    newRow[4] = uiMain_listShow[i].warePriceN.ProductAppPrice;
+                    newRow[5] = uiMain_listShow[i].warePriceN.ProductWeiXinPrice;
+                    newRow[6] = uiMain_listShow[i].warePriceN.ProductQQPrice;
+                    newRow[7] = uiMain_listShow[i].warePriceN.ProductStock;
+                    newRow[8] = uiMain_listShow[i].warePriceN.ProductGetTime;
+                    dt.Rows.Add(newRow);
+
+                    DataRow newRow_state;
+                    newRow_state = dt_state.NewRow();
+                    newRow_state[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
+                    newRow_state[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
+                    newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
+                    dt_state.Rows.Add(newRow_state);
+
+                }
+                SqlCommit sqlconn = new SqlCommit();
+
+                sqlconn.Sqlcommit_InsertAll("product_infor", dt);
+                sqlconn.Sqlcommit_InsertAll("product_status", dt);
+
+
+            }
         }
 
         public void timerTask(object source, System.Timers.ElapsedEventArgs e)
@@ -529,7 +675,7 @@ namespace jdWatch
                 ListNode.warePriceN.ProductAppPrice     = wareNoe.warePriceN.ProductAppPrice;
                 ListNode.warePriceN.ProductQQPrice      = wareNoe.warePriceN.ProductQQPrice;
                 ListNode.warePriceN.ProductWeiXinPrice  = wareNoe.warePriceN.ProductWeiXinPrice;
-
+                ListNode.warePriceN.ProductSeller       = wareInfor.ProductBrand;
                 ListNode.warePriceN.ProductGetTime = wareInfor.CreateTime;
 
                 switch (wareInfor.ProductIsSaled)
@@ -602,21 +748,25 @@ namespace jdWatch
                 //14,查看
 
                 //将指定商家无库存的归类到我的异常表
-                if (dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[1].Value.ToString().IndexOf("新松联") >=0 && 
+                //if (dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[1].Value.ToString().IndexOf("新松联") >=0 && 
+                if (uiMain_listShow[i].warePriceN.ProductSeller.ToString().IndexOf("新松联") >= 0 &&
                     "无货" == uiMain_listShow[i].warePriceN.ProductStock.ToString())
                 {
-                    uiMainWatchDisplayDiffTable(dataGridViewUiMainMyWarn, dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index]);
+                  //  uiMainWatchDisplayDiffTable(dataGridViewUiMainMyWarn, dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index]);
+                  //将数据打上异常标志
                 }
 
                 //将报警的归类一个表
                 if (true == bWarn)
                 {
-                    uiMainWatchDisplayDiffTable(dataGridViewUiMainWarn, dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index]);
-                    //对报警的行字体显示红色
-                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[8].Style.ForeColor = Color.Red;
-                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[9].Style.ForeColor = Color.Red;
-                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[10].Style.ForeColor = Color.Red;
-                    dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[11].Style.ForeColor = Color.Red;
+                    //uiMainWatchDisplayDiffTable(dataGridViewUiMainWarn, dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index]);
+                    ////对报警的行字体显示红色
+                    //dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[8].Style.ForeColor = Color.Red;
+                    //dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[9].Style.ForeColor = Color.Red;
+                    //dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[10].Style.ForeColor = Color.Red;
+                    //dataGridViewUiMainWatch.Rows[uiMain_listShow[i].warePriceN.index].Cells[11].Style.ForeColor = Color.Red;
+
+                    //将数据打上异常标志
                 }
             }
             uiMain_listShow.Clear();

@@ -45,6 +45,46 @@ namespace Fatq.ConncetSql.Mode
             return n > 0 ? true:false;
         }
 
+
+        /// <summary>
+        /// 批量插入数据
+        /// </summary>
+        /// <param name="DestinationTableName"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public bool ConnSqlInsert(string DestinationTableName, DataTable dt)
+        {
+            //int n = -1;
+            //SqlConnection sqlconn = ConnectionOpen();
+            //SqlCommand cmd = new SqlCommand(sqlData, sqlconn);
+            //// cmd.ExecuteReader();
+            //n = cmd.ExecuteNonQuery();//执行返回插入的行数
+            //sqlconn.Close();
+            //return n > 0 ? true:false;
+
+            SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(connectionString);
+           // try
+            {
+                sqlBulkCopy.DestinationTableName = DestinationTableName;
+                sqlBulkCopy.BatchSize = dt.Rows.Count;
+                //SqlConnection sqlConnection = new SqlConnection(connectionString);
+                //sqlConnection.Open();
+
+                if (dt != null && dt.Rows.Count != 0)
+                {
+                    sqlBulkCopy.WriteToServer(dt);
+                }
+                sqlBulkCopy.Close();
+              //  sqlConnection.Close();
+            }
+         //   catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// 更新数据库,成功true,
         /// </summary>

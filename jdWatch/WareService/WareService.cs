@@ -262,14 +262,14 @@ namespace WareDealer
         {
             try
             {
-                //获取图片
-                string sRegexReturn = GetImgPath(_myProduct.NativeData);
-                if (!string.IsNullOrEmpty(sRegexReturn))
-                {
-                    _myProduct.ProductImagePath = sRegexReturn;
-                    _myProduct.ProductImageWebPath = sRegexReturn;
-                    _myProduct.ProductImage = GetRemoteImage(sRegexReturn);
-                }
+                ////获取图片
+                //string sRegexReturn = GetImgPath(_myProduct.NativeData);
+                //if (!string.IsNullOrEmpty(sRegexReturn))
+                //{
+                //    _myProduct.ProductImagePath = sRegexReturn;
+                //    _myProduct.ProductImageWebPath = sRegexReturn;
+                //    _myProduct.ProductImage = GetRemoteImage(sRegexReturn);
+                //}
 
                 _myProduct.ProductPriceTrend = "持平";
                 _myProduct.ProductPriceType = "京东";
@@ -281,12 +281,12 @@ namespace WareDealer
                     //商品价格
                     _myProduct.ProductPrice = GetWarePriceByID(_myProduct.ProductID);
                     _myProduct.ProductBasePrice = _myProduct.ProductPrice;
-                    //获取评价统计信息
-                    GetWareEvaluate(_myProduct.ProductID);
-                    //商品评价详细信息
-                    GetEvaluateMsg(_myProduct.ProductID, false);
-                    //获取促销信息
-                    GetWarePromotion(_myProduct.ProductID, _myProduct.VenderId, _myProduct.ShopId, SysParams.DispathArea, _myProduct.Catalog);
+                    ////获取评价统计信息
+                    //GetWareEvaluate(_myProduct.ProductID);
+                    ////商品评价详细信息
+                    //GetEvaluateMsg(_myProduct.ProductID, false);
+                    ////获取促销信息
+                    //GetWarePromotion(_myProduct.ProductID, _myProduct.VenderId, _myProduct.ShopId, SysParams.DispathArea, _myProduct.Catalog);
                 }
 
                 _myProduct.CreateTime = DateTime.Now;
