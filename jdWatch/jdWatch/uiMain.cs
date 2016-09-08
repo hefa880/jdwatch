@@ -492,6 +492,100 @@ namespace jdWatch
             }
         }
 
+        private void uiMain_ChildTread(object data)
+        {
+            string  taskNo = data as string;
+            if( "task1" == taskNo)
+            {
+                // 获取数据列表
+            }
+            else
+            {
+                //执行获取数据的任务
+            }
+        }
+
+        private void uiMain_GetSetSqlList()
+        {
+            UInt32 tatolNumber = 0,ops = 0;
+
+            while(true)
+            {
+                //每次最多只取20个数据
+                //取完填写在链表中，由其他线程读取使用
+                tatolNumber += 20;
+                ops += 20;
+                // 添加到链表中去
+
+                //检查链表使用的情况，如果都已经获取到数据，并填写main_show表上，则提交此次数据
+                for (;;)
+                {
+                    //如果都已经获取到数据
+                    if(uiMain_list.Count == uiMain_listShow.Count)
+                    {
+                        break;
+                    }
+                    Thread.Sleep(2000);
+                }
+                //并填写main_show表上，则提交此次数据
+                uiMain_UpdateSql();
+
+            }
+        }
+
+        private bool uiMain_UpdateSql()
+        {
+            DataTable dt = new DataTable();
+            DataTable dt_state = new DataTable();
+
+            dt.Columns.Add("product_id", Type.GetType("System.Guid"));
+            dt.Columns.Add("product_skuid", Type.GetType("System.String"));
+            dt.Columns.Add("product_warn_price", Type.GetType("System.Decimal"));
+            dt.Columns.Add("product_jd_price", Type.GetType("System.Decimal"));
+            dt.Columns.Add("product_app_price", Type.GetType("System.Decimal"));
+            dt.Columns.Add("product_weixin_price", Type.GetType("System.Decimal"));
+            dt.Columns.Add("product_qq_price", Type.GetType("System.Decimal"));
+            dt.Columns.Add("product_stock", Type.GetType("System.String"));
+            dt.Columns.Add("product_get_time", Type.GetType("System.DateTime"));
+            //  dt.Columns.Add("product_url", Type.GetType("System.String"));
+
+            dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
+            dt_state.Columns.Add("SKU", Type.GetType("System.String"));
+            dt_state.Columns.Add("Status", Type.GetType("System.String"));
+
+
+            ///将数据写入SQL
+            for (int i = 0; i < uiMain_list.Count; i++)
+            {
+                DataRow newRow = dt.NewRow();
+                newRow[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
+                newRow[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
+                newRow[2] = uiMain_listShow[i].warePriceN.ProductWarnPrice;
+                newRow[3] = uiMain_listShow[i].warePriceN.ProductPCPrice;
+                newRow[4] = uiMain_listShow[i].warePriceN.ProductAppPrice;
+                newRow[5] = uiMain_listShow[i].warePriceN.ProductWeiXinPrice;
+                newRow[6] = uiMain_listShow[i].warePriceN.ProductQQPrice;
+                newRow[7] = uiMain_listShow[i].warePriceN.ProductStock;
+                newRow[8] = uiMain_listShow[i].warePriceN.ProductGetTime;
+                dt.Rows.Add(newRow);
+
+                DataRow newRow_state = dt_state.NewRow();
+
+                newRow_state[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
+                newRow_state[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
+                newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
+                dt_state.Rows.Add(newRow_state);
+
+            }
+            SqlCommit sqlconn = new SqlCommit();
+
+            sqlconn.Sqlcommit_InsertAll("product_infor", dt);
+            sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
+            uiMain_listShow.Clear();
+
+            return true;
+        }
+
         public void uiMain_ThreadGetWareInfor(object data)
         {
             WarePriceNode ListNode = data as WarePriceNode;
@@ -575,15 +669,12 @@ namespace jdWatch
                 dt.Columns.Add("product_qq_price", Type.GetType("System.Decimal"));
                 dt.Columns.Add("product_stock", Type.GetType("System.String"));
                 dt.Columns.Add("product_get_time", Type.GetType("System.DateTime"));
-                dt.Columns.Add("product_url", Type.GetType("System.String"));
+              //  dt.Columns.Add("product_url", Type.GetType("System.String"));
 
-              ////  dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
-              //  dt_state.Columns.Add("SKU", Type.GetType("System.String"));
-              //  dt_state.Columns.Add("Status", Type.GetType("System.String"));
-                dt_state.Columns.Add("id", Type.GetType("System.Guid"));
-               dt_state.Columns.Add("test", Type.GetType("System.String"));
-               dt_state.Columns.Add("test2", Type.GetType("System.Byte"));
-                
+                dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
+                dt_state.Columns.Add("SKU", Type.GetType("System.String"));
+                dt_state.Columns.Add("Status", Type.GetType("System.String"));
+
 
                 ///将数据写入SQL
                 for (int i =0;i < uiMain_list.Count;i++)
@@ -603,8 +694,6 @@ namespace jdWatch
                     DataRow newRow_state = dt_state.NewRow();
 
                     newRow_state[0] = System.Guid.NewGuid(); // uiMain_listShow[i].warePriceN.
-                    //newRow_state[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
-                    //newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
                     newRow_state[1] = uiMain_listShow[i].warePriceN.ProductSkuid;
                     newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
                     dt_state.Rows.Add(newRow_state);
@@ -612,7 +701,7 @@ namespace jdWatch
                 }
                 SqlCommit sqlconn = new SqlCommit();
 
-             //   sqlconn.Sqlcommit_InsertAll("product_infor2", dt);
+                sqlconn.Sqlcommit_InsertAll("product_infor", dt);
                 sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
                 uiMain_listShow.Clear();
             }

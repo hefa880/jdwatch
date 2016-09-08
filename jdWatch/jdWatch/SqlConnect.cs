@@ -63,13 +63,31 @@ namespace Fatq.ConncetSql.Mode
             //return n > 0 ? true:false;
 
             SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(connectionString);
-           // try
+            try
             {
                 sqlBulkCopy.DestinationTableName = DestinationTableName;
                 sqlBulkCopy.BatchSize = dt.Rows.Count;
-                sqlBulkCopy.ColumnMappings.Add("id", "id");
-                sqlBulkCopy.ColumnMappings.Add("test", "test");
-                sqlBulkCopy.ColumnMappings.Add("test2", "test2");
+                if ("product_status" == DestinationTableName)
+                {
+                    sqlBulkCopy.ColumnMappings.Add("ID", "ID");
+                    sqlBulkCopy.ColumnMappings.Add("SKU", "SKU");
+                    sqlBulkCopy.ColumnMappings.Add("Status", "Status");
+                }
+                else if ("product_price" == DestinationTableName)
+                {
+                    sqlBulkCopy.ColumnMappings.Add("product_id", "product_id");
+                    sqlBulkCopy.ColumnMappings.Add("product_skuid", "product_skuid");
+                    sqlBulkCopy.ColumnMappings.Add("product_warn_price", "product_warn_price");
+                    sqlBulkCopy.ColumnMappings.Add("product_jd_price", "product_jd_price");
+                    sqlBulkCopy.ColumnMappings.Add("product_app_price", "product_app_price");
+                    sqlBulkCopy.ColumnMappings.Add("product_weixin_price", "product_weixin_price");
+                    sqlBulkCopy.ColumnMappings.Add("product_qq_price", "product_qq_price");
+                    sqlBulkCopy.ColumnMappings.Add("product_stock", "product_stock");
+                    sqlBulkCopy.ColumnMappings.Add("product_get_time", "product_get_time");
+                   // sqlBulkCopy.ColumnMappings.Add("product_url", "product_url");
+
+                }
+
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
@@ -80,7 +98,7 @@ namespace Fatq.ConncetSql.Mode
                 sqlBulkCopy.Close();
                 sqlConnection.Close();
             }
-           // catch
+            catch
             {
                 return false;
             }
