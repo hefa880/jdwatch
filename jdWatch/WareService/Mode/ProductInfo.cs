@@ -245,6 +245,7 @@ namespace WareDealer.Mode
     public class WarePriceNode
     {
         public WarePrice warePriceN;
+        public bool      startFlag;
     }
 
 }

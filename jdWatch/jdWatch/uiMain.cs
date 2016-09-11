@@ -437,7 +437,8 @@ namespace jdWatch
                 //    return;
                 //}
                 //InitializeTimer();
-                uiMain_watchTask();
+                // uiMain_watchTask();
+                uiMain_watchTaskV2();
             }
             else
             {
@@ -445,6 +446,7 @@ namespace jdWatch
                 myTimer.Enabled = false;
                 myTimerInterval = 0;
                 textBoxUiMainWatchFrq.Enabled = true;
+               
             }
         }
 
@@ -488,48 +490,154 @@ namespace jdWatch
             {
                 demoThread = new Thread(new ParameterizedThreadStart(uiMain_ThreadGetWareInfor));
                 demoThread.IsBackground = true;
+                demoThread.Name = i.ToString();
                 demoThread.Start(uiMain_list[i]);
+            }
+        }
+
+        private void uiMain_watchTaskV2()
+        {
+            for (int i = 0; i < 21; i++)
+            {
+                demoThread = new Thread(new ParameterizedThreadStart(uiMain_ChildTread));
+                demoThread.IsBackground = true;
+                demoThread.Name = i.ToString();
+                demoThread.Start("task" + i.ToString());
+            }
+        }
+        delegate void SetTextCallback(string text);
+        private void SetText(string text)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.textBoxLog.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(SetText);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                DateTime tm =  DateTime.Now;
+                this.textBoxLog.Text += tm.ToLocalTime().ToString() + "  "+text + "\r\n";
             }
         }
 
         private void uiMain_ChildTread(object data)
         {
             string  taskNo = data as string;
-            if( "task1" == taskNo)
+            SetText("uiMain_ChildTread Task" + Thread.CurrentThread.Name.ToString() + "\n");
+            if ( "task0" == taskNo)
             {
                 // 获取数据列表
+                uiMain_GetSetSqlList();
             }
             else
             {
                 //执行获取数据的任务
+                uiMain_ChildThreadGetWareInfor();
+                //执行完成，等待下次任务来临
             }
         }
 
         private void uiMain_GetSetSqlList()
         {
-            UInt32 tatolNumber = 0,ops = 0;
+            
+            SqlCommit sqlcomm = new SqlCommit();
 
-            while(true)
+            while (true)
             {
-                //每次最多只取20个数据
-                //取完填写在链表中，由其他线程读取使用
-                tatolNumber += 20;
-                ops += 20;
-                // 添加到链表中去
-
-                //检查链表使用的情况，如果都已经获取到数据，并填写main_show表上，则提交此次数据
-                for (;;)
+                if(buttonUiMainWatchStart.Text == "开始监控")
                 {
-                    //如果都已经获取到数据
-                    if(uiMain_list.Count == uiMain_listShow.Count)
+                    Thread.CurrentThread.Abort();
+                    break;
+                }
+                int tatolNumber = 0;
+                int ops = 0;
+                //每次最多只取20个数据
+                DataSet ds = sqlcomm.Sqlcommit_Select("select product_id,product_skuid,product_warn_price from product_infor ");
+                DataTable dt;
+                dt = ds.Tables[0];//填充
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    //  MessageBox.Show("拉取失败");
+                    SetText("Task 1 拉取失败\n");
+                    Thread.Sleep(10000);
+                    continue;
+                }
+                else
+                {
+                    tatolNumber = dt.Rows.Count;
+                    SetText("Task 1 成功拉取:" + dt.Rows.Count.ToString()+ "\n");
+                    // string str = "成功拉取:" + dt.Rows.Count.ToString();
+                    // MessageBox.Show(str);
+                }
+
+                while (true)
+                {
+                    if (ops == tatolNumber)
                     {
+                        SetText("做完了一轮!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
+                        uiMain_list.Clear();
                         break;
                     }
-                    Thread.Sleep(2000);
-                }
-                //并填写main_show表上，则提交此次数据
-                uiMain_UpdateSql();
+                        
+                    //取完填写在链表中，由其他线程读取使用
+                    for (; ops < tatolNumber;)
+                    {
+                        WarePriceNode ListNode = new WarePriceNode();
+                        ListNode.warePriceN = new WarePrice();
 
+                        if ("" == dt.Rows[0].ItemArray.GetValue(1).ToString().Trim())
+                        {
+                            continue;
+                        }
+                        ListNode.warePriceN.ProductSkuid = dt.Rows[0].ItemArray.GetValue(1).ToString().Trim();
+                        ListNode.warePriceN.ProductWarnPrice = Convert.ToDouble(dt.Rows[0].ItemArray.GetValue(2).ToString().Trim());
+
+                        // 添加到链表中去
+                        uiMain_list.Add(ListNode);
+                        ops++;
+                        if ((0 != ops) && (ops % 20 == 0))
+                        {
+                            break;
+                        }
+                        dt.Rows.RemoveAt(0);
+                        if(dt.Rows.Count == 0)
+                        {
+                            SetText("Task 1 Count == 0!\n");
+                            break;
+                        }
+                    }
+                    SetText( "Task 1 填写main_show表OK\n");
+                    uiMain_listShow.Clear();
+                    uiMain_list[0].startFlag = true;
+                    //检查链表使用的情况，如果都已经获取到数据，并填写main_show表上，则提交此次数据
+                    for (;;)
+                    {
+                        //如果都已经获取到数据
+                        if (uiMain_list.Count == uiMain_listShow.Count)
+                        {
+                            //并填写main_show表上，则提交此次数据
+                            SetText("Task 1 提交此次数据\n");
+                            uiMain_UpdateSql();
+                            break;
+                        }
+                        else
+                        {
+                            SetText("Task 1 sleep(5000) "+ uiMain_list.Count.ToString() + " / "+ uiMain_listShow.Count.ToString());
+                            Thread.Sleep(5000);
+                        }
+
+                        if (buttonUiMainWatchStart.Text == "开始监控")
+                        {
+                            SetText("Task 1 Exit\n");
+                            Thread.CurrentThread.Abort();
+                            break;
+                        }
+                    }
+                }
+               
             }
         }
 
@@ -577,13 +685,130 @@ namespace jdWatch
                 dt_state.Rows.Add(newRow_state);
 
             }
+
             SqlCommit sqlconn = new SqlCommit();
 
-            sqlconn.Sqlcommit_InsertAll("product_infor", dt);
+            sqlconn.Sqlcommit_InsertAll("product_price", dt);
             sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
             uiMain_listShow.Clear();
 
             return true;
+        }
+
+        public void uiMain_ChildThreadGetWareInfor( )
+        {
+            int index =  Convert.ToInt32( Thread.CurrentThread.Name) -1;
+
+            while(true)
+            {
+                while (true)
+                {
+                    if (buttonUiMainWatchStart.Text == "开始监控")
+                    {
+                        SetText("Task" + Thread.CurrentThread.Name.ToString() + "Exit OK\n");
+                        Thread.CurrentThread.Abort();
+                        break;
+                    }
+
+                    if (0 == uiMain_list.Count)
+                    {
+                      //  SetText("Task" + Thread.CurrentThread.Name.ToString() + "uiMain_list.Count Sleep(5000)\n");
+                        Thread.Sleep(5000);
+                        continue;
+                    }
+
+                    if (uiMain_list[0].startFlag == false)
+                    {
+                      //  SetText( "Task" + Thread.CurrentThread.Name.ToString() + " uiMain_list[0].startFlag = false.Count Sleep(5000)\n");
+                        Thread.Sleep(5000);
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+               
+                if (index >= uiMain_list.Count)
+                {
+                    Thread.Sleep(10000);
+                    continue;
+                }
+                uiMain_list[0].startFlag = false;
+                WarePriceNode ListNode = uiMain_list[index];
+                WarePriceNode wareNoe;
+                ProductInfo wareInfor;
+                //获取WEB数据
+                SysParams.GatherModel = GatherType.Single;
+                wareInfor = WareDealer.WareService.GetInstance().GetWareInfoByID(ListNode.warePriceN.ProductSkuid);
+                wareNoe = WareDealer.WareService.GetInstance().FatQGetBatchPrice(ListNode.warePriceN.ProductSkuid);
+                if (null != wareInfor)
+                {
+                    ListNode.warePriceN.ProductPCPrice = wareNoe.warePriceN.ProductPCPrice;
+                    ListNode.warePriceN.ProductAppPrice = wareNoe.warePriceN.ProductAppPrice;
+                    ListNode.warePriceN.ProductQQPrice = wareNoe.warePriceN.ProductQQPrice;
+                    ListNode.warePriceN.ProductWeiXinPrice = wareNoe.warePriceN.ProductWeiXinPrice;
+                    ListNode.warePriceN.ProductSeller = wareInfor.ProductBrand;
+                    ListNode.warePriceN.ProductGetTime = wareInfor.CreateTime;
+
+                    switch (wareInfor.ProductIsSaled)
+                    {
+                        case -10:
+                            ListNode.warePriceN.ProductStock = "无效SKUID";
+                            break;
+                        case -1:
+                            ListNode.warePriceN.ProductStock = "下架";
+                            break;
+                        case 0:
+                            ListNode.warePriceN.ProductStock = "无货";
+                            break;
+                        case 1:
+                            ListNode.warePriceN.ProductStock = "有货";
+                            break;
+                        case 2:
+                            ListNode.warePriceN.ProductStock = "配货";
+                            break;
+                        case 3:
+                            ListNode.warePriceN.ProductStock = "预订";
+                            break;
+
+                        default:
+                            ListNode.warePriceN.ProductStock = "无库存信息";
+                            break;
+                    }
+
+                    bool bWarn = uiMainWatchWarnCheck(ListNode.warePriceN);
+                    //将报警的归类一个表
+                    if (true == bWarn)
+                    {
+                        ListNode.warePriceN.WarnTablFlag = 1;
+                    }
+                    else if (ListNode.warePriceN.ProductSeller.ToString().IndexOf("新松联") >= 0 &&
+                        "无货" == ListNode.warePriceN.ProductStock.ToString())
+                    {
+                        //将数据打上异常标志
+                        ListNode.warePriceN.WarnTablFlag = 2;
+                    }
+                    else
+                    {
+                        ListNode.warePriceN.WarnTablFlag = 0;
+                    }
+                }
+                else
+                {
+                    ListNode.warePriceN.ProductStock = "无效SKUID";
+                }
+
+                uiMain_listShow.Add(ListNode);
+                SetText("Task" + Thread.CurrentThread.Name.ToString() + "uiMain_listShow.Add OK "+ ListNode.warePriceN.ProductSkuid+"\n");
+
+                if (buttonUiMainWatchStart.Text == "开始监控")
+                {
+                    SetText("Task" + Thread.CurrentThread.Name.ToString() + "Exit OK\n");
+                    Thread.CurrentThread.Abort();
+                    break;
+                }
+            }
         }
 
         public void uiMain_ThreadGetWareInfor(object data)

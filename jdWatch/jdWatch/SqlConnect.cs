@@ -14,7 +14,7 @@ namespace Fatq.ConncetSql.Mode
     {
         private static string connectionString =
             "Server = localhost;" +
-            "Database = jdWatch;" +
+            "Database = jdWatch_New;" +
             "User ID = sa;" +
             "Password = 123456;";
 
