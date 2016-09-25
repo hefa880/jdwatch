@@ -35,6 +35,7 @@
             this.buttonUiMainHistory = new System.Windows.Forms.Button();
             this.buttonUiMainSys = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonUiCreateNew = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboBoxUiMainPColor = new System.Windows.Forms.ComboBox();
             this.comboBoxUiMainPSerial = new System.Windows.Forms.ComboBox();
@@ -120,6 +121,7 @@
             // 
             // buttonUiMainWatch
             // 
+            this.buttonUiMainWatch.Enabled = false;
             this.buttonUiMainWatch.Font = new System.Drawing.Font("宋体", 18F);
             this.buttonUiMainWatch.Location = new System.Drawing.Point(54, 14);
             this.buttonUiMainWatch.Name = "buttonUiMainWatch";
@@ -131,6 +133,7 @@
             // 
             // buttonUiMainBaseInput
             // 
+            this.buttonUiMainBaseInput.Enabled = false;
             this.buttonUiMainBaseInput.Font = new System.Drawing.Font("宋体", 18F);
             this.buttonUiMainBaseInput.Location = new System.Drawing.Point(236, 14);
             this.buttonUiMainBaseInput.Name = "buttonUiMainBaseInput";
@@ -142,8 +145,9 @@
             // 
             // buttonUiMainModifyPrice
             // 
+            this.buttonUiMainModifyPrice.Enabled = false;
             this.buttonUiMainModifyPrice.Font = new System.Drawing.Font("宋体", 18F);
-            this.buttonUiMainModifyPrice.Location = new System.Drawing.Point(418, 14);
+            this.buttonUiMainModifyPrice.Location = new System.Drawing.Point(511, 14);
             this.buttonUiMainModifyPrice.Name = "buttonUiMainModifyPrice";
             this.buttonUiMainModifyPrice.Size = new System.Drawing.Size(75, 60);
             this.buttonUiMainModifyPrice.TabIndex = 2;
@@ -152,8 +156,9 @@
             // 
             // buttonUiMainHistory
             // 
+            this.buttonUiMainHistory.Enabled = false;
             this.buttonUiMainHistory.Font = new System.Drawing.Font("宋体", 18F);
-            this.buttonUiMainHistory.Location = new System.Drawing.Point(600, 14);
+            this.buttonUiMainHistory.Location = new System.Drawing.Point(677, 14);
             this.buttonUiMainHistory.Name = "buttonUiMainHistory";
             this.buttonUiMainHistory.Size = new System.Drawing.Size(75, 60);
             this.buttonUiMainHistory.TabIndex = 3;
@@ -163,8 +168,9 @@
             // 
             // buttonUiMainSys
             // 
+            this.buttonUiMainSys.Enabled = false;
             this.buttonUiMainSys.Font = new System.Drawing.Font("宋体", 18F);
-            this.buttonUiMainSys.Location = new System.Drawing.Point(782, 14);
+            this.buttonUiMainSys.Location = new System.Drawing.Point(817, 15);
             this.buttonUiMainSys.Name = "buttonUiMainSys";
             this.buttonUiMainSys.Size = new System.Drawing.Size(75, 60);
             this.buttonUiMainSys.TabIndex = 4;
@@ -174,6 +180,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonUiCreateNew);
             this.groupBox1.Controls.Add(this.buttonUiMainSys);
             this.groupBox1.Controls.Add(this.buttonUiMainWatch);
             this.groupBox1.Controls.Add(this.buttonUiMainBaseInput);
@@ -181,10 +188,22 @@
             this.groupBox1.Controls.Add(this.buttonUiMainHistory);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(917, 81);
+            this.groupBox1.Size = new System.Drawing.Size(936, 81);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "功能菜单";
+            // 
+            // buttonUiCreateNew
+            // 
+            this.buttonUiCreateNew.Enabled = false;
+            this.buttonUiCreateNew.Font = new System.Drawing.Font("宋体", 18F);
+            this.buttonUiCreateNew.Location = new System.Drawing.Point(371, 13);
+            this.buttonUiCreateNew.Name = "buttonUiCreateNew";
+            this.buttonUiCreateNew.Size = new System.Drawing.Size(75, 60);
+            this.buttonUiCreateNew.TabIndex = 5;
+            this.buttonUiCreateNew.Text = "建模";
+            this.buttonUiCreateNew.UseVisualStyleBackColor = true;
+            this.buttonUiCreateNew.Click += new System.EventHandler(this.buttonUiCreateNew_Click);
             // 
             // groupBox2
             // 
@@ -212,6 +231,7 @@
             // 
             // comboBoxUiMainPSerial
             // 
+            this.comboBoxUiMainPSerial.Enabled = false;
             this.comboBoxUiMainPSerial.FormattingEnabled = true;
             this.comboBoxUiMainPSerial.Location = new System.Drawing.Point(227, 21);
             this.comboBoxUiMainPSerial.Name = "comboBoxUiMainPSerial";
@@ -221,6 +241,7 @@
             // 
             // comboBoxUiMainPName
             // 
+            this.comboBoxUiMainPName.Enabled = false;
             this.comboBoxUiMainPName.FormattingEnabled = true;
             this.comboBoxUiMainPName.Location = new System.Drawing.Point(45, 21);
             this.comboBoxUiMainPName.Name = "comboBoxUiMainPName";
@@ -265,7 +286,7 @@
             this.groupBoxShow.Controls.Add(this.tabControlUiMainWatch);
             this.groupBoxShow.Location = new System.Drawing.Point(12, 161);
             this.groupBoxShow.Name = "groupBoxShow";
-            this.groupBoxShow.Size = new System.Drawing.Size(1353, 261);
+            this.groupBoxShow.Size = new System.Drawing.Size(1353, 183);
             this.groupBoxShow.TabIndex = 10;
             this.groupBoxShow.TabStop = false;
             this.groupBoxShow.Text = "监控";
@@ -273,7 +294,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(304, 230);
+            this.label4.Location = new System.Drawing.Point(304, 159);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(101, 12);
             this.label4.TabIndex = 6;
@@ -281,7 +302,7 @@
             // 
             // textBoxUiMainWatchFrq
             // 
-            this.textBoxUiMainWatchFrq.Location = new System.Drawing.Point(405, 226);
+            this.textBoxUiMainWatchFrq.Location = new System.Drawing.Point(405, 155);
             this.textBoxUiMainWatchFrq.Name = "textBoxUiMainWatchFrq";
             this.textBoxUiMainWatchFrq.Size = new System.Drawing.Size(68, 21);
             this.textBoxUiMainWatchFrq.TabIndex = 5;
@@ -289,9 +310,9 @@
             // 
             // buttonUiMainWatchStart
             // 
-            this.buttonUiMainWatchStart.Location = new System.Drawing.Point(162, 225);
+            this.buttonUiMainWatchStart.Location = new System.Drawing.Point(162, 145);
             this.buttonUiMainWatchStart.Name = "buttonUiMainWatchStart";
-            this.buttonUiMainWatchStart.Size = new System.Drawing.Size(75, 23);
+            this.buttonUiMainWatchStart.Size = new System.Drawing.Size(94, 32);
             this.buttonUiMainWatchStart.TabIndex = 2;
             this.buttonUiMainWatchStart.Text = "开始监控";
             this.buttonUiMainWatchStart.UseVisualStyleBackColor = true;
@@ -299,7 +320,7 @@
             // 
             // buttonUiMainSelec
             // 
-            this.buttonUiMainSelec.Location = new System.Drawing.Point(43, 224);
+            this.buttonUiMainSelec.Location = new System.Drawing.Point(43, 153);
             this.buttonUiMainSelec.Name = "buttonUiMainSelec";
             this.buttonUiMainSelec.Size = new System.Drawing.Size(75, 23);
             this.buttonUiMainSelec.TabIndex = 1;
@@ -316,7 +337,7 @@
             this.tabControlUiMainWatch.Location = new System.Drawing.Point(6, 20);
             this.tabControlUiMainWatch.Name = "tabControlUiMainWatch";
             this.tabControlUiMainWatch.SelectedIndex = 0;
-            this.tabControlUiMainWatch.Size = new System.Drawing.Size(1341, 203);
+            this.tabControlUiMainWatch.Size = new System.Drawing.Size(1341, 123);
             this.tabControlUiMainWatch.TabIndex = 0;
             // 
             // tabPageWatch
@@ -325,7 +346,7 @@
             this.tabPageWatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageWatch.Name = "tabPageWatch";
             this.tabPageWatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWatch.Size = new System.Drawing.Size(1333, 346);
+            this.tabPageWatch.Size = new System.Drawing.Size(1333, 177);
             this.tabPageWatch.TabIndex = 0;
             this.tabPageWatch.Text = "监控表";
             this.tabPageWatch.UseVisualStyleBackColor = true;
@@ -354,7 +375,7 @@
             this.dataGridViewUiMainWatch.Name = "dataGridViewUiMainWatch";
             this.dataGridViewUiMainWatch.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dataGridViewUiMainWatch.RowTemplate.Height = 23;
-            this.dataGridViewUiMainWatch.Size = new System.Drawing.Size(1333, 218);
+            this.dataGridViewUiMainWatch.Size = new System.Drawing.Size(1333, 101);
             this.dataGridViewUiMainWatch.TabIndex = 11;
             this.dataGridViewUiMainWatch.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewUiMainWatch_RowsAdded);
             this.dataGridViewUiMainWatch.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewUiMainWatch_RowStateChanged);
@@ -470,7 +491,7 @@
             this.tabPageWarn.Location = new System.Drawing.Point(4, 22);
             this.tabPageWarn.Name = "tabPageWarn";
             this.tabPageWarn.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWarn.Size = new System.Drawing.Size(1333, 346);
+            this.tabPageWarn.Size = new System.Drawing.Size(1333, 97);
             this.tabPageWarn.TabIndex = 1;
             this.tabPageWarn.Text = "异常表";
             this.tabPageWarn.UseVisualStyleBackColor = true;
@@ -615,7 +636,7 @@
             this.tabPageMainMyWarn.Location = new System.Drawing.Point(4, 22);
             this.tabPageMainMyWarn.Name = "tabPageMainMyWarn";
             this.tabPageMainMyWarn.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMainMyWarn.Size = new System.Drawing.Size(1333, 177);
+            this.tabPageMainMyWarn.Size = new System.Drawing.Size(1333, 97);
             this.tabPageMainMyWarn.TabIndex = 2;
             this.tabPageMainMyWarn.Text = "我的异常表";
             this.tabPageMainMyWarn.UseVisualStyleBackColor = true;
@@ -789,11 +810,11 @@
             // 
             // textBoxLog
             // 
-            this.textBoxLog.Location = new System.Drawing.Point(18, 428);
+            this.textBoxLog.Location = new System.Drawing.Point(18, 350);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(1305, 249);
+            this.textBoxLog.Size = new System.Drawing.Size(1305, 327);
             this.textBoxLog.TabIndex = 11;
             // 
             // uiMain
@@ -905,5 +926,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
         private System.Windows.Forms.DataGridViewLinkColumn dataGridViewLinkColumn2;
         private System.Windows.Forms.TextBox textBoxLog;
+        private System.Windows.Forms.Button buttonUiCreateNew;
     }
 }

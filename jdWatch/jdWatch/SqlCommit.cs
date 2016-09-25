@@ -90,10 +90,12 @@ namespace Fatq.SqlCommit.Mode
        /// </summary>
        /// <param name="InsertPrice"></param>
        /// <returns></returns>
-        public bool Sqlcommit_Insert(string InsertPrice )
+        public bool Sqlcommit_Insert(string sqlData)
         {
             bool bRet = false;
             FatqConnection sqlconn = new FatqConnection();
+          
+            bRet = sqlconn.ConnSqlInsert(sqlData);
 
             //string sqlData =
             //   "insert into product_price( product_skuid,product_warning_price,product_jd_price,product_app_price,product_weixin_price,product_qq_price,product_time_get,product_status) values ('" +
@@ -109,10 +111,10 @@ namespace Fatq.SqlCommit.Mode
             // }
             // else
             // {
-                
+
             // }
 
-             return bRet;
+            return bRet;
         }
         public bool Sqlcommit_Update(string toTabl, string toValues )
         {
