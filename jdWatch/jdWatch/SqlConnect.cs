@@ -7,16 +7,19 @@ using System.Threading;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Data;
+using System.Configuration;
+
 
 namespace Fatq.ConncetSql.Mode
 {
     public class FatqConnection
     {
-        private static string connectionString =
-            "Server = localhost;" +
-            "Database = jdWatch_New;" +
-            "User ID = sa;" +
-            "Password = 123456;";
+        //private static string connectionString =
+        //    @"Server = .\XSL;" +
+        //    "Database = jdWatch;" +
+        //    "User ID = sa;" +
+        //    "Password = 123456;";
+        private static string connectionString = ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
 
         /// <summary>
         /// 连接数据库
@@ -24,9 +27,17 @@ namespace Fatq.ConncetSql.Mode
         /// <returns></returns>
         private SqlConnection ConnectionOpen()
         {
-            SqlConnection conn = new SqlConnection(connectionString);
-            conn.Open();
-            return conn;
+            try
+            {
+                SqlConnection conn = new SqlConnection(connectionString);
+                conn.Open();
+                return conn;
+            }
+            catch (Exception e)
+            {
+                //MessageBox.Show("连接数据库失败！原因如下：" + e.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -155,7 +166,8 @@ namespace Fatq.ConncetSql.Mode
         {
             SqlConnection conn = ConnectionOpen();
            // string sqlQuery = "select * from " + getTbl;
-
+            if (null == conn)
+                return null;
             SqlCommand cmd = new SqlCommand(selectString, conn);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
 
@@ -175,6 +187,8 @@ namespace Fatq.ConncetSql.Mode
         {
             int count = -1;
             SqlConnection sqlconn = ConnectionOpen();
+            if (null == sqlconn)
+                return false;
           //  string sqlCheck = "select Count(1) from product_infor where product_skuid=('" + queryValue + "')";
             string sqlCheck = "select Count(1) from "+ queryTbl + " where "+ queryColumn +"=('" + queryValue + "')";
 
@@ -193,6 +207,8 @@ namespace Fatq.ConncetSql.Mode
         {
             int count = -1;
             SqlConnection sqlconn = ConnectionOpen();
+            if (null == sqlconn)
+                return false;
             //  string sqlCheck = "select Count(1) from product_infor where product_skuid=('" + queryValue + "')";
             string sqlCheck = "select Count(1) from " + queryTbl + " where " +  queryValue ;
 
@@ -216,6 +232,8 @@ namespace Fatq.ConncetSql.Mode
             int count = -1;
             //select a, b, c from x,y,z where e = 1 and f = 2 and g = 3 
             SqlConnection sqlconn = ConnectionOpen();
+            if (null == sqlconn)
+                return false;
             SqlCommand cmd = new SqlCommand(querySqlString, sqlconn);
             count = (int)cmd.ExecuteScalar();
             if (count > 0)
@@ -238,6 +256,8 @@ namespace Fatq.ConncetSql.Mode
             //删除某行
             //DELETE FROM Person WHERE LastName = 'Wilson' 
             SqlConnection sqlconn = ConnectionOpen();
+            if (null == sqlconn)
+                return false;
             string sqlDel = "delete from " + delTbl + " where "  + delRow;
             SqlCommand cmd = new SqlCommand(sqlDel, sqlconn);
             count = cmd.ExecuteNonQuery();

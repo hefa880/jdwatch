@@ -15,6 +15,7 @@ using WareDealer.Mode;
 using WareDealer.Helper;
 using Hank.ComLib;
 using Hank.UiCtlLib;
+using System.IO;
 
 namespace jdWatch
 {
@@ -34,13 +35,13 @@ namespace jdWatch
         public uiMain()
         {
             InitializeComponent();
-            uiLoginW    = new uiLogin();
-            uiWatchW    = new uiWatch();
-            uiIputW     = new uiInput();
-            uiHistoryW  = new uiHistory();
-            uiSysW      = new uiSys();
+            //uiLoginW    = new uiLogin();
+            //uiWatchW    = new uiWatch();
+            //uiIputW     = new uiInput();
+            //uiHistoryW  = new uiHistory();
+            //uiSysW      = new uiSys();
             //进入登录界面
-            uiLoginW.ShowDialog();
+           // uiLoginW.ShowDialog();
             dataGridViewUiMainWatch.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
             dataGridViewUiMainWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
             dataGridViewUiMainMyWarn.Rows[0].DefaultCellStyle.BackColor = Color.Lavender;
@@ -508,6 +509,14 @@ namespace jdWatch
             }
         }
         delegate void SetTextCallback(string text);
+        public void Write(string text)
+        {
+            FileStream fs = new FileStream("jdwatch.log", FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs, Encoding.Default);
+            sw.Write(text);
+            sw.Close();
+            fs.Close();
+        }
         private void SetText(string text)
         {
             // InvokeRequired required compares the thread ID of the
@@ -525,8 +534,11 @@ namespace jdWatch
                 {
                     this.textBoxLog.Clear();
                 }
+
                 DateTime tm =  DateTime.Now;
+                Write(tm.ToLocalTime().ToString() + "  " + text + "\r\n");
                 this.textBoxLog.AppendText(tm.ToLocalTime().ToString() + "  " + text + "\r\n");
+
                 //  this.textBoxLog.Text += tm.ToLocalTime().ToString() + "  "+text + "\r\n";
                 this.textBoxLog.ScrollToCaret();
                 this.textBoxLog.Focus();
@@ -534,7 +546,14 @@ namespace jdWatch
                 this.textBoxLog.ScrollToCaret();
             }
         }
-
+        private void uiMain_Reg()
+        {
+           if( DateTime.Now >  DateTime.Parse("2016-10-15") )
+           {
+               MessageBox.Show("已经过试用期，请联系管理员注册\n", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+               Close();
+           }
+        }
         private void uiMain_ChildTread(object data)
         {
             string  taskNo = data as string;
@@ -562,9 +581,11 @@ namespace jdWatch
             {
                 if(buttonUiMainWatchStart.Text == "开始监控")
                 {
+                    SetText("Task0 Exit\n");
                     Thread.CurrentThread.Abort();
                     break;
                 }
+                uiMain_Reg();
                 if( true == bSleep )
                 {
                     Thread.Sleep(1000);
@@ -589,8 +610,14 @@ namespace jdWatch
                 int ops = 0;
                 //每次最多只取20个数据
                 DataSet ds = sqlcomm.Sqlcommit_Select("select product_id,product_skuid,product_warn_price from product_infor ");
-                DataTable dt;
-                dt = ds.Tables[0];//填充
+                if( null == ds )
+                {
+                    SetText("Task0 拉取失败\n");
+                    Thread.Sleep(10000);
+                    continue;
+                }
+
+                DataTable dt = ds.Tables[0];//填充
                 if (dt == null || dt.Rows.Count == 0)
                 {
                     //  MessageBox.Show("拉取失败");
@@ -601,7 +628,9 @@ namespace jdWatch
                 else
                 {
                     tatolNumber = dt.Rows.Count;
+                    ops = 0;
                     SetText("Task0 成功拉取:" + dt.Rows.Count.ToString()+ "\n");
+
                     // string str = "成功拉取:" + dt.Rows.Count.ToString();
                     // MessageBox.Show(str);
                 }
@@ -635,6 +664,8 @@ namespace jdWatch
                         // 添加到链表中去
                         uiMain_list.Add(ListNode);
                         ops++;
+                        SetText("添加 " + ops + " 条 " + ListNode.warePriceN.ProductSkuid +"\n");
+                        
                         if ((0 != ops) && (ops % 20 == 0))
                         {
                             break;
@@ -647,23 +678,27 @@ namespace jdWatch
                         }
                     }
 
-                    SetText( "Task0 填写main_show表OK\n");
+                    SetText( "Task0 填写main_show表共 " + ops +" 条数据OK\n");
                     uiMain_listShow.Clear();
                     uiMain_list[0].startFlag = true;
                     //检查链表使用的情况，如果都已经获取到数据，并填写main_show表上，则提交此次数据
                     for (;;)
                     {
                         //如果都已经获取到数据
-                        if (uiMain_list.Count == uiMain_listShow.Count)
+                        if (uiMain_listShow.Count >= uiMain_list.Count)
                         {
                             //并填写main_show表上，则提交此次数据
                             SetText("Task0 提交数据\n");
                             uiMain_UpdateSql();
+                            tatolNumber -= ops;
+                            ops = 0;
+                            uiMain_list.Clear();
+                            uiMain_listShow.Clear();
                             break;
                         }
                         else
                         {
-                            SetText("Task0 sleep(1000) "+ uiMain_listShow.Count.ToString()  + " / " +  uiMain_list.Count.ToString());
+                            SetText("Task0 wait"+ uiMain_listShow.Count.ToString()  + " / " +  uiMain_list.Count.ToString());
                             Thread.Sleep(1000);
                         }
 
@@ -713,7 +748,7 @@ namespace jdWatch
                 newRow[6] = uiMain_listShow[i].warePriceN.ProductQQPrice;
                 newRow[7] = uiMain_listShow[i].warePriceN.ProductStock;
                 newRow[8] = uiMain_listShow[i].warePriceN.ProductGetTime;
-                string tex = newRow[1].ToString() + " " + newRow[2].ToString() + " " + newRow[3].ToString() + " " + newRow[4].ToString() + " " + newRow[5].ToString() + " " +
+                string tex = i+" " + newRow[1].ToString() + " " + newRow[2].ToString() + " " + newRow[3].ToString() + " " + newRow[4].ToString() + " " + newRow[5].ToString() + " " +
                              newRow[6].ToString() + " " + newRow[7].ToString() + " " + newRow[8].ToString() + "\n";
                 SetText(tex);
                 dt.Rows.Add(newRow);
@@ -737,12 +772,15 @@ namespace jdWatch
             //  sqlconn.Sqlcommit_InsertAll("product_price", dt);
             //   sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
             uiMain_listShow.Clear();
+            uiMain_list.Clear();
 
             return true;
         }
 
         public void uiMain_ChildThreadGetWareInfor( )
         {
+            int ops = 0;
+            int index = 0;
             while(true)
             {
                 while (true)
@@ -756,33 +794,43 @@ namespace jdWatch
 
                     if (0 == uiMain_list.Count)
                     {
-                       // SetText("Task" + Thread.CurrentThread.Name.ToString() + " uiMain_list.Count Sleep(5000)\n");
-                        Thread.Sleep(2000);
+                       // SetText("Task" + Thread.CurrentThread.Name.ToString() + " uiMain_list.Count == 0\n");
+                        Thread.Sleep(1000);
                         continue;
                     }
 
-                    if (uiMain_list[0].startFlag == false)
+                    //if (uiMain_list[0].startFlag == false)
+                    //{
+                    //    SetText( "Task" + Thread.CurrentThread.Name.ToString() + " uiMain_list[0].startFlag == false\n");
+                    //    Thread.Sleep(2000);
+                    //    continue;
+                    //}
+                    //else
                     {
-                        // SetText( "Task" + Thread.CurrentThread.Name.ToString() + " uiMain_list[0].startFlag = false.Count Sleep(5000)\n");
-                        Thread.Sleep(2000);
-                        continue;
-                    }
-                    else
-                    {
+                        ops = 0;
                         break;
                     }
                 }
-                int index = Convert.ToInt32(Thread.CurrentThread.Name) - 1;
-               // SetText("Task" + Thread.CurrentThread.Name.ToString() + " try to get wareinfor\n");
-                if (index >= uiMain_list.Count)
+                index = Convert.ToInt32(Thread.CurrentThread.Name) - 1;
+              //  SetText("Task" + Thread.CurrentThread.Name.ToString() + " try to get wareinfor\n");
+                if (index >= uiMain_list.Count )
                 {
-                    Thread.Sleep(5000);
+                    uiMain_list[0].startFlag = false;
+                    Thread.Sleep(1000);
                     continue;
                 }
 
-                WarePriceNode ListNode = uiMain_list[index];
+                if ("" == uiMain_list[index].warePriceN.ProductSkuid)
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
+                WarePriceNode ListNode = new WarePriceNode();
+                ListNode = uiMain_list[index];
                 WarePriceNode wareNoe;
                 ProductInfo wareInfor;
+                
                 //获取WEB数据
                 SysParams.GatherModel = GatherType.Single;
                 wareInfor = WareDealer.WareService.GetInstance().GetWareInfoByID(ListNode.warePriceN.ProductSkuid);
@@ -846,21 +894,20 @@ namespace jdWatch
 
                 uiMain_listShow.Add(ListNode);
                 SetText("Task" + Thread.CurrentThread.Name.ToString() + " uiMain_listShow.Add OK "+ ListNode.warePriceN.ProductSkuid+"\n");
-                if(uiMain_listShow.Count == uiMain_list.Count)
-                {
-                    uiMain_list[0].startFlag = false;
-                    continue;
-                }
 
-                if (buttonUiMainWatchStart.Text == "开始监控")
+                while (true)
                 {
-                    SetText("Task" + Thread.CurrentThread.Name.ToString() + "Exit OK\n");
-                    Thread.CurrentThread.Abort();
-                    break;
-                }
-                else
-                {
-                    Thread.Sleep(10000);
+                    if (buttonUiMainWatchStart.Text == "开始监控")
+                    {
+                        SetText("Task" + Thread.CurrentThread.Name.ToString() + "Exit OK\n");
+                        Thread.CurrentThread.Abort();
+                        break;
+                    }
+                    if ( 0 == uiMain_listShow.Count)
+                    {
+                        break;
+                    }
+                    Thread.Sleep(1000);
                 }
             }
         }
