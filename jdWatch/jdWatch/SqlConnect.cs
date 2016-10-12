@@ -96,6 +96,8 @@ namespace Fatq.ConncetSql.Mode
                     sqlBulkCopy.ColumnMappings.Add("product_stock", "product_stock");
                     sqlBulkCopy.ColumnMappings.Add("product_get_time", "product_get_time");
                    // sqlBulkCopy.ColumnMappings.Add("product_url", "product_url");
+                    sqlBulkCopy.ColumnMappings.Add("isDelete", "isDelete");
+                    
 
                 }
 

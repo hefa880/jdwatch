@@ -65,9 +65,10 @@ namespace Fatq.SqlCommit.Mode
             bool bRet = false;
             FatqConnection sqlconn = new FatqConnection();
 
-            string sqlData = "insert into product_price(  product_skuid,product_warning_price,product_jd_price,product_app_price,product_weixin_price,product_qq_price,product_time_get,product_status) values ('" +
+            string sqlData = "insert into product_price(  product_skuid,product_warning_price,product_jd_price,product_app_price,product_weixin_price,product_qq_price,product_time_get,product_status,isDelete) values ('" +
                 toValues.ProductSkuid + "', '" + toValues.ProductWarnPrice + "', '" + toValues.ProductPCPrice + "', '" +
-                toValues.ProductAppPrice + "','" + toValues.ProductWeiXinPrice + "','" + toValues.ProductQQPrice + "' ,'" + toValues.ProductGetTime + "','" + toValues.ProductStock + "')";
+                toValues.ProductAppPrice + "','" + toValues.ProductWeiXinPrice + "','" + toValues.ProductQQPrice + "' ,'" 
+                + toValues.ProductGetTime + "','" + toValues.ProductStock + "','" + "0')";
 
             bRet = sqlconn.ConnSqQuery("product_infor", "product_skuid", toValues.ProductSkuid);
             if (true == bRet)
@@ -119,6 +120,20 @@ namespace Fatq.SqlCommit.Mode
         public bool Sqlcommit_Update(string toTabl, string toValues )
         {
             bool bRet = false;
+
+            FatqConnection sqlconn = new FatqConnection();
+
+            bRet = sqlconn.ConnSqQuery(toTabl, "product_skuid", toValues);
+            if (true == bRet)
+            {
+                //  MessageBox.Show("有数据存在！！");
+                string sqlData = "isDelete = '1'";
+                bRet = sqlconn.ConnSqlUpdate(toTabl, sqlData, "product_skuid = '"+ toValues+"'");
+            }
+            else
+            {
+
+            }
 
             return bRet;
         }

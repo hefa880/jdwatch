@@ -538,7 +538,10 @@ namespace jdWatch
                 DateTime tm =  DateTime.Now;
                 Write(tm.ToLocalTime().ToString() + "  " + text + "\r\n");
                 this.textBoxLog.AppendText(tm.ToLocalTime().ToString() + "  " + text + "\r\n");
-
+                if(text.LastIndexOf("报警")> 0 )
+                    this.textBoxLog.ForeColor = Color.Red;
+                else
+                    this.textBoxLog.ForeColor = Color.Teal;
                 //  this.textBoxLog.Text += tm.ToLocalTime().ToString() + "  "+text + "\r\n";
                 this.textBoxLog.ScrollToCaret();
                 this.textBoxLog.Focus();
@@ -548,7 +551,7 @@ namespace jdWatch
         }
         private void uiMain_Reg()
         {
-           if( DateTime.Now >  DateTime.Parse("2016-10-15") )
+           if( DateTime.Now >  DateTime.Parse("2016-10-30") )
            {
                MessageBox.Show("已经过试用期，请联系管理员注册\n", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                Close();
@@ -728,8 +731,9 @@ namespace jdWatch
             dt.Columns.Add("product_qq_price", Type.GetType("System.Decimal"));
             dt.Columns.Add("product_stock", Type.GetType("System.String"));
             dt.Columns.Add("product_get_time", Type.GetType("System.DateTime"));
-            //  dt.Columns.Add("product_url", Type.GetType("System.String"));
-
+           // dt.Columns.Add("product_url", Type.GetType("System.String"));
+            dt.Columns.Add("isDelete", Type.GetType("System.Byte"));
+            
             dt_state.Columns.Add("ID", Type.GetType("System.Guid"));
             dt_state.Columns.Add("SKU", Type.GetType("System.String"));
             dt_state.Columns.Add("Status", Type.GetType("System.String"));
@@ -748,8 +752,20 @@ namespace jdWatch
                 newRow[6] = uiMain_listShow[i].warePriceN.ProductQQPrice;
                 newRow[7] = uiMain_listShow[i].warePriceN.ProductStock;
                 newRow[8] = uiMain_listShow[i].warePriceN.ProductGetTime;
+              //  newRow[9] = "https://item.jd.com/"+uiMain_listShow[i].warePriceN.ProductSkuid+".html";
+                newRow[9] = 0;
+                string warn = "";
+                if(uiMain_listShow[i].warePriceN.WarnTablFlag == 1 )
+                {
+                    warn = " 低价报警";
+                }
+                else if(uiMain_listShow[i].warePriceN.WarnTablFlag == 2 )
+                {
+                    warn = " 新松联缺货提示";
+                }
+                
                 string tex = i+" " + newRow[1].ToString() + " " + newRow[2].ToString() + " " + newRow[3].ToString() + " " + newRow[4].ToString() + " " + newRow[5].ToString() + " " +
-                             newRow[6].ToString() + " " + newRow[7].ToString() + " " + newRow[8].ToString() + "\n";
+                             newRow[6].ToString() + " " + newRow[7].ToString() + " " + newRow[8].ToString() + warn+ "\n";
                 SetText(tex);
                 dt.Rows.Add(newRow);
                 //  sqlconn.Sqlcommit_Insert(uiMain_listShow[i].warePriceN);
@@ -761,9 +777,16 @@ namespace jdWatch
                 newRow_state[2] = uiMain_listShow[i].warePriceN.WarnTablFlag;
                 dt_state.Rows.Add(newRow_state);
                 sqlconn.Sqlcommit_Del("product_status", "SKU= '"+ newRow_state[1].ToString()+"'");
-
-                sqlconn.Sqlcommit_InsertAll("product_price", dt);
-                sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
+                sqlconn.Sqlcommit_Update("product_price", uiMain_listShow[i].warePriceN.ProductSkuid);
+                if( sqlconn.Sqlcommit_InsertAll("product_price", dt) )
+                {
+                    sqlconn.Sqlcommit_InsertAll("product_status", dt_state);
+                }
+                else
+                {
+                    SetText("提交失败！！！！");
+                }
+                
 
                 dt.Rows.Remove(newRow);
                 dt_state.Rows.Remove(newRow_state);
