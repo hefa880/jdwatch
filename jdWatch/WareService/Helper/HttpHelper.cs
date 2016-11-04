@@ -44,7 +44,7 @@ namespace WareDealer.Helper
 
                 req.UserAgent = IE7;
                 req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-                req.Timeout = 50000;
+                req.Timeout = 5000;
 
                 if (method.ToUpper() == "POST" && data != null)
                 {

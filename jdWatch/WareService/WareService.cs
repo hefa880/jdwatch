@@ -15,6 +15,7 @@ using Hank.ComLib;
 using System.ComponentModel;
 using Hank.BrowserParse;
 
+
 namespace WareDealer
 {
     [DisplayName("商品服务")]
@@ -117,6 +118,7 @@ namespace WareDealer
                 }
                 string cat = Regex.Match(html, @"cat: \[(\d{1,5}),(\d{1,5}),(\d{1,5})\]").Value.Replace("cat: [", "").TrimEnd(']');
                 string brandid = Regex.Match(html, @"brand:\s*(\d{1,10})").Value.Replace("brand:", "").Trim();
+                //  _myProduct.ProductBrand = GetElems_T(html);  // 3237234
                 if (!string.IsNullOrEmpty(venderId))
                 {
                     _myProduct.ProductAttach = venderId != shopId ? "第三方" : venderId == "0" ? "自营" : "旗舰店";
@@ -501,6 +503,23 @@ namespace WareDealer
             }
         }
 
+        private string GetElems_T(string url)
+        {
+            string strShopName;
+           int start = url.IndexOf("dianpuname");
+           int end   = url.Length;
+
+            // "\n                <div class=\"name\">\n                                        <a title=\"荣耀官方旗舰店\" href=\"//honor.jd.com\" target=\"_blank\" clstag=\"shangpin|keycount|product|dianpuname1\">荣耀官方旗舰店</a>\n           
+
+            strShopName = url.Substring(start, 100);
+            start = strShopName.IndexOf(">");
+            end = strShopName.IndexOf("<");
+
+            strShopName = strShopName.Substring(start + 1, end - start - 1);
+            // MessageBox.Show(strShopName);
+
+            return strShopName;
+        }
         /// <summary>
         /// 获取服务信息
         /// </summary>
@@ -524,18 +543,28 @@ namespace WareDealer
                 {
                     cat = "6144,12041,12047";
                 }
+                //http://c0.3.cn/stock?skuId=10397064868&venderId=174907&cat=9987,653,655&area=1_72_2799_0&buyNum=1&extraParam={"originid":"1"}&ch=1&callback=jQuery2568474&_=1477153038439
+
                 //http://c0.3.cn/stock?skuId=1700908129&venderId=32533&cat=6144,12041,12047&area=1_72_2799_0&buyNum=1&extraParam={%22originid%22:%221%22}&ch=1&callback=getStockCallback
                 //http://c0.3.cn/stock?skuId=852431&venderId=1000000248&cat=670,686,690&area=1_72_2799_0&buyNum=1&extraParam={"originid":"1"}&ch=1&callback=getStockCallback 
                 //string url_service = "http://c0.3.cn/stock?skuId=" + tID + "&venderId=" + venderId.Trim() + "&cat=" + cat + "&area=" + dispatch 
                 //    + "&buyNum=1&extraParam={%22originid%22:%221%22}&ch=1&callback=getStockCallback";
                 dispatch = "1_72_2799";
+                // string url_service = "http://c0.3.cn/stock?skuId=" + tID + "&venderId=" + venderId.Trim() + "&cat=" + cat + "&area=" + dispatch
+                //    + "&buyNum=1&extraParam={%22originid%22:%221%22}&ch=1&callback=getStockCallback";
+
                 string url_service = "http://c0.3.cn/stock?skuId=" + tID + "&venderId=" + venderId.Trim() + "&cat=" + cat + "&area=" + dispatch
-                    + "&buyNum=1&extraParam={%22originid%22:%221%22}&ch=1&callback=getStockCallback";
+                   + "&buyNum=1&extraParam={%22originid%22:%221%22}&ch=1&callback=getStockCallback";
 
                 string html_service = HttpHelper.GetResponseGBK(url_service, "get", string.Empty);
                 string str_stock = html_service.Replace("getStockCallback(", "").TrimEnd(')');
+                //if ("10397064868" == tID)
+                //{
+                //    tID = tID;
+                //    str_stock = str_stock;
+                //}
                 if (string.IsNullOrEmpty(str_stock))
-                {
+                { 
                     return  -1;
                 }
                 StockInfo jdStock = JsonConvert.DeserializeObject<StockInfo>(str_stock);
@@ -544,8 +573,12 @@ namespace WareDealer
                 {
                     _myProduct = new ProductInfo();
                 }
-                _myProduct.ProductDispatchMode = ClearHtml(jdStock.Stock.serviceInfo);
-                _myProduct.ProductBrand = string.IsNullOrEmpty(jdStock.Stock.self_D.deliver) ? jdStock.Stock.D.deliver : jdStock.Stock.self_D.deliver;
+                //   _myProduct.ProductDispatchMode = ClearHtml(jdStock.Stock.serviceInfo);
+            //    html_service = HttpHelper.GetResponseGBK("http://item.jd.com/"+tID+".html", "get", string.Empty);
+             //   _myProduct.ProductBrand = GetElems_T(html_service );
+
+              //  _myProduct.ProductBrand = string.IsNullOrEmpty(jdStock.Stock.self_D.deliver) ? jdStock.Stock.D.deliver : jdStock.Stock.self_D.deliver;
+
                 //-1 下柜 0 无货 1 有货 2 配货 3 预订
                 //33 有货(1), 40 可配货(2), 36 预订(3), 34 无货(0), 下柜（-1）
                 _myProduct.ProductIsSaled = jdStock.Stock.StockState == 33 ? 1 : (jdStock.Stock.StockState == 40 ? 2 : (jdStock.Stock.StockState == 36 ? 3 : 0)); 
@@ -1408,6 +1441,10 @@ namespace WareDealer
         /// <returns></returns>
         public string ClearHtml(string text)//过滤html,js,css代码
         {
+            if(null == text)
+            {
+                return null;
+            }
             text = text.Trim();
             if (string.IsNullOrEmpty(text))
                 return "";
